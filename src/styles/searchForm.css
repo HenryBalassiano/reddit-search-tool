@@ -1,0 +1,63 @@
+input {
+  padding-bottom: 0.5rem;
+  display: block;
+  margin: 2px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  font-size: 100%;
+  width: 350px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-weight: 500;
+}
+#search-btn {
+  width: 99%;
+  background-color: #8f2f2f;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-weight: 700;
+  color: rgb(255, 255, 255);
+  cursor: pointer !important;
+  margin-top: 5px;
+  border: none;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+}
+#search-btn:hover {
+  background-color: #9b2c2c;
+}
+
+select {
+  display: block;
+  position: relative;
+  left: 2px;
+  width: 98.346%;
+  padding-top: 0.625em;
+  padding-bottom: 0.625em;
+  font-size: 100%;
+  -ms-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+label {
+  text-transform: capitalize;
+  display: block;
+  text-align: left;
+  line-height: 14px;
+  padding-left: 3px;
+  color: white;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+#form-parent {
+  display: flex;
+  justify-content: center;
+}
