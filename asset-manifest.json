@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/reddit-search-engine/static/css/main.fafece3a.chunk.css",
+    "main.js": "/reddit-search-engine/static/js/main.09c633e0.chunk.js",
+    "main.js.map": "/reddit-search-engine/static/js/main.09c633e0.chunk.js.map",
+    "runtime-main.js": "/reddit-search-engine/static/js/runtime-main.996f8b15.js",
+    "runtime-main.js.map": "/reddit-search-engine/static/js/runtime-main.996f8b15.js.map",
+    "static/css/2.0cfad52a.chunk.css": "/reddit-search-engine/static/css/2.0cfad52a.chunk.css",
+    "static/js/2.252c167c.chunk.js": "/reddit-search-engine/static/js/2.252c167c.chunk.js",
+    "static/js/2.252c167c.chunk.js.map": "/reddit-search-engine/static/js/2.252c167c.chunk.js.map",
+    "static/js/3.0610d067.chunk.js": "/reddit-search-engine/static/js/3.0610d067.chunk.js",
+    "static/js/3.0610d067.chunk.js.map": "/reddit-search-engine/static/js/3.0610d067.chunk.js.map",
+    "index.html": "/reddit-search-engine/index.html",
+    "static/css/2.0cfad52a.chunk.css.map": "/reddit-search-engine/static/css/2.0cfad52a.chunk.css.map",
+    "static/css/main.fafece3a.chunk.css.map": "/reddit-search-engine/static/css/main.fafece3a.chunk.css.map",
+    "static/js/2.252c167c.chunk.js.LICENSE.txt": "/reddit-search-engine/static/js/2.252c167c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.996f8b15.js",
+    "static/css/2.0cfad52a.chunk.css",
+    "static/js/2.252c167c.chunk.js",
+    "static/css/main.fafece3a.chunk.css",
+    "static/js/main.09c633e0.chunk.js"
+  ]
+}
