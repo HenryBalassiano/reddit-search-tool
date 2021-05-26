@@ -11,17 +11,10 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
   };
   console.log(api);
   return (
-    <div>
+    <div id="item-parent">
       {" "}
       <h1 ref={error}> {errorMessage} &#128546; </h1>
       <h4 ref={results}>-{api.length} results- </h4>
-      <p ref={description} id="description">
-        Reddit search engine using the{" "}
-        <a id="pushift" href="https://github.com/pushshift/api">
-          pushift.io API
-        </a>
-        . You can use the search query above to filter out your searches.
-      </p>
       {api.map((e, i) => {
         const months = {
           Jan: "1",
@@ -44,7 +37,6 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
         if (!e) {
           results.current.style.display = "none";
           showMore.current.style.display = "none";
-          description.current.style.display = "none";
           return <Loader key={i} />;
         }
 
@@ -60,7 +52,6 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
         if (api.length > 0) {
           results.current.style.display = "block";
           showMore.current.style.display = "block";
-          description.current.style.display = "none";
 
           return (
             <div className="parent" key={i}>

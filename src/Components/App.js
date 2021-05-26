@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import "../styles/App.css";
 import SearchForm from "./SearchForm";
 import Items from "./Items";
+import SlideToggle from "react-slide-toggle";
+
 function App() {
   const [data, setData] = useState({
     username: false,
@@ -16,6 +18,8 @@ function App() {
   const [api, apiData] = useState([]);
   const [search, setSearch] = useState(true);
   const [more, setMore] = useState(false);
+  const [minimize, setMinimize] = useState(false);
+
   const [errorMessage, setError] = useState();
   const error = useRef(null);
   let query = "";
@@ -58,7 +62,6 @@ function App() {
       const response = await fetch(
         `https://api.pushshift.io/reddit/search/${type}/?${query}${after}${before}${next}`
       );
-      console.log(response.url);
       const data = await response.json();
       if (data.data.length === 0) {
         setError("Hey! That doesn't exist!");
@@ -87,8 +90,12 @@ function App() {
     fetchData();
     setMore(false);
   }
-
-  console.log(after);
+  function changeQuerySize() {
+    setMinimize(true);
+    if (minimize) {
+      setMinimize(false);
+    }
+  }
   return (
     <div className="App">
       <a
@@ -123,17 +130,37 @@ function App() {
             className="octo-body"
           ></path>
         </svg>
-      </a>
-      <SearchForm search={setSearch} updateData={setData} />
+      </a>{" "}
+      <div id="form-wrapper">
+        <div className="panel-header">
+          <h2 id="search-min">
+            Search Query{" "}
+            <i
+              onClick={changeQuerySize}
+              class={`fa fa-${minimize ? "plus" : "minus"}-square`}
+              aria-hidden="true"
+            ></i>
+          </h2>
+        </div>
+        <SearchForm
+          minimize={minimize}
+          setSearch={setSearch}
+          search={search}
+          updateData={setData}
+          setMinimize={setMinimize}
+        />
+      </div>
       <br />
-      <Items
-        api={api}
-        query={data.query}
-        errorMessage={errorMessage}
-        error={error}
-        data={setData}
-        setMore={setMore}
-      />
+      <div id="items-parent">
+        <Items
+          api={api}
+          query={data.query}
+          errorMessage={errorMessage}
+          error={error}
+          data={setData}
+          setMore={setMore}
+        />
+      </div>
     </div>
   );
 }

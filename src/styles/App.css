@@ -1,15 +1,41 @@
 body {
-  background-color: #8d99ae;
+  background-color: #161615;
+  font-family: Roboto, sans-serif;
 }
 html,
 body {
   height: 100%;
   margin: 0;
 }
+
 ::-webkit-scrollbar {
   width: 10px;
 }
-
+#search-min {
+  color: white;
+  position: relative;
+  top: 5.9em;
+  left: 8em;
+  z-index: 999;
+  font-size: medium;
+  background-color: #161615;
+  height: max-content;
+  white-space: nowrap;
+  font-size: 15px;
+  cursor: pointer;
+}
+#items-parent {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  left: 3em;
+}
+body {
+  overflow-x: hidden;
+}
+.fa {
+  font-size: small;
+}
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -49,5 +75,9 @@ body {
   }
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
+  }
+  svg {
+    height: 45px;
+    width: 45px;
   }
 }

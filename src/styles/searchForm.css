@@ -1,63 +1,162 @@
 input {
-  padding-bottom: 0.5rem;
-  display: block;
-  margin: 2px;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  font-size: 100%;
-  width: 350px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-weight: 500;
+  height: 20px;
+  border-radius: 4px 4px 4px 4px;
 }
-#search-btn {
-  width: 99%;
-  background-color: #8f2f2f;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-weight: 700;
-  color: rgb(255, 255, 255);
-  cursor: pointer !important;
-  margin-top: 5px;
+input:not([type="submit"]) {
+  font-size: 14px;
+  background-color: #333533;
   border: none;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+  width: 260px;
+  color: #f8f9fa;
+  padding: 5px;
 }
-#search-btn:hover {
-  background-color: #9b2c2c;
-}
-
-select {
-  display: block;
-  position: relative;
-  left: 2px;
-  width: 98.346%;
-  padding-top: 0.625em;
-  padding-bottom: 0.625em;
-  font-size: 100%;
-  -ms-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-}
-label {
-  text-transform: capitalize;
-  display: block;
-  text-align: left;
-  line-height: 14px;
-  padding-left: 3px;
+input[type="submit"] {
+  padding: 5px 15px;
+  border: 0 none;
+  cursor: pointer;
+  background-color: #484948;
   color: white;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 0.8em;
-  text-transform: uppercase;
-  font-weight: 800;
+  border-radius: 4px 4px 4px 4px;
+}
+input:hover {
+  background-color: #3f413f;
 }
 #form-parent {
   display: flex;
   justify-content: center;
+  margin-top: 7em;
+  border: 1px rgba(255, 255, 255, 0.473) solid;
+  border-radius: 10px;
+  width: fit-content;
+  padding-right: 100px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-height: max-content;
+  min-height: 5px;
+  min-width: min-content;
+}
+form {
+  width: fit-content;
+}
+
+.react-datepicker-popper {
+  position: fixed;
+}
+#form-hover {
+  display: flex;
+  justify-content: center;
+  margin-top: 7em;
+  border: 1px rgba(255, 255, 255, 0.473) solid;
+  border-radius: 10px;
+  width: fit-content;
+  padding-right: 100px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-height: max-content;
+  min-height: 5px;
+  min-width: min-content;
+}
+#form-hover:hover {
+  border: 1px rgba(255, 255, 255, 0.815) solid;
+}
+
+.form-minimize {
+  max-height: 0;
+  -webkit-transition: all 0.5s -0.1s ease-out;
+  -moz-transition: all 0.5s -0.1s ease-out;
+  -o-transition: all 0.5s -0.1s ease-out;
+  -ms-transition: all 0.5s -0.1s ease-out;
+  transition: all 0.5s -0.1s ease-out;
+  overflow: hidden !important;
+}
+
+.form-maximize {
+  max-height: 500px;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+  overflow: hidden !important;
+}
+
+span.fa {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  font-size: small;
+  color: black;
+}
+select {
+  background: 0;
+  background-color: #333533;
+  color: #f8f9fa;
+  border: 0;
+  vertical-align: top;
+  height: 20px;
+  border-radius: 4px 4px 4px 4px;
+  width: 105px;
+}
+#score-input-box {
+  width: 105px;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+select:hover {
+  background-color: #3f413f;
+}
+input,
+select {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 30px;
+}
+#form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+* {
+  outline: 0;
+}
+
+#row-1 {
+  display: flex;
+  flex-direction: row;
+}
+.row-wrapper {
+  position: relative;
+  margin: 4px;
+}
+#amnt-ret {
+  width: 105px;
+}
+label {
+  color: white;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+#row-2 {
+  display: flex;
+  flex-direction: row;
+}
+
+#row-3 {
+  display: flex;
+  flex-direction: row;
+}
+#row-4 {
+  display: flex;
+  flex-direction: row;
 }
