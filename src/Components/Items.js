@@ -2,7 +2,7 @@ import "../styles/Items.css";
 import Loader from "./Loader";
 import { useRef, useState } from "react";
 function Items({ api, query, errorMessage, error, data, setMore }) {
-  const results = useRef();
+  const results = useRef(false);
   const showMore = useRef();
   const description = useRef();
 
@@ -49,7 +49,7 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
 
         let currentDate =
           num + "/" + postDate.slice(8, 10) + "/" + postDate.slice(11, 15);
-        if (api.length > 0) {
+        if (api.length > 0 && results) {
           results.current.style.display = "block";
           showMore.current.style.display = "block";
 

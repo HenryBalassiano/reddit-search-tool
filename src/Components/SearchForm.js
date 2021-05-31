@@ -19,6 +19,7 @@ function SearchForm({ updateData, setSearch, minimize, setMinimize, search }) {
     return obj;
   };
   const paramsObj = parseParams(window.location.search);
+
   const [userinput, setUserInput] = useState({
     username: paramsObj.username ? paramsObj.username : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
@@ -29,6 +30,7 @@ function SearchForm({ updateData, setSearch, minimize, setMinimize, search }) {
     after: paramsObj.after ? paramsObj.after : "",
     searchTerm: paramsObj.searchTerm ? paramsObj.searchTerm : "",
   });
+
   function updateURLParameter(url, param, paramVal) {
     var newAdditionalURL = "";
     var tempArray = url.split("?");
@@ -78,8 +80,12 @@ function SearchForm({ updateData, setSearch, minimize, setMinimize, search }) {
     }
   };
 
-  // change value of inputs
-  // put userinput into url
+  useEffect(() => {
+    if (paramsObj !== {}) {
+    }
+  });
+  console.log(search);
+  // fix time issue with before attribute
   // request API with new params
   const max = useRef();
   return (

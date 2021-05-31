@@ -1,8 +1,23 @@
+#item-parent {
+  border: 1px rgba(255, 255, 255, 0.473) solid;
+  margin-left: 1em;
+  border-radius: 10px;
+  padding: 5px;
+  width: 760px;
+  padding-right: 100px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-height: max-content;
+  min-height: 5px;
+}
+
 .parent {
   position: relative;
   background-color: #fafafa;
   max-width: 70em;
-  width: 760px;
+  width: 750px;
+
   padding-right: 20px;
   padding-left: 10px;
   right: 0;
@@ -13,7 +28,6 @@
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 0.9em;
   font-weight: 400;
-  border: 1.5px solid #369;
   border-radius: 7px;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
