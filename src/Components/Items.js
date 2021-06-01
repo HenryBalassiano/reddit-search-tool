@@ -1,7 +1,16 @@
 import "../styles/Items.css";
 import Loader from "./Loader";
 import { useRef, useState } from "react";
-function Items({ api, query, errorMessage, error, data, setMore }) {
+function Items({
+  api,
+  query,
+  errorMessage,
+  error,
+  data,
+  setMore,
+  minimizeR,
+  showResults,
+}) {
   const results = useRef(false);
   const showMore = useRef();
   const description = useRef();
@@ -11,10 +20,8 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
   };
   console.log(api);
   return (
-    <div id="item-parent">
-      {" "}
+    <div id={`item-${minimizeR ? "hover" : "parent"}`} ref={showResults}>
       <h1 ref={error}> {errorMessage} &#128546; </h1>
-      <h4 ref={results}>-{api.length} results- </h4>
       {api.map((e, i) => {
         const months = {
           Jan: "1",
@@ -35,8 +42,6 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
 
         const num = months[postDate.slice(4, 7)];
         if (!e) {
-          results.current.style.display = "none";
-          showMore.current.style.display = "none";
           return <Loader key={i} />;
         }
 
@@ -50,11 +55,12 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
         let currentDate =
           num + "/" + postDate.slice(8, 10) + "/" + postDate.slice(11, 15);
         if (api.length > 0 && results) {
-          results.current.style.display = "block";
-          showMore.current.style.display = "block";
-
           return (
-            <div className="parent" key={i}>
+            <div
+              className="parent"
+              id={`results-${minimizeR ? "minimize" : "maximize"}`}
+              key={i}
+            >
               <div id="left-panel">
                 {" "}
                 {query === "Submissions" ? (
@@ -80,26 +86,13 @@ function Items({ api, query, errorMessage, error, data, setMore }) {
                     {e.selftext}
                   </p>
                 </a>
-              </div>{" "}
+              </div>
             </div>
           );
         } else {
-          results.current.style.display = "none";
-          showMore.current.style.display = "none";
-
           return <Loader key={i} />;
         }
       })}
-      <div id="more-parent">
-        {" "}
-        <input
-          ref={showMore}
-          id="more"
-          value="Load More"
-          type="submit"
-          onClick={more}
-        ></input>
-      </div>
     </div>
   );
 }

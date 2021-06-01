@@ -24,11 +24,17 @@ function App() {
   const [search, setSearch] = useState(true);
   const [more, setMore] = useState(false);
   const [minimize, setMinimize] = useState(false);
+  const [minimizeR, setMinimizeR] = useState(false);
+
   const [home, setHome] = useState(false);
   const [about, setAbout] = useState(false);
   const [settings, setSettings] = useState(false);
 
   const [errorMessage, setError] = useState();
+
+  const showResults = useRef(false);
+  const showFava = useRef(false);
+
   const error = useRef(null);
   let query = "";
   let type = "comment";
@@ -104,7 +110,12 @@ function App() {
       setMinimize(false);
     }
   }
-
+  function changeResultsSize() {
+    setMinimizeR(true);
+    if (minimizeR) {
+      setMinimizeR(false);
+    }
+  }
   return (
     <Router>
       <div className="App">
@@ -164,17 +175,31 @@ function App() {
                   search={search}
                   updateData={setData}
                   setMinimize={setMinimize}
+                  showResults={showResults}
+                  showFava={showFava}
                 />
               </div>
               <br />
-              <div id="items-parent">
+              <div id="items-parent" ref={showFava}>
+                <div>
+                  <h2 id="results-min">
+                    Results{" "}
+                    <i
+                      onClick={changeResultsSize}
+                      class={`fa fa-${minimizeR ? "plus" : "minus"}-square`}
+                      aria-hidden="true"
+                    ></i>
+                  </h2>
+                </div>
                 <Items
                   api={api}
                   query={data.query}
+                  minimizeR={minimizeR}
                   errorMessage={errorMessage}
                   error={error}
                   data={setData}
                   setMore={setMore}
+                  showResults={showResults}
                 />
               </div>
             </Route>

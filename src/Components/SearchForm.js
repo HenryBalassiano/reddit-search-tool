@@ -3,7 +3,15 @@ import "../styles/searchForm.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function SearchForm({ updateData, setSearch, minimize, setMinimize, search }) {
+function SearchForm({
+  updateData,
+  setSearch,
+  minimize,
+  setMinimize,
+  search,
+  showResults,
+  showFava,
+}) {
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
 
@@ -58,6 +66,10 @@ function SearchForm({ updateData, setSearch, minimize, setMinimize, search }) {
     e.preventDefault();
     setSearch(false);
     setMinimize(true);
+    showFava.current.style.display = "flex";
+
+    showResults.current.style.display = "block";
+
     const properties = [];
 
     for (var key in userinput) {

@@ -2,20 +2,33 @@ body {
   background-color: #161615;
   font-family: Roboto, sans-serif;
 }
+/* use 242423 for markdown */
+
 html,
 body {
   height: 100%;
   margin: 0;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
 #search-min {
   color: white;
   position: relative;
   top: 5.9em;
   left: 8em;
+  z-index: 999;
+  font-size: medium;
+  background-color: #161615;
+  height: max-content;
+  white-space: nowrap;
+  font-size: 15px;
+  cursor: pointer;
+}
+#results-min {
+  color: white;
+  position: relative;
+  display: inline;
+  top: -0.7em;
+  left: 5.2em;
   z-index: 999;
   font-size: medium;
   background-color: #161615;
@@ -76,6 +89,7 @@ ul li {
   justify-content: center;
   position: relative;
   left: 3em;
+  display: none;
 }
 
 body {
@@ -86,14 +100,18 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #212529;
+  background: #7c7c7b;
+  border-radius: 8px;
   border-radius: 8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #6c757d;
+  background: #50504f;
   border-radius: 8px;
 }
-
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 /* Handle on hover */
