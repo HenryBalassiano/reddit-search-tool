@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/reddit-search-engine/static/css/main.1625c3f3.chunk.css",
-    "main.js": "/reddit-search-engine/static/js/main.e89fcc91.chunk.js",
-    "main.js.map": "/reddit-search-engine/static/js/main.e89fcc91.chunk.js.map",
-    "runtime-main.js": "/reddit-search-engine/static/js/runtime-main.45442aad.js",
-    "runtime-main.js.map": "/reddit-search-engine/static/js/runtime-main.45442aad.js.map",
+    "main.js": "/reddit-search-engine/static/js/main.adb3d611.chunk.js",
+    "main.js.map": "/reddit-search-engine/static/js/main.adb3d611.chunk.js.map",
+    "runtime-main.js": "/reddit-search-engine/static/js/runtime-main.36351b13.js",
+    "runtime-main.js.map": "/reddit-search-engine/static/js/runtime-main.36351b13.js.map",
     "static/css/2.0cfad52a.chunk.css": "/reddit-search-engine/static/css/2.0cfad52a.chunk.css",
-    "static/js/2.2d1bfbc8.chunk.js": "/reddit-search-engine/static/js/2.2d1bfbc8.chunk.js",
-    "static/js/2.2d1bfbc8.chunk.js.map": "/reddit-search-engine/static/js/2.2d1bfbc8.chunk.js.map",
-    "static/js/3.778d616a.chunk.js": "/reddit-search-engine/static/js/3.778d616a.chunk.js",
-    "static/js/3.778d616a.chunk.js.map": "/reddit-search-engine/static/js/3.778d616a.chunk.js.map",
+    "static/js/2.fb3219aa.chunk.js": "/reddit-search-engine/static/js/2.fb3219aa.chunk.js",
+    "static/js/2.fb3219aa.chunk.js.map": "/reddit-search-engine/static/js/2.fb3219aa.chunk.js.map",
+    "static/js/3.7866b60e.chunk.js": "/reddit-search-engine/static/js/3.7866b60e.chunk.js",
+    "static/js/3.7866b60e.chunk.js.map": "/reddit-search-engine/static/js/3.7866b60e.chunk.js.map",
     "index.html": "/reddit-search-engine/index.html",
     "static/css/2.0cfad52a.chunk.css.map": "/reddit-search-engine/static/css/2.0cfad52a.chunk.css.map",
     "static/css/main.1625c3f3.chunk.css.map": "/reddit-search-engine/static/css/main.1625c3f3.chunk.css.map",
-    "static/js/2.2d1bfbc8.chunk.js.LICENSE.txt": "/reddit-search-engine/static/js/2.2d1bfbc8.chunk.js.LICENSE.txt"
+    "static/js/2.fb3219aa.chunk.js.LICENSE.txt": "/reddit-search-engine/static/js/2.fb3219aa.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.45442aad.js",
+    "static/js/runtime-main.36351b13.js",
     "static/css/2.0cfad52a.chunk.css",
-    "static/js/2.2d1bfbc8.chunk.js",
+    "static/js/2.fb3219aa.chunk.js",
     "static/css/main.1625c3f3.chunk.css",
-    "static/js/main.e89fcc91.chunk.js"
+    "static/js/main.adb3d611.chunk.js"
   ]
 }
