@@ -11,47 +11,42 @@ input:not([type="submit"]) {
   padding: 5px;
 }
 input[type="submit"] {
+  font-size: 1em;
+
   padding: 5px 15px;
   border: 0 none;
   cursor: pointer;
   background-color: #484948;
   color: white;
-  border-radius: 4px 4px 4px 4px;
+  border-radius: 4px;
 }
 input:hover {
   background-color: #3f413f;
 }
 
 #form-parent {
-  display: flex;
-  justify-content: center;
   margin-top: 7em;
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
-  width: fit-content;
-  padding-right: 100px;
+  width: 900px;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
-  max-height: max-content;
-  min-height: 5px;
-  min-width: min-content;
 }
-form {
-  width: fit-content;
-}
+/* @media only screen and (max-width: 1200px) {
+  #form-parent {
+    width: 500px;
+  }
+  input:not([type="submit"]) {
+    width: 120px;
+  }
+} */
 
-.react-datepicker-popper {
-  position: fixed;
-}
 #form-hover {
-  display: flex;
-  justify-content: center;
   margin-top: 7em;
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
-  width: fit-content;
-  padding-right: 100px;
+  width: 900px;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -99,7 +94,7 @@ select {
   vertical-align: top;
   height: 20px;
   border-radius: 4px 4px 4px 4px;
-  width: 105px;
+  width: 260px;
 }
 #score-input-box {
   width: 105px;
@@ -118,10 +113,6 @@ select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   height: 30px;
-}
-#form-wrapper {
-  display: flex;
-  justify-content: center;
 }
 
 * {

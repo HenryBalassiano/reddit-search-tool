@@ -2,7 +2,6 @@ body {
   background-color: #161615;
   font-family: Roboto, sans-serif;
 }
-/* use 242423 for markdown */
 
 html,
 body {
@@ -13,10 +12,10 @@ body {
 #search-min {
   color: white;
   position: relative;
-  top: 5.9em;
-  left: 8em;
+  top: 7.9em;
+  width: fit-content;
+  left: 0.7em;
   z-index: 999;
-  font-size: medium;
   background-color: #161615;
   height: max-content;
   white-space: nowrap;
@@ -27,8 +26,8 @@ body {
   color: white;
   position: relative;
   display: inline;
-  top: -0.7em;
-  left: 5.2em;
+  top: 0.5em;
+  left: 0.7em;
   z-index: 999;
   font-size: medium;
   background-color: #161615;
@@ -55,13 +54,15 @@ a {
 }
 nav {
   position: relative;
-  top: 6.5em;
-  right: 14.5em;
+  top: 6em;
+  right: 22.3em;
   box-sizing: border-box;
 }
 
 #search-form {
-  margin-top: 0.8em;
+  margin-top: -1.5em;
+  display: flex;
+  justify-content: center;
 }
 ul li {
   padding: 1px;
@@ -69,6 +70,7 @@ ul li {
 }
 .non-active {
   padding: 8px;
+  color: rgba(255, 255, 255, 0.486);
 
   border-bottom: 4px solid rgba(0, 0, 0, 0);
 }
@@ -85,10 +87,11 @@ ul li {
 }
 
 #items-parent {
+  display: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
-  position: relative;
-  left: 3em;
   display: none;
 }
 
@@ -98,14 +101,12 @@ body {
 .fa {
   font-size: small;
 }
-/* Track */
 ::-webkit-scrollbar-track {
   background: #7c7c7b;
   border-radius: 8px;
   border-radius: 8px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #50504f;
   border-radius: 8px;
@@ -114,4 +115,3 @@ body {
   width: 8px;
   height: 8px;
 }
-/* Handle on hover */

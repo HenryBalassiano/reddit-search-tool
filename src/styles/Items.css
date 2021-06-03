@@ -1,12 +1,11 @@
 #item-parent {
   border: 1px rgba(255, 255, 255, 0.473) solid;
-  margin-right: 3.2em;
   border-radius: 10px 5px 5px 10px;
   padding: 5px;
-  width: 760.94px;
-  padding-right: 100px;
+  width: 900px;
   padding-left: 10px;
   padding-top: 10px;
+  padding-right: 10px;
   padding-bottom: 10px;
   max-height: 45em;
   min-height: 5px;
@@ -26,10 +25,9 @@
 }
 #item-hover {
   border: 1px rgba(255, 255, 255, 0.473) solid;
-  margin-right: 3.1em;
   border-radius: 10px;
   padding: 5px;
-  width: 760.94px;
+  width: 900px;
   padding-right: 100px;
   padding-left: 10px;
   padding-top: 10px;
@@ -54,14 +52,10 @@
 .parent {
   position: relative;
   background-color: #1b1b1c;
-  max-width: 70em;
-  width: 730px;
+  max-width: 100%;
   padding-right: 20px;
   padding-left: 10px;
-  right: 0;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
+
   color: #f3f3f3;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 0.9em;

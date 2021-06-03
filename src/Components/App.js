@@ -117,7 +117,7 @@ function App() {
     }
   }
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <header>
           <nav>
@@ -155,12 +155,13 @@ function App() {
             </ul>
           </nav>
         </header>
-        <div id="search-form">
-          <Switch>
-            <Route path="/" exact>
+        <Switch>
+          {" "}
+          <Route path="/" exact render>
+            <div id="search-form">
               <div id="form-wrapper">
                 <div className="panel-header">
-                  <h2 id="search-min">
+                  <h2 id="search-min" onClick={changeQuerySize}>
                     Search Query{" "}
                     <i
                       onClick={changeQuerySize}
@@ -169,6 +170,7 @@ function App() {
                     ></i>
                   </h2>
                 </div>
+
                 <SearchForm
                   minimize={minimize}
                   setSearch={setSearch}
@@ -179,10 +181,11 @@ function App() {
                   showFava={showFava}
                 />
               </div>
-              <br />
-              <div id="items-parent" ref={showFava}>
-                <div>
-                  <h2 id="results-min">
+            </div>
+            <div id="items-parent" ref={showFava}>
+              <div>
+                <div id="results-header">
+                  <h2 id="results-min" onClick={changeResultsSize}>
                     Results{" "}
                     <i
                       onClick={changeResultsSize}
@@ -191,6 +194,7 @@ function App() {
                     ></i>
                   </h2>
                 </div>
+
                 <Items
                   api={api}
                   query={data.query}
@@ -202,10 +206,10 @@ function App() {
                   showResults={showResults}
                 />
               </div>
-            </Route>
-          </Switch>
-        </div>
-      </div>
+            </div>
+          </Route>{" "}
+        </Switch>
+      </div>{" "}
     </Router>
   );
 }
