@@ -19,6 +19,7 @@ function Items({
     setMore(true);
   };
   console.log(api);
+
   return (
     <div id={`item-${minimizeR ? "hover" : "parent"}`} ref={showResults}>
       <h1 ref={error}> {errorMessage} &#128546; </h1>

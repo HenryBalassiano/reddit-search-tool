@@ -22,6 +22,7 @@ body {
   font-size: 15px;
   cursor: pointer;
 }
+
 #results-min {
   color: white;
   position: relative;
@@ -44,6 +45,44 @@ nav ul {
   padding: 0;
   padding: 10px;
 }
+#logo-text {
+  position: relative;
+  right: 5.2em;
+  font-size: 3em;
+  font-weight: bold;
+  font-family: "Open Sans Condensed", sans-serif;
+  letter-spacing: normal;
+  text-transform: capitalize;
+  transition: background-color 2s ease-in;
+}
+#logo-text:hover {
+  text-shadow: 0 0 4px #eee;
+}
+#pushift-descript {
+  color: #aaa;
+  font-weight: 300;
+  letter-spacing: 1.2px;
+  font-size: 2em;
+  position: relative;
+  right: 5.74em;
+  bottom: 2em;
+  font-family: "Open Sans Condensed", sans-serif;
+}
+#pushift-descript:hover {
+  text-shadow: 0 0 4px #eee;
+}
+#logo-parent {
+  display: flex;
+  justify-content: center;
+}
+#logo {
+  color: #fff;
+  position: relative;
+  bottom: 1.5em;
+}
+#icon {
+  font-size: 1.1em;
+}
 
 li {
   list-style: none;
@@ -54,13 +93,13 @@ a {
 }
 nav {
   position: relative;
-  top: 6em;
+  bottom: 7em;
   right: 22.3em;
   box-sizing: border-box;
 }
 
 #search-form {
-  margin-top: -1.5em;
+  margin-top: -14.5em;
   display: flex;
   justify-content: center;
 }
@@ -85,7 +124,6 @@ ul li {
 * {
   box-sizing: border-box;
 }
-
 #items-parent {
   display: none;
   margin: 0;
@@ -100,6 +138,7 @@ body {
 }
 .fa {
   font-size: small;
+  color: white;
 }
 ::-webkit-scrollbar-track {
   background: #7c7c7b;
