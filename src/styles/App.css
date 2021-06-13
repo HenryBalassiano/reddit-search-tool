@@ -37,6 +37,9 @@ body {
   font-size: 15px;
   cursor: pointer;
 }
+.none {
+  cursor: unset;
+}
 nav ul {
   display: flex;
   justify-content: center;
@@ -54,6 +57,10 @@ nav ul {
   letter-spacing: normal;
   text-transform: capitalize;
   transition: background-color 2s ease-in;
+  cursor: pointer;
+  width: fit-content;
+  height: auto;
+  z-index: 1;
 }
 #logo-text:hover {
   text-shadow: 0 0 4px #eee;
@@ -67,6 +74,7 @@ nav ul {
   right: 5.74em;
   bottom: 2em;
   font-family: "Open Sans Condensed", sans-serif;
+  width: fit-content;
 }
 #pushift-descript:hover {
   text-shadow: 0 0 4px #eee;
@@ -79,9 +87,11 @@ nav ul {
   color: #fff;
   position: relative;
   bottom: 1.5em;
+  z-index: 1;
 }
 #icon {
   font-size: 1.1em;
+  width: fit-content;
 }
 
 li {
@@ -94,7 +104,7 @@ a {
 nav {
   position: relative;
   bottom: 7em;
-  right: 22.3em;
+  right: 22em;
   box-sizing: border-box;
 }
 
@@ -106,6 +116,7 @@ nav {
 ul li {
   padding: 1px;
   box-sizing: border-box;
+  font-size: medium;
 }
 .non-active {
   padding: 8px;
@@ -115,7 +126,7 @@ ul li {
 }
 
 .active {
-  color: white;
+  color: #eee !important;
   padding: 8px;
 
   border-bottom: 4px solid #eee;
@@ -144,13 +155,16 @@ body {
   background: #7c7c7b;
   border-radius: 8px;
   border-radius: 8px;
+  z-index: 999;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #50504f;
   border-radius: 8px;
+  z-index: 999;
 }
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+  z-index: 999;
 }

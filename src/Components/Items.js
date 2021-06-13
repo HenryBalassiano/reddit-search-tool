@@ -40,10 +40,42 @@ function Items({
         };
         const date = new Date(e.created_utc * 1000);
         const postDate = date.toString();
+        function timeSince(date) {
+          var seconds = Math.floor((new Date() - date) / 1000);
+
+          var interval = seconds / 31536000;
+
+          if (interval > 1) {
+            return Math.floor(interval) + " years";
+          }
+          interval = seconds / 2592000;
+          if (interval > 1) {
+            return Math.floor(interval) + " months";
+          }
+          interval = seconds / 86400;
+          if (interval > 1) {
+            return Math.floor(interval) + " days";
+          }
+          interval = seconds / 3600;
+          if (interval > 1) {
+            return Math.floor(interval) + " hours";
+          }
+          interval = seconds / 60;
+          if (interval > 1) {
+            return Math.floor(interval) + " minutes";
+          }
+          return Math.floor(seconds) + " seconds";
+        }
 
         const num = months[postDate.slice(4, 7)];
+
         if (!e) {
-          return <Loader key={i} />;
+          return (
+            <div id="loader-wrapper">
+              <Loader key={i} />{" "}
+              <div id="loading-text">Loading &#8226; Results </div>{" "}
+            </div>
+          );
         }
 
         let permalink;
@@ -62,36 +94,65 @@ function Items({
               id={`results-${minimizeR ? "minimize" : "maximize"}`}
               key={i}
             >
-              <div id="left-panel">
+              {" "}
+              <div id="left-wrapper">
                 {" "}
-                {query === "Submissions" ? (
-                  <img loading="lazy" src={e.url} />
+                <div id="left-panel">
+                  {" "}
+                  <span>
+                    {" "}
+                    {""}
+                    {query === "Submissions" ? (
+                      <div id="submission-parent">
+                        {" "}
+                        <div className="image-parent">
+                          {" "}
+                          <img src={e.url} id="submission-image" />
+                        </div>
+                        <div className="title-container">
+                          <h2 id="title">{e.title}</h2>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {query === "Submissions" ? "submitted" : "commented"} by{" "}
+                    <a class="author">u/{e.author}</a> {""}
+                    <a title={new Date(postDate)}>
+                      {timeSince(new Date(postDate))} ago in{" "}
+                    </a>
+                    <a class="sub">r/{e.subreddit}</a>
+                  </span>
+                </div>{" "}
+                <div id="upvote">
+                  <i class="fa fa-arrow-up" aria-hidden="true">
+                    {" "}
+                    <span id="score">{e.score}</span>
+                  </i>
+                </div>
+              </div>
+              <div id="body-parent">
+                {" "}
+                {e.body || e.selftext ? (
+                  <p id="body">
+                    {e.body}
+                    {e.selftext}
+                  </p>
                 ) : (
                   ""
                 )}
-                <span>/r/{e.subreddit}</span>
-                <span>/u/{e.author}</span>
-              </div>{" "}
-              <div id="right-panel">{currentDate}</div>
-              <div id="child">
-                {" "}
+              </div>
+              <div id="view-on-reddit">
                 <a
                   href={e.full_link || `https://reddit.com${permalink}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {" "}
-                  <div id="title">{e.title}</div>
-                  <p id="body">
-                    {e.body}
-                    {e.selftext}
-                  </p>
+                  view on reddit
                 </a>
               </div>
             </div>
           );
-        } else {
-          return <Loader key={i} />;
         }
       })}
     </div>

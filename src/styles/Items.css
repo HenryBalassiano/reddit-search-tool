@@ -1,6 +1,6 @@
 #item-parent {
   border: 1px rgba(255, 255, 255, 0.473) solid;
-  border-radius: 10px 5px 5px 10px;
+  border-radius: 10px;
   padding: 5px;
   width: 900px;
   padding-left: 10px;
@@ -12,7 +12,40 @@
   display: none;
   overflow: auto;
   overflow-x: hidden;
+  z-index: 9999;
 }
+#loader-wrapper {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #444;
+  padding: 10px;
+  justify-content: center;
+}
+#left-wrapper {
+  display: inline-block;
+}
+#upvote {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  background-color: #292928;
+  width: fit-content;
+  height: fit-content;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+#score {
+  margin: 1px;
+}
+.author {
+  font-size: 12px;
+  color: rgb(175, 172, 172);
+}
+.sub {
+  color: rgb(175, 172, 172);
+}
+
 #results-minimize {
   max-height: 0;
   -webkit-transition: all 0.5s -0.1s ease-out;
@@ -37,6 +70,9 @@
 }
 #item-hover:hover {
   border: 1px rgba(255, 255, 255, 0.815) solid;
+}
+#submission-wrapper {
+  display: flex;
 }
 
 #results-maximize {
@@ -73,15 +109,15 @@
 }
 
 img {
-  max-height: 60px !important;
+  max-height: 100% !important;
   max-width: 60px !important;
-  min-width: 60px;
-  min-height: 60px;
+  min-width: 80px;
+  min-height: 70px;
   position: relative;
   object-fit: cover;
-  top: 2px;
-  border: 0.5px solid black;
+  border: 0.5px solid #eee;
 }
+
 h4 {
   text-align: center;
   display: none;
@@ -91,7 +127,7 @@ h4 {
 }
 
 #left-panel {
-  color: #f3f3f3d5;
+  color: rgb(211, 211, 211);
   width: 70px;
   position: relative;
   float: left;
@@ -101,7 +137,7 @@ h4 {
   text-align: justify;
   font-size: small;
   display: flex;
-  right: 3px;
+  right: 9px;
 }
 
 span {
@@ -113,11 +149,15 @@ span {
   margin-top: 0;
   position: relative;
   bottom: 5px;
-  background-color: #242423;
+  background-color: #292928;
   padding: 8px;
   border-radius: 10px;
   max-height: 20em;
   overflow: auto;
+}
+#body-parent {
+  position: relative;
+  left: 5px;
 }
 a {
   all: unset;
@@ -127,8 +167,16 @@ a {
   font-weight: bold;
   font-size: medium;
   position: relative;
-  display: block;
-  bottom: 5px;
+  color: #eee;
+  margin: 5px;
+}
+.title-container {
+  display: inline-block;
+  word-break: break-word;
+}
+#submission-parent {
+  display: flex;
+  flex-direction: row;
 }
 h1 {
   height: 100px;
@@ -143,7 +191,23 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 4px;
 }
-
+#view-on-reddit {
+  position: relative;
+  bottom: 1em;
+  font-size: 0.85em;
+  color: rgb(175, 172, 172);
+  width: fit-content;
+  left: 5px;
+}
+#view-on-reddit:hover {
+  text-decoration: underline;
+}
+a:visited {
+  color: rgb(175, 172, 172);
+}
+#submission-image {
+  border-radius: 8px;
+}
 #more {
   max-width: 70em;
   background-color: #f8f8f8;
@@ -182,14 +246,4 @@ h1 {
   justify-content: center;
   text-align: center;
   font-size: medium;
-}
-
-#right-panel {
-  color: #f3f3f3d5;
-  white-space: nowrap;
-  font-size: small;
-  width: 70px;
-  position: relative;
-  float: right;
-  margin: 8px;
 }

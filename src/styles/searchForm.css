@@ -66,6 +66,7 @@ input:hover {
   -ms-transition: all 0.5s -0.1s ease-out;
   transition: all 0.5s -0.1s ease-out;
   overflow: hidden !important;
+  z-index: 999;
 }
 
 .form-maximize {
@@ -76,6 +77,7 @@ input:hover {
   -ms-transition: all 1s ease;
   transition: all 1s ease;
   overflow: hidden !important;
+  z-index: 999;
 }
 
 span.fa {

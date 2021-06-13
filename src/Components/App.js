@@ -119,31 +119,27 @@ function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
+        <div id="logo-parent">
+          <div id="logo">
+            <NavLink to="/" activeClassName="none" exact>
+              <h1
+                id="logo-text"
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                <i class="fa fa-reddit-alien" id="icon" aria-hidden="true"></i>{" "}
+                Reddit Search Tool <br />{" "}
+              </h1>{" "}
+            </NavLink>
+            <h2 id="pushift-descript">
+              <a href="https://pushshift.io/" target="_blank">
+                Utilizing Pushift.io{" "}
+              </a>
+            </h2>
+          </div>{" "}
+        </div>{" "}
         <header>
-          <div
-            id="logo-parent"
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
-            {" "}
-            <div id="logo">
-              {" "}
-              <NavLink to="/" activeClassName="none" exact>
-                <h1 id="logo-text">
-                  <i
-                    class="fa fa-reddit-alien"
-                    id="icon"
-                    aria-hidden="true"
-                  ></i>{" "}
-                  Reddit Search Tool <br />{" "}
-                </h1>{" "}
-              </NavLink>
-              <h2 id="pushift-descript">
-                <a href="https://pushshift.io/">Utilizing Pushift.io </a>
-              </h2>
-            </div>{" "}
-          </div>
           <nav>
             <ul>
               <li>
