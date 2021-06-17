@@ -94,62 +94,100 @@ function Items({
               id={`results-${minimizeR ? "minimize" : "maximize"}`}
               key={i}
             >
-              {" "}
-              <div id="left-wrapper">
+              <div className="details">
                 {" "}
-                <div id="left-panel">
-                  {" "}
-                  <span>
-                    {" "}
-                    {""}
-                    {query === "Submissions" ? (
-                      <div id="submission-parent">
+                <div className="image-parent">
+                  {e.domain ? (
+                    <div id="image-child">
+                      {e.thumbnail !== "self" &&
+                      e.thumbnail !== "default" &&
+                      e.thumbnail !== "nsfw" ? (
+                        <img src={e.thumbnail} />
+                      ) : (
+                        ""
+                      )}
+                      {e.thumbnail === "default" || e.thumbnail === "self" ? (
+                        <div id="self-post">
+                          <i
+                            className="fa fa-file-text-o"
+                            aria-hidden="true"
+                          ></i>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {e.thumbnail === "nsfw" ? (
+                        <div id="nsfw">
+                          <i
+                            className="fa fa-user-secret"
+                            aria-hidden="true"
+                          ></i>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {e.thumbnail === "self" ||
+                      e.thumbnail === "default" ||
+                      (e.thumbnail === "nsfw" &&
+                        e.domain !== "i.redd.it" &&
+                        e.domain.slice(0, 4) !== "self") ? (
+                        <div>
+                          <i
+                            className="fa fa-user-secret"
+                            aria-hidden="true"
+                          ></i>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <div id="align-vertically">
+                    <div id="details-child">
+                      {e.title ? (
+                        <h3 id="title">
+                          {e.title} <a id="domain">({e.domain})</a>
+                        </h3>
+                      ) : (
+                        ""
+                      )}
+                      <a>{e.domain ? "submitted" : "commented"} by </a>
+                      <a className="author">u/{e.author}</a>
+                      <a title={new Date(postDate)}>
                         {" "}
-                        <div className="image-parent">
+                        {timeSince(new Date(postDate))} ago in{" "}
+                      </a>
+                      <a className="subreddit">r/{e.subreddit}</a>
+                      <div id="upvote">
+                        <i class="fa fa-arrow-up" aria-hidden="true">
                           {" "}
-                          <img src={e.url} id="submission-image" />
-                        </div>
-                        <div className="title-container">
-                          <h2 id="title">{e.title}</h2>
-                        </div>
+                          <span id="score">{e.score}</span>
+                        </i>
                       </div>
-                    ) : (
-                      ""
-                    )}
-                    {query === "Submissions" ? "submitted" : "commented"} by{" "}
-                    <a class="author">u/{e.author}</a> {""}
-                    <a title={new Date(postDate)}>
-                      {timeSince(new Date(postDate))} ago in{" "}
-                    </a>
-                    <a class="sub">r/{e.subreddit}</a>
-                  </span>
-                </div>{" "}
-                <div id="upvote">
-                  <i class="fa fa-arrow-up" aria-hidden="true">
-                    {" "}
-                    <span id="score">{e.score}</span>
-                  </i>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div id="body-parent">
-                {" "}
                 {e.body || e.selftext ? (
-                  <p id="body">
-                    {e.body}
-                    {e.selftext}
-                  </p>
+                  <div id="body-parent">
+                    <p id="body">
+                      {e.body}
+                      {e.selftext}
+                    </p>
+                  </div>
                 ) : (
-                  ""
+                  false
                 )}
-              </div>
-              <div id="view-on-reddit">
-                <a
-                  href={e.full_link || `https://reddit.com${permalink}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  view on reddit
-                </a>
+                <div id="view-on-reddit">
+                  <a
+                    href={e.full_link || `https://reddit.com${permalink}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    view on reddit
+                  </a>
+                </div>
               </div>
             </div>
           );
