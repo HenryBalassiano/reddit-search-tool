@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/reddit-search-tool/static/css/main.9d76ae0a.chunk.css",
+    "main.css": "/reddit-search-tool/static/css/main.5f8beff8.chunk.css",
     "main.js": "/reddit-search-tool/static/js/main.61720c4c.chunk.js",
     "main.js.map": "/reddit-search-tool/static/js/main.61720c4c.chunk.js.map",
     "runtime-main.js": "/reddit-search-tool/static/js/runtime-main.8f75f16c.js",
@@ -12,14 +12,14 @@
     "static/js/3.bc7f01c1.chunk.js.map": "/reddit-search-tool/static/js/3.bc7f01c1.chunk.js.map",
     "index.html": "/reddit-search-tool/index.html",
     "static/css/2.0cfad52a.chunk.css.map": "/reddit-search-tool/static/css/2.0cfad52a.chunk.css.map",
-    "static/css/main.9d76ae0a.chunk.css.map": "/reddit-search-tool/static/css/main.9d76ae0a.chunk.css.map",
+    "static/css/main.5f8beff8.chunk.css.map": "/reddit-search-tool/static/css/main.5f8beff8.chunk.css.map",
     "static/js/2.b53e2f51.chunk.js.LICENSE.txt": "/reddit-search-tool/static/js/2.b53e2f51.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8f75f16c.js",
     "static/css/2.0cfad52a.chunk.css",
     "static/js/2.b53e2f51.chunk.js",
-    "static/css/main.9d76ae0a.chunk.css",
+    "static/css/main.5f8beff8.chunk.css",
     "static/js/main.61720c4c.chunk.js"
   ]
 }
