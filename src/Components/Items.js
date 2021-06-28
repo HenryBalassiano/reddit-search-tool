@@ -10,6 +10,7 @@ function Items({
   setMore,
   minimizeR,
   showResults,
+  size,
 }) {
   const results = useRef(false);
   const showMore = useRef();
@@ -23,7 +24,7 @@ function Items({
   return (
     <div id={`item-${minimizeR ? "hover" : "parent"}`} ref={showResults}>
       <h1 ref={error}> {errorMessage} &#128546; </h1>
-      {api.map((e, i) => {
+      {api.slice(0, size).map((e, i) => {
         const months = {
           Jan: "1",
           Feb: "2",
@@ -84,7 +85,6 @@ function Items({
         } else {
           permalink = `/comments/${e.link_id.split("_")[1]}/_/${e.id}`;
         }
-
         let currentDate =
           num + "/" + postDate.slice(8, 10) + "/" + postDate.slice(11, 15);
         if (api.length > 0 && results) {
@@ -101,12 +101,28 @@ function Items({
                     <div id="image-child">
                       {e.thumbnail !== "self" &&
                       e.thumbnail !== "default" &&
-                      e.thumbnail !== "nsfw" ? (
-                        <img src={e.thumbnail} />
+                      e.thumbnail !== "nsfw" &&
+                      e.thumbnail !== "image" &&
+                      e.thumbnail !== "spoiler" ? (
+                        <div
+                          id="image"
+                          style={{
+                            backgroundImage: `url(${
+                              e.url.substring(e.url.length - 3) === "bmp" ||
+                              e.url.substring(e.url.length - 3) === "jpg" ||
+                              e.url.substring(e.url.length - 3) === "png" ||
+                              e.url.substring(e.url.length - 3) === "gif"
+                                ? e.url
+                                : e.thumbnail
+                            })`,
+                          }}
+                        ></div>
                       ) : (
                         ""
                       )}
-                      {e.thumbnail === "default" || e.thumbnail === "self" ? (
+                      {(e.thumbnail === "default" &&
+                        e.domain.slice(0, 4) === "self") ||
+                      e.thumbnail === "self" ? (
                         <div id="self-post">
                           <i
                             className="fa fa-file-text-o"
@@ -116,7 +132,7 @@ function Items({
                       ) : (
                         ""
                       )}
-                      {e.thumbnail === "nsfw" ? (
+                      {e.thumbnail === "nsfw" || e.thumbnail === "spoiler" ? (
                         <div id="nsfw">
                           <i
                             className="fa fa-user-secret"
@@ -126,16 +142,12 @@ function Items({
                       ) : (
                         ""
                       )}
-                      {e.thumbnail === "self" ||
-                      e.thumbnail === "default" ||
-                      (e.thumbnail === "nsfw" &&
-                        e.domain !== "i.redd.it" &&
-                        e.domain.slice(0, 4) !== "self") ? (
-                        <div>
-                          <i
-                            className="fa fa-user-secret"
-                            aria-hidden="true"
-                          ></i>
+
+                      {(e.domain.slice(0, 4) !== "self" &&
+                        e.thumbnail === "default") ||
+                      (e.thumbnail !== "nsfw" && e.thumbnail === "image") ? (
+                        <div id="link-post">
+                          <i class="fa fa-link" aria-hidden="true"></i>
                         </div>
                       ) : (
                         ""
@@ -179,14 +191,25 @@ function Items({
                 ) : (
                   false
                 )}
-                <div id="view-on-reddit">
-                  <a
-                    href={e.full_link || `https://reddit.com${permalink}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    view on reddit
-                  </a>
+                <div className="footer">
+                  <div id="view-on-reddit">
+                    <a
+                      href={e.full_link || `https://reddit.com${permalink}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      view on reddit
+                    </a>
+                  </div>
+                  <div id="view-on-reddit">
+                    <a
+                      href={`https://www.removeddit.com${permalink}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      view on removeddit
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

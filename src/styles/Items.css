@@ -2,12 +2,12 @@
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
   padding: 5px;
-  width: 900px;
+  width: 960px;
   padding-left: 10px;
   padding-top: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
-  max-height: 45em;
+  max-height: 85vh !important;
   min-height: 5px;
   display: none;
   overflow: auto;
@@ -15,38 +15,19 @@
   z-index: 9999;
   display: flex;
 }
+
 #loader-wrapper {
   display: flex;
   flex-direction: row;
   border: 1px solid #444;
   padding: 10px;
   justify-content: center;
-  width: 875px;
+  width: 938px;
 }
-/* #left-wrapper {
-  display: inline-block;
-}
-#upvote {
+.footer {
   display: flex;
-  flex-direction: row;
-  position: relative;
-  background-color: #292928;
-  width: fit-content;
-  height: fit-content;
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin: 10px;
+  padding-bottom: 5px;
 }
-#score {
-  margin: 1px;
-}
-.author {
-  font-weight: 700;
-}
-.sub {
-  font-weight: 700;
-} */
 
 #results-minimize {
   max-height: 0;
@@ -62,8 +43,8 @@
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
   padding: 5px;
-  width: 900px;
-  padding-right: 100px;
+  width: 960px;
+  padding-right: 10px;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -109,140 +90,7 @@
   white-space: pre-wrap; /* Chrome; W3C standard */
   word-wrap: break-word; /* IE */
 }
-/* 
-img {
-  max-height: 100% !important;
-  max-width: 60px !important;
-  min-width: 80px;
-  min-height: 70px;
-  position: relative;
-  object-fit: cover;
-  border: 0.5px solid #eee;
-}
 
-h4 {
-  text-align: center;
-  display: none;
-  color: black;
-  font-weight: 600;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#left-panel {
-  color: rgb(175, 172, 172);
-  width: 70px;
-  position: relative;
-  float: left;
-  display: flex;
-  flex-direction: row;
-  text-transform: lowercase;
-  text-align: justify;
-  font-size: x-small;
-  display: flex;
-
-  right: 9px;
-  font-size: 0.77em;
-}
-
-span {
-  margin: 8px;
-  white-space: nowrap;
-}
-#body {
-  line-height: normal;
-  margin-top: 0;
-  position: relative;
-  bottom: 5px;
-  background-color: #292928;
-  padding: 8px;
-  border-radius: 10px;
-  max-height: 20em;
-  overflow: auto;
-}
-#body-parent {
-  position: relative;
-}
-a {
-  all: unset;
-  cursor: pointer;
-}
-#title {
-  font-weight: bold;
-  font-size: medium;
-  position: relative;
-  color: #eee;
-  margin: 5px;
-}
-.title-container {
-  display: inline-block;
-  word-break: break-word;
-  margin: 5px;
-}
-#submission-parent {
-  display: flex;
-  flex-direction: row;
-}
-h1 {
-  height: 100px;
-  line-height: 100px;
-  text-align: center;
-  color: whitesmoke;
-  text-transform: capitalize;
-  font-family: verdana, arial, helvetica, sans-serif;
-  text-align: center;
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-}
-#view-on-reddit {
-  position: relative;
-  bottom: 1em;
-  font-size: 0.85em;
-  color: rgb(175, 172, 172);
-  width: fit-content;
-  left: 7px;
-}
-#view-on-reddit:hover {
-  text-decoration: underline;
-}
-a:visited {
-  color: rgb(175, 172, 172);
-}
-#submission-image {
-  border-radius: 8px;
-}
-#more {
-  max-width: 70em;
-  background-color: #f8f8f8;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  font-weight: 700;
-  color: rgb(255, 255, 255);
-  cursor: pointer !important;
-  margin-top: 5px;
-  border: none;
-  display: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
-
-#more:hover {
-  background-color: #f3f3f3d5;
-}
-/* #more-parent {
-  display: flex;
-  justify-content: center;
-} */
-
-/* #center {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  font-size: medium;
-} */
 h1 {
   height: 100px;
   line-height: 100px;
@@ -318,26 +166,17 @@ a {
   color: rgb(175, 172, 172);
   width: fit-content;
   font-weight: 700;
+  margin-right: 10px;
 }
 #view-on-reddit:hover {
   text-decoration: underline;
 }
-img {
-  max-width: 80px !important;
-  min-height: 100%;
-  max-height: 80px;
 
-  min-width: 80px;
-  position: relative;
-  object-fit: cover;
-  border-radius: 8px;
-  background-size: contain;
-}
 #self-post {
   max-width: 80px !important;
-  min-height: 80px;
-  max-height: 100%;
-  font-size: 80px;
+  height: 100%;
+
+  font-size: 60px;
   display: flex;
   justify-content: center;
   min-width: 80px;
@@ -345,14 +184,13 @@ img {
   object-fit: cover;
   border-radius: 8px;
   background-size: contain;
-  background-color: grey;
+  background-color: #525253;
   filter: brightness(0.75);
 }
 #nsfw {
   max-width: 80px !important;
-  min-height: 80px;
-  max-height: 100%;
-  font-size: 80px;
+  height: 100%;
+  font-size: 60px;
   display: flex;
   justify-content: center;
   min-width: 80px;
@@ -360,29 +198,72 @@ img {
   object-fit: cover;
   border-radius: 8px;
   background-size: contain;
-  background-color: grey;
+  background-color: #525253;
   filter: brightness(0.75);
 }
-#nsfw .fa {
+#image {
+  max-width: 80px !important;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  min-width: 80px;
+  position: relative;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-color: #525253;
+}
+
+#link-post {
+  max-width: 80px !important;
+  height: 100%;
+
   font-size: 60px;
   display: flex;
+  justify-content: center;
+  min-width: 80px;
+  position: relative;
+  object-fit: cover;
+  border-radius: 8px;
+  background-size: contain;
+  background-color: #525253;
+  filter: brightness(0.75);
+}
+#link-post .fa {
+  font-size: 0.8em;
+
+  display: flex;
   align-items: center;
-  color: #eee;
+  justify-content: center;
+
+  color: white;
+}
+#nsfw .fa {
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
 }
 #image-child {
   margin-right: 5px;
+  padding-top: 2px;
 }
 #title {
   font-size: 1.1em;
   margin: 0 0;
   word-break: break-word;
-  color: #eee;
+  color: white;
 }
 #self-post .fa {
-  font-size: 60px;
+  font-size: 0.8em;
   display: flex;
   align-items: center;
-  color: #eee;
+  justify-content: center;
+
+  color: white;
 }
 .image-parent {
   display: flex;
@@ -390,6 +271,7 @@ img {
 #align-vertically {
   display: flex;
   flex-direction: column;
+  padding-top: 2px;
 }
 .details > * {
   margin: 3px 0;
@@ -397,4 +279,68 @@ img {
 
 .details a {
   font-size: 12px;
+}
+@media only screen and (max-width: 1200px) {
+  #item-parent {
+    width: 800px;
+  }
+  #item-hover {
+    width: 800px;
+  }
+  #loader-wrapper {
+    width: 778px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  #item-parent {
+    width: 700px;
+  }
+  #item-hover {
+    width: 700px;
+  }
+  #loader-wrapper {
+    width: 678px;
+  }
+}
+@media only screen and (max-width: 780px) {
+  #item-parent {
+    width: 600px;
+  }
+  #item-hover {
+    width: 600px;
+  }
+  #loader-wrapper {
+    width: 578px;
+  }
+}
+@media only screen and (max-width: 620px) {
+  #item-parent {
+    width: 460px;
+  }
+  #item-hover {
+    width: 460px;
+  }
+  #loader-wrapper {
+    width: 438px;
+  }
+  #body {
+    font-size: 16px;
+  }
+  .parent {
+    font-size: 1em;
+  }
+  p {
+    font-size: 18px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #item-parent {
+    max-width: 420px;
+  }
+  #item-hover {
+    max-width: 350px;
+  }
+  #loader-wrapper {
+    max-width: 328px;
+  }
 }

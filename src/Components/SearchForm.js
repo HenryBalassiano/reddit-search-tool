@@ -14,7 +14,6 @@ function SearchForm({
 }) {
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
-
     const obj = {};
     for (const key of params.keys()) {
       if (params.getAll(key).length > 1) {
@@ -26,40 +25,63 @@ function SearchForm({
 
     return obj;
   };
+
   const paramsObj = parseParams(window.location.search);
 
   const [userinput, setUserInput] = useState({
     username: paramsObj.username ? paramsObj.username : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
     query: paramsObj.query ? paramsObj.query : "",
-    numReturned: paramsObj.numReturned ? paramsObj.numReturned : "",
+    numReturned: paramsObj.numReturned ? paramsObj.numReturned : 25,
     score: paramsObj.score ? paramsObj.score : "",
-    before: paramsObj.before ? paramsObj.before : "",
-    after: paramsObj.after ? paramsObj.after : "",
+    before: paramsObj.before
+      ? Math.floor((new Date(paramsObj.before).getTime() / 1000) * 1000)
+      : "",
+    after: paramsObj.after
+      ? Math.floor((new Date(paramsObj.after).getTime() / 1000) * 1000)
+      : "",
     searchTerm: paramsObj.searchTerm ? paramsObj.searchTerm : "",
   });
 
-  function updateURLParameter(url, param, paramVal) {
-    var newAdditionalURL = "";
-    var tempArray = url.split("?");
-    var baseURL = tempArray[0];
-    var additionalURL = tempArray[1];
-    var temp = "";
-    if (additionalURL) {
-      tempArray = additionalURL.split("&");
-      for (var i = 0; i < tempArray.length; i++) {
-        if (tempArray[i].split("=")[0] != param) {
-          newAdditionalURL += temp + tempArray[i];
-          temp = "&";
-        }
+  function setUrlParameter(url, key, value) {
+    var key = encodeURIComponent(key),
+      value = encodeURIComponent(value);
+    let urlQueryString;
+    var baseUrl = url.split("?")[0],
+      newParam = key + "=" + value,
+      params = "?" + newParam;
+
+    if (url.split("?")[1] === undefined) {
+      urlQueryString = "";
+    } else {
+      urlQueryString = "?" + url.split("?")[1];
+    }
+
+    if (urlQueryString) {
+      var updateRegex = new RegExp("([?&])" + key + "=[^&]*");
+      var removeRegex = new RegExp("([?&])" + key + "=[^&;]+[&;]?");
+
+      if (
+        value === undefined ||
+        value === null ||
+        value === "" ||
+        value === "null"
+      ) {
+        params = urlQueryString.replace(removeRegex, "$1");
+        params = params.replace(/[&;]$/, "");
+      } else if (urlQueryString.match(updateRegex) !== null) {
+        params = urlQueryString.replace(updateRegex, "$1" + newParam);
+      } else if (urlQueryString == "") {
+        params = "?" + newParam;
+      } else {
+        params = urlQueryString + "&" + newParam;
       }
     }
-    var rows_txt = temp + "" + param + "=" + paramVal;
 
-    return baseURL + "?" + newAdditionalURL + rows_txt;
+    params = params === "?" ? "" : params;
+
+    return baseUrl + params;
   }
-  var newURL = updateURLParameter(window.location.href, "locId", "newLoc");
-  newURL = updateURLParameter(newURL, "resId", "newResId");
 
   const Search = (e) => {
     updateData(userinput);
@@ -82,24 +104,43 @@ function SearchForm({
         }
 
         let value = userinput[key];
-        if (value)
+
+        if (value || !value) {
           window.history.replaceState(
             "",
             "",
-            updateURLParameter(window.location.href, key, value)
+            setUrlParameter(
+              window.location.href
+                .replace(/[^?=&]+=(&|$)/g, "")
+                .replace(/&$/, ""),
+              key,
+              value
+            )
           );
+        }
       }
     }
   };
 
-  useEffect(() => {
-    if (paramsObj !== {}) {
-    }
-  });
-  console.log(search);
-  // fix time issue with before attribute
-  // request API with new params
+  function fetchDataWhenQuery() {
+    updateData(userinput);
+    setSearch(false);
+    setMinimize(true);
+    showFava.current.style.display = "flex";
+    showResults.current.style.display = "block";
+  }
 
+  useEffect(() => {
+    let done = false;
+    function callOnce() {
+      if (window.location.search && !done) {
+        done = true;
+        fetchDataWhenQuery();
+      }
+    }
+    callOnce();
+  }, []);
+  console.log(paramsObj);
   const max = useRef();
   return (
     <div id={`form-${minimize ? "hover" : "parent"}`}>
@@ -141,6 +182,8 @@ function SearchForm({
                   setUserInput({ ...userinput, query: e.target.value });
                 }}
               >
+                {" "}
+                <option>Any</option>
                 <option>Comments</option>
                 <option>Submissions</option>
               </select>{" "}

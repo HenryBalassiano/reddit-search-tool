@@ -50,7 +50,7 @@ nav ul {
 }
 #logo-text {
   position: relative;
-  right: 5.2em;
+  right: 5.9em;
   font-size: 3em;
   font-weight: bold;
   font-family: "Open Sans Condensed", sans-serif;
@@ -59,8 +59,8 @@ nav ul {
   transition: background-color 2s ease-in;
   cursor: pointer;
   width: fit-content;
-  height: auto;
-  z-index: 1;
+  height: max-content;
+  z-index: 0;
 }
 #logo-text:hover {
   text-shadow: 0 0 4px #eee;
@@ -71,7 +71,7 @@ nav ul {
   letter-spacing: 1.2px;
   font-size: 2em;
   position: relative;
-  right: 5.74em;
+  right: 6.8em;
   bottom: 2em;
   font-family: "Open Sans Condensed", sans-serif;
   width: fit-content;
@@ -82,16 +82,17 @@ nav ul {
 #logo-parent {
   display: flex;
   justify-content: center;
+  height: fit-content;
 }
 #logo {
   color: #fff;
   position: relative;
   bottom: 1.5em;
-  z-index: 1;
 }
 #icon {
   font-size: 1.1em;
   width: fit-content;
+  z-index: 0;
 }
 
 li {
@@ -104,7 +105,7 @@ a {
 nav {
   position: relative;
   bottom: 7em;
-  right: 22em;
+  right: 23.8em;
   box-sizing: border-box;
 }
 
@@ -167,4 +168,77 @@ body {
   width: 8px;
   height: 8px;
   z-index: 999;
+}
+@media only screen and (max-width: 1200px) {
+  nav {
+    bottom: 7em;
+    right: 19em;
+  }
+  #logo-text {
+    right: 4.3em;
+  }
+  #pushift-descript {
+    right: 4.38em;
+  }
+}
+@media only screen and (max-width: 900px) {
+  nav {
+    bottom: 7em;
+    right: 15.6em;
+  }
+  #logo-text {
+    right: 4.5em;
+    font-size: 2.5em;
+  }
+  #pushift-descript {
+    right: 5.2em;
+    font-size: 1.5em;
+    bottom: 2.6em;
+  }
+}
+@media only screen and (max-width: 780px) {
+  nav {
+    bottom: 7em;
+    right: 12.6em;
+  }
+  #logo-text {
+    right: 3.5em;
+    font-size: 2.5em;
+  }
+  #pushift-descript {
+    right: 3.5em;
+    font-size: 1.5em;
+    bottom: 2.6em;
+  }
+}
+@media only screen and (max-width: 620px) {
+  nav {
+    bottom: 7em;
+    right: 8em;
+  }
+  #logo-text {
+    left: -1.4em;
+    font-size: 2.5em;
+  }
+  #pushift-descript {
+    right: 0.05em;
+    font-size: 1.5em;
+    bottom: 2.6em;
+  }
+}
+@media only screen and (max-width: 450px) {
+  nav {
+    bottom: 7em;
+    right: 5.6em;
+  }
+  #logo-text {
+    left: -0.4em;
+    font-size: 2.3em;
+    bottom: 0.4em;
+  }
+  #pushift-descript {
+    right: -1.5em;
+    font-size: 1.5em;
+    bottom: 3.3em;
+  }
 }

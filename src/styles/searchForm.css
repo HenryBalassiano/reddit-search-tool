@@ -1,6 +1,10 @@
-input {
-  height: 20px;
+input:not([type="submit"]) {
+  max-height: 28px;
   border-radius: 4px 4px 4px 4px;
+}
+
+select {
+  max-height: 28px;
 }
 input:not([type="submit"]) {
   font-size: 14px;
@@ -12,8 +16,8 @@ input:not([type="submit"]) {
 }
 input[type="submit"] {
   font-size: 1em;
-
-  padding: 5px 15px;
+  height: 38px;
+  padding: 8px 16px;
   border: 0 none;
   cursor: pointer;
   background-color: #484948;
@@ -28,25 +32,55 @@ input:hover {
   margin-top: 7em;
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
-  width: 900px;
+  width: 960px;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-/* @media only screen and (max-width: 1200px) {
-  #form-parent {
-    width: 500px;
-  }
+@media only screen and (max-width: 1200px) {
   input:not([type="submit"]) {
-    width: 120px;
+    width: 220px;
   }
-} */
-
+}
+@media only screen and (max-width: 900px) {
+  input:not([type="submit"]) {
+    width: 200px;
+  }
+}
+@media only screen and (max-width: 780px) {
+  input:not([type="submit"]) {
+    width: 150px;
+  }
+  #form-parent select {
+    width: 230px;
+  }
+  #form-hover select {
+    width: 230px;
+  }
+}
+@media only screen and (max-width: 620px) {
+  #form-parent select {
+    width: 140px;
+  }
+  #form-hover select {
+    width: 140px;
+  }
+  #row-1 input {
+    width: 136px;
+  }
+  #row-2 input {
+    width: 138px;
+  }
+  #row-3 input {
+    width: 212px;
+  }
+}
 #form-hover {
+  position: relative;
   margin-top: 7em;
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
-  width: 900px;
+  width: 960px;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -111,6 +145,7 @@ select {
 select:hover {
   background-color: #3f413f;
 }
+
 input,
 select {
   box-sizing: border-box;
@@ -155,4 +190,83 @@ label {
 #row-4 {
   display: flex;
   flex-direction: row;
+}
+@media only screen and (max-width: 1200px) {
+  #form-parent {
+    width: 800px;
+  }
+  #form-hover {
+    min-width: 0;
+
+    width: 800px;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 900px) {
+  #form-parent {
+    width: 700px;
+  }
+  #form-hover {
+    min-width: 0;
+
+    width: 700px;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 780px) {
+  #form-parent {
+    width: 600px;
+  }
+  #form-hover {
+    min-width: 0;
+
+    width: 600px;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 620px) {
+  #form-parent {
+    width: 460px;
+  }
+  #form-hover {
+    min-width: 0;
+
+    width: 460px;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #form-parent {
+    width: 420px;
+  }
+  #form-hover {
+    min-width: 0;
+
+    width: 420px;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 450px) {
+  #form-parent select {
+    width: 70px;
+    white-space: pre-line;
+  }
+  #form-hover select {
+    width: 70px;
+  }
+  form {
+    margin: 0;
+
+    position: relative;
+    right: 4px;
+  }
+  #row-1 input {
+    width: 120px;
+  }
+  #row-2 input {
+    width: 104px;
+  }
+  #row-3 input {
+    width: 160px;
+  }
 }
