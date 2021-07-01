@@ -1,6 +1,8 @@
 import "../styles/Items.css";
 import Loader from "./Loader";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Marker from "react-mark.js/Marker";
+
 function Items({
   api,
   query,
@@ -11,19 +13,25 @@ function Items({
   minimizeR,
   showResults,
   size,
+  loadingMessage,
+  searchTerm,
 }) {
   const results = useRef(false);
+  const bodyText = useRef(false);
+  const titleText = useRef(false);
+
   const showMore = useRef();
   const description = useRef();
-
   const more = () => {
     setMore(true);
   };
-  console.log(api);
 
   return (
     <div id={`item-${minimizeR ? "hover" : "parent"}`} ref={showResults}>
-      <h1 ref={error}> {errorMessage} &#128546; </h1>
+      <div ref={error} id="error">
+        {" "}
+        {errorMessage}
+      </div>
       {api.slice(0, size).map((e, i) => {
         const months = {
           Jan: "1",
@@ -71,6 +79,8 @@ function Items({
         const num = months[postDate.slice(4, 7)];
 
         if (!e) {
+          showMore.current.style.display = "none";
+
           return (
             <div id="loader-wrapper">
               <Loader key={i} />{" "}
@@ -85,9 +95,18 @@ function Items({
         } else {
           permalink = `/comments/${e.link_id.split("_")[1]}/_/${e.id}`;
         }
+
         let currentDate =
           num + "/" + postDate.slice(8, 10) + "/" + postDate.slice(11, 15);
+
         if (api.length > 0 && results) {
+          showMore.current.style.display = "block";
+          if (minimizeR) {
+            showMore.current.style.display = "none";
+          }
+          if (size > api.length) {
+            showMore.current.style.display = "none";
+          }
           return (
             <div
               className="parent"
@@ -158,13 +177,23 @@ function Items({
                   )}
                   <div id="align-vertically">
                     <div id="details-child">
-                      {e.title ? (
-                        <h3 id="title">
-                          {e.title} <a id="domain">({e.domain})</a>
-                        </h3>
-                      ) : (
-                        ""
-                      )}
+                      <Marker mark={searchTerm}>
+                        {e.title ? (
+                          <h3 id="title" ref={titleText}>
+                            <a
+                              id="title-anchor"
+                              href={
+                                e.full_link || `https://reddit.com${permalink}`
+                              }
+                            >
+                              {e.title}
+                            </a>{" "}
+                            <a id="domain">({e.domain})</a>
+                          </h3>
+                        ) : (
+                          ""
+                        )}
+                      </Marker>
                       <a>{e.domain ? "submitted" : "commented"} by </a>
                       <a className="author">u/{e.author}</a>
                       <a title={new Date(postDate)}>
@@ -183,10 +212,12 @@ function Items({
                 </div>
                 {e.body || e.selftext ? (
                   <div id="body-parent">
-                    <p id="body">
-                      {e.body}
-                      {e.selftext}
-                    </p>
+                    <Marker mark={searchTerm}>
+                      <p id="body" ref={bodyText}>
+                        {e.body}
+                        {e.selftext}
+                      </p>
+                    </Marker>
                   </div>
                 ) : (
                   false
@@ -214,8 +245,13 @@ function Items({
               </div>
             </div>
           );
+        } else {
+          showMore.current.style.display = "none";
         }
       })}
+      <button id="load-more" onClick={more} ref={showMore}>
+        {loadingMessage ? "Loading..." : "Load More"}
+      </button>
     </div>
   );
 }

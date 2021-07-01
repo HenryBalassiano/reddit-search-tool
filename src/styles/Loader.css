@@ -2,16 +2,19 @@
   border: 3px solid #161615;
   border-top: 3px solid #eee;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   animation: spin 1s linear infinite;
   position: relative;
   top: 3px;
+  transform-style: preserve-3d;
+  transform: perspective(1px) translateZ(0);
 }
 #loading-text {
   color: #eee;
   text-align: center;
   padding: 10px;
+  border: 3px solid #161615;
 
   font-size: 15px;
 }

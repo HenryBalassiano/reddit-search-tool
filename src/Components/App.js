@@ -35,10 +35,9 @@ function App() {
   const [about, setAbout] = useState(false);
   const [settings, setSettings] = useState(false);
 
-  const [submission, setSubmission] = useState(false);
-  const [comment, setComment] = useState(false);
-
   const [errorMessage, setError] = useState();
+
+  const [loadingMessage, setLoadingMessage] = useState();
 
   const showResults = useRef(false);
   const showFava = useRef(false);
@@ -101,8 +100,6 @@ function App() {
     query += "score=>" + data.score + "&";
   }
 
-  // make another function that makes 2 requests to api
-  // get data from both requets, push to array, sort by date, and then set state to array
   async function fetchData() {
     try {
       apiData([false]);
@@ -113,7 +110,7 @@ function App() {
       const data = await response.json();
 
       if (data.data.length === 0) {
-        setError("No data!");
+        setError("No Results");
         error.current.style.display = "block";
       } else {
         error.current.style.display = "none";
@@ -138,14 +135,14 @@ function App() {
       const data2 = await comment.json();
 
       if (data1.data.length === 0) {
-        setError("No data!");
+        setError("No Results");
         error.current.style.display = "block";
       } else {
         error.current.style.display = "none";
       }
       Promise.all([...data2.data, ...data1.data]).then((requestData) => {
         requestData.sort(function (a, b) {
-          return new Date(b.retrieved_on) > new Date(a.retrieved_on) ? 1 : -1;
+          return new Date(b.created_utc) > new Date(a.created_utc) ? 1 : -1;
         });
         apiData(requestData);
       });
@@ -154,27 +151,69 @@ function App() {
     }
   }
 
-  if (!search && type !== "Any") {
+  async function loadMore() {
+    try {
+      const submission = await fetch(
+        `https://api.pushshift.io/reddit/search/submission/?${query}${after}${before}${next}`
+      );
+      const comment = await fetch(
+        `https://api.pushshift.io/reddit/search/comment/?${query}${after}${before}${next}`
+      );
+
+      const data1 = await submission.json();
+      const data2 = await comment.json();
+
+      if (data1.data.length === 0) {
+        setError("No Results");
+        error.current.style.display = "block";
+      } else {
+        error.current.style.display = "none";
+      }
+      Promise.all([...data2.data, ...data1.data]).then((requestData) => {
+        requestData.sort(function (a, b) {
+          return new Date(b.created_utc) > new Date(a.created_utc) ? 1 : -1;
+        });
+        apiData((prevArray) => [...prevArray, ...requestData]);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  if (!search && type !== "Any" && type !== "an") {
     fetchData();
     error.current.style.display = "none";
-
     setSearch(true);
-  } else if (!search && type === "Any") {
+  } else if ((!search && type === "Any") || (!search && type === "an")) {
     error.current.style.display = "none";
 
     fetchAny();
     setSearch(true);
   }
 
-  if (more) {
-    const utc = api.slice(-1)[0].created_utc;
-    next += "before=" + utc + "&";
-    before = "";
-    after = "";
+  useEffect(() => {
+    if (more) {
+      if (data.numReturned < api.length) {
+        data.numReturned += 25;
+        setMore(false);
+        setLoadingMessage(false);
+      } else if (data.numReturned === api.length) {
+        const utc = api.slice(-1)[0].created_utc;
+        next += "before=" + utc + "&";
+        before = "";
+        after = "";
+        loadMore();
+        setLoadingMessage(true);
+      }
+    }
+    if (api.length === 0) {
+      error.current.style.display = "block";
+    } else {
+      error.current.style.display = "none";
+    }
+  });
 
-    // fetchData();
-    setMore(false);
-  }
+  console.log(more, data.numReturned, api.length, api);
 
   function changeQuerySize() {
     setMinimize(true);
@@ -207,6 +246,7 @@ function App() {
           </div>{" "}
         </div>{" "}
         <header>
+          {" "}
           <nav>
             <ul>
               <li>
@@ -271,7 +311,7 @@ function App() {
               <div>
                 <div id="results-header">
                   <h2 id="results-min" onClick={changeResultsSize}>
-                    Results - {api.length > 0 ? data.numReturned : 0}{" "}
+                    Results - {api.length > 0 && api[0] ? api.length - 25 : 0}{" "}
                     <i
                       onClick={changeResultsSize}
                       class={`fa fa-${minimizeR ? "plus" : "minus"}-square`}
@@ -290,6 +330,8 @@ function App() {
                   setMore={setMore}
                   showResults={showResults}
                   size={data.numReturned}
+                  loadingMessage={loadingMessage}
+                  searchTerm={data.searchTerm}
                 />
               </div>
             </div>

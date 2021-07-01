@@ -32,7 +32,9 @@ function SearchForm({
     username: paramsObj.username ? paramsObj.username : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
     query: paramsObj.query ? paramsObj.query : "",
-    numReturned: paramsObj.numReturned ? paramsObj.numReturned : 25,
+    numReturned: parseInt(paramsObj.numReturned)
+      ? parseInt(paramsObj.numReturned)
+      : 25,
     score: paramsObj.score ? paramsObj.score : "",
     before: paramsObj.before
       ? Math.floor((new Date(paramsObj.before).getTime() / 1000) * 1000)
@@ -242,10 +244,10 @@ function SearchForm({
           <div id="row-3">
             <div id="search-term-input">
               <div className="row-wrapper">
-                <label>keywords</label>
+                <label>Search Terms</label>
                 <input
                   value={userinput.searchTerm}
-                  placeholder="Keywords"
+                  placeholder="Search Terms"
                   type="text"
                   onChange={(e) => {
                     setUserInput({ ...userinput, searchTerm: e.target.value });
@@ -258,13 +260,15 @@ function SearchForm({
               <input
                 placeholder="Size"
                 onChange={(e) => {
-                  setUserInput({ ...userinput, numReturned: e.target.value });
+                  setUserInput({
+                    ...userinput,
+                    numReturned: parseInt(e.target.value),
+                  });
                 }}
                 value={userinput.numReturned}
                 type="number"
                 min="25"
                 step="25"
-                max="100"
                 id="amnt-ret"
               ></input>{" "}
             </div>

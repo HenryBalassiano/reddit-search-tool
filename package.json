@@ -1,5 +1,5 @@
 {
-  "homepage": "https://henrybalassiano.github.io/reddit-search-tool/",
+  "homepage": "https://redditsearchtool.com/",
   "name": "reddit",
   "version": "0.1.0",
   "private": true,
@@ -7,9 +7,12 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
+    "mark-js": "^0.11.1",
     "react": "^17.0.1",
     "react-datepicker": "^3.6.0",
     "react-dom": "^17.0.1",
+    "react-highlight-words": "^0.17.0",
+    "react-mark.js": "^3.1.16",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -43,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+    "mark.js": "^8.11.1"
   }
 }

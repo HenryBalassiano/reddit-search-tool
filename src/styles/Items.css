@@ -24,6 +24,13 @@
   justify-content: center;
   width: 938px;
 }
+#title-anchor {
+  font-size: inherit;
+}
+#title-anchor:hover {
+  text-decoration: underline;
+}
+
 .footer {
   display: flex;
   padding-bottom: 5px;
@@ -31,11 +38,11 @@
 
 #results-minimize {
   max-height: 0;
-  -webkit-transition: all 0.5s -0.1s ease-out;
+  /* -webkit-transition: all 0.5s -0.1s ease-out;
   -moz-transition: all 0.5s -0.1s ease-out;
   -o-transition: all 0.5s -0.1s ease-out;
   -ms-transition: all 0.5s -0.1s ease-out;
-  transition: all 0.5s -0.1s ease-out;
+  transition: all 0.5s -0.1s ease-out; */
   overflow: hidden !important;
   display: none;
 }
@@ -60,11 +67,11 @@
 
 #results-maximize {
   max-height: fit-content;
-  -webkit-transition: all 1s ease;
+  /* -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   -ms-transition: all 1s ease;
-  transition: all 1s ease;
+  transition: all 1s ease; */
   overflow: hidden !important;
 }
 
@@ -98,10 +105,16 @@ h1 {
   color: whitesmoke;
   text-transform: capitalize;
   text-align: center;
-  font-family: "Montserrat", sans-serif;
   font-size: 30px;
   text-transform: uppercase;
   letter-spacing: 4px;
+}
+#error {
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  padding: 23px;
+  border: 1px solid #444;
 }
 .details {
   display: flex;
@@ -112,10 +125,18 @@ h1 {
 #domain {
   color: rgb(175, 172, 172);
   font-size: 12px;
+  font-weight: normal;
+}
+#domain:hover {
+  text-decoration: none;
 }
 a {
   all: unset;
   cursor: pointer;
+}
+
+#title-anchor:visited {
+  color: white;
 }
 #details-child {
   position: relative;
@@ -204,7 +225,7 @@ a {
 #image {
   max-width: 80px !important;
   height: 100%;
-
+  image-rendering: -webkit-optimize-contrast;
   display: flex;
   justify-content: center;
   min-width: 80px;
@@ -276,9 +297,28 @@ a {
 .details > * {
   margin: 3px 0;
 }
-
 .details a {
   font-size: 12px;
+}
+#load-more {
+  background-color: #2e2e30c4;
+  color: white;
+  width: 100%;
+  margin-top: 8px;
+  padding: 9px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 0;
+  transition: color 0.2s, background-color 0.2s, opacity 0.2s, filter 0.2s;
+  cursor: pointer;
+  display: none;
+}
+.highlight {
+  background: rgba(255, 255, 0, 0.719);
+}
+
+#load-more:hover {
+  background-color: #2e2e30;
 }
 @media only screen and (max-width: 1200px) {
   #item-parent {
@@ -331,6 +371,15 @@ a {
   }
   p {
     font-size: 18px;
+  }
+  #nsfw .fa {
+    font-size: 0.9em;
+  }
+  #self-post .fa {
+    font-size: 0.9em;
+  }
+  #link-post .fa {
+    font-size: 0.9em;
   }
 }
 @media only screen and (max-width: 450px) {
