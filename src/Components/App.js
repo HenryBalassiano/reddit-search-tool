@@ -39,7 +39,11 @@ function App() {
 
   const [loadingMessage, setLoadingMessage] = useState();
 
+  const [toggleInput, setToggleInput] = useState();
+
   const showResults = useRef(false);
+  const slider = useRef(false);
+
   const showFava = useRef(false);
   const history = createHistory();
 
@@ -133,7 +137,7 @@ function App() {
       );
       const data1 = await submission.json();
       const data2 = await comment.json();
-
+      console.log(data1, data2, submission, comment);
       if (data1.data.length === 0) {
         setError("No Results");
         error.current.style.display = "block";
@@ -162,6 +166,7 @@ function App() {
 
       const data1 = await submission.json();
       const data2 = await comment.json();
+      console.log(data1, data2, submission, comment);
 
       if (data1.data.length === 0) {
         setError("No Results");
@@ -206,12 +211,16 @@ function App() {
         setLoadingMessage(true);
       }
     }
-    if (api.length === 0) {
-      error.current.style.display = "block";
-    } else {
-      error.current.style.display = "none";
-    }
   });
+
+  let resultAmt = 0;
+  if (api.length === 1 && !api[0]) {
+    resultAmt = 0;
+  } else if (api.length < data.numReturned) {
+    resultAmt = api.length;
+  } else {
+    resultAmt = data.numReturned;
+  }
 
   console.log(more, data.numReturned, api.length, api);
 
@@ -227,6 +236,34 @@ function App() {
       setMinimizeR(false);
     }
   }
+  function toggleMode(e) {
+    let theme = "";
+    if (e.target.checked) {
+      theme = "light";
+      setToggleInput(true);
+    } else {
+      theme = "dark";
+      setToggleInput(false);
+    }
+    localStorage.setItem("theme", theme);
+  }
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "light") {
+      slider.current.checked = true;
+      setToggleInput(true);
+    } else {
+      slider.current.checked = false;
+      setToggleInput(false);
+    }
+  });
+  useEffect(() => {
+    if (toggleInput) {
+      document.body.classList.add("light-mode");
+    } else {
+      document.body.classList.remove("light-mode");
+    }
+  }, [toggleInput]);
+
   return (
     <Router basename={process.env.PUBLIC_URL} forceRefresh>
       <div className="App">
@@ -234,50 +271,73 @@ function App() {
           <div id="logo">
             <NavLink to="/" activeClassName="none" exact>
               <h1 id="logo-text">
-                <i class="fa fa-reddit-alien" id="icon" aria-hidden="true"></i>{" "}
+                <i
+                  className="fa fa-reddit-alien"
+                  id="icon"
+                  aria-hidden="true"
+                ></i>{" "}
                 Reddit Search Tool <br />{" "}
               </h1>{" "}
             </NavLink>
             <h2 id="pushift-descript">
-              <a href="https://pushshift.io/" target="_blank">
+              <a
+                className={toggleInput ? "light-pushift" : ""}
+                href="https://pushshift.io/"
+                target="_blank"
+              >
                 Utilizing Pushift.io
-              </a>
-            </h2>
+              </a>{" "}
+            </h2>{" "}
           </div>{" "}
         </div>{" "}
         <header>
           {" "}
           <nav>
-            <ul>
-              <li>
-                <NavLink
-                  to="/"
-                  activeClassName="active"
-                  className="non-active"
-                  exact
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/about"
-                  activeClassName="active"
-                  className="non-active"
-                >
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/settings"
-                  activeClassName="active"
-                  className="non-active"
-                >
-                  Settings
-                </NavLink>
-              </li>
-            </ul>
+            {" "}
+            <div className="container">
+              <ul>
+                {" "}
+                <li>
+                  <NavLink
+                    to="/"
+                    activeClassName="active"
+                    className="non-active"
+                    exact
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/about"
+                    activeClassName="active"
+                    className="non-active"
+                  >
+                    About
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/settings"
+                    activeClassName="active"
+                    className="non-active"
+                  >
+                    Settings
+                  </NavLink>
+                </li>
+              </ul>{" "}
+              <div id="container-parent">
+                <label id="switch" className="switch">
+                  <input
+                    type="checkbox"
+                    id="slider"
+                    onChange={toggleMode}
+                    ref={slider}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            </div>
           </nav>
         </header>
         <Switch>
@@ -285,17 +345,6 @@ function App() {
           <Route path="/" exact render>
             <div id="search-form">
               <div id="form-wrapper">
-                <div className="panel-header">
-                  <h2 id="search-min" onClick={changeQuerySize}>
-                    Search Query{" "}
-                    <i
-                      onClick={changeQuerySize}
-                      class={`fa fa-${minimize ? "plus" : "minus"}-square`}
-                      aria-hidden="true"
-                    ></i>
-                  </h2>
-                </div>
-
                 <SearchForm
                   minimize={minimize}
                   setSearch={setSearch}
@@ -304,22 +353,13 @@ function App() {
                   setMinimize={setMinimize}
                   showResults={showResults}
                   showFava={showFava}
+                  changeQuerySize={changeQuerySize}
+                  toggleInput={toggleInput}
                 />
               </div>
             </div>
             <div id="items-parent" ref={showFava}>
               <div>
-                <div id="results-header">
-                  <h2 id="results-min" onClick={changeResultsSize}>
-                    Results - {api.length > 0 && api[0] ? api.length - 25 : 0}{" "}
-                    <i
-                      onClick={changeResultsSize}
-                      class={`fa fa-${minimizeR ? "plus" : "minus"}-square`}
-                      aria-hidden="true"
-                    ></i>
-                  </h2>
-                </div>
-
                 <Items
                   api={api}
                   query={data.query}
@@ -332,6 +372,9 @@ function App() {
                   size={data.numReturned}
                   loadingMessage={loadingMessage}
                   searchTerm={data.searchTerm}
+                  changeResultsSize={changeResultsSize}
+                  resultAmt={resultAmt}
+                  toggleInput={toggleInput}
                 />
               </div>
             </div>

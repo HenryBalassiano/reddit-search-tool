@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.1",
+    "html-react-parser": "^1.2.7",
     "mark-js": "^0.11.1",
     "react": "^17.0.1",
     "react-datepicker": "^3.6.0",
@@ -17,6 +18,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-slide-toggle": "^0.3.5",
+    "snudown-js": "^3.2.0",
+    "snuownd": "^1.1.0",
     "web-vitals": "^1.1.0"
   },
   "scripts": {

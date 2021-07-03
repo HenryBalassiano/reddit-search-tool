@@ -27,8 +27,56 @@ input[type="submit"] {
 input:hover {
   background-color: #3f413f;
 }
-
+.light-form {
+  border: 1px solid white !important;
+}
+.light-search-tag {
+  background-color: #0069c0 !important;
+  color: rgba(255, 255, 255, 0.815) !important;
+}
+.light-search-tag .fa {
+  color: rgba(255, 255, 255, 0.815) !important;
+}
+#form-light input {
+  background-color: #6bbef99d;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  color: white;
+}
+#form-light input:hover {
+  background-color: #6bbef9d0;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+#form-light .fa {
+  color: #eee;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+#form-light input::placeholder {
+  color: #eee;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+#form-light select {
+  background-color: #6bbef99d;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+#form-light select option {
+  background: #1a1c1f70 !important;
+}
 #form-parent {
+  /* margin-top: 7em;
+  border: 1px rgba(255, 255, 255, 0.473) solid;
+  border-radius: 10px;
+  width: 960px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px; */
+  position: relative;
   margin-top: 7em;
   border: 1px rgba(255, 255, 255, 0.473) solid;
   border-radius: 10px;
@@ -36,6 +84,20 @@ input:hover {
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+  max-height: max-content;
+  min-height: 5px;
+  min-width: min-content;
+}
+#search-query-maximized {
+  z-index: 2;
+}
+#search-query-minimized {
+  opacity: 0.6;
+  z-index: 2;
+}
+
+#search-query-minimized:hover {
+  opacity: 1;
 }
 @media only screen and (max-width: 1200px) {
   input:not([type="submit"]) {
@@ -87,9 +149,6 @@ input:hover {
   max-height: max-content;
   min-height: 5px;
   min-width: min-content;
-}
-#form-hover:hover {
-  border: 1px rgba(255, 255, 255, 0.815) solid;
 }
 
 .form-minimize {
@@ -199,7 +258,6 @@ label {
     min-width: 0;
 
     width: 800px;
-    overflow: hidden;
   }
 }
 @media only screen and (max-width: 900px) {
@@ -210,7 +268,6 @@ label {
     min-width: 0;
 
     width: 700px;
-    overflow: hidden;
   }
 }
 @media only screen and (max-width: 780px) {
@@ -221,7 +278,6 @@ label {
     min-width: 0;
 
     width: 600px;
-    overflow: hidden;
   }
 }
 @media only screen and (max-width: 620px) {
@@ -232,7 +288,7 @@ label {
     min-width: 0;
 
     width: 460px;
-    overflow: hidden;
+    z-index: 0;
   }
 }
 @media only screen and (max-width: 450px) {
@@ -243,30 +299,5 @@ label {
     min-width: 0;
 
     width: 420px;
-    overflow: hidden;
-  }
-}
-@media only screen and (max-width: 450px) {
-  #form-parent select {
-    width: 70px;
-    white-space: pre-line;
-  }
-  #form-hover select {
-    width: 70px;
-  }
-  form {
-    margin: 0;
-
-    position: relative;
-    right: 4px;
-  }
-  #row-1 input {
-    width: 120px;
-  }
-  #row-2 input {
-    width: 104px;
-  }
-  #row-3 input {
-    width: 160px;
   }
 }

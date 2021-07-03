@@ -11,6 +11,8 @@ function SearchForm({
   search,
   showResults,
   showFava,
+  changeQuerySize,
+  toggleInput,
 }) {
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
@@ -145,142 +147,168 @@ function SearchForm({
   console.log(paramsObj);
   const max = useRef();
   return (
-    <div id={`form-${minimize ? "hover" : "parent"}`}>
-      <div id="form">
-        <form
-          onSubmit={Search}
-          class={`form-${minimize ? "minimize" : "maximize"}`}
-          ref={max}
+    <div
+      id={`${minimize ? "search-query-minimized" : "search-query-maximized"}`}
+    >
+      {" "}
+      <div className="panel-header">
+        <h2
+          id="search-min"
+          onClick={changeQuerySize}
+          className={toggleInput ? "light-search-tag" : ""}
         >
-          <div id="row-1">
-            <div className="row-wrapper">
-              <label>username</label>
-              <input
-                value={userinput.username}
-                placeholder="Username"
-                type="text"
-                onChange={(e) => {
-                  setUserInput({ ...userinput, username: e.target.value });
-                }}
-                id="username-input"
-              ></input>{" "}
+          Search Query{" "}
+          <i
+            onClick={changeQuerySize}
+            class={`fa fa-${minimize ? "plus" : "minus"}-square`}
+            aria-hidden="true"
+          ></i>
+        </h2>
+      </div>
+      <div
+        id={`form-${minimize ? "hover" : "parent"}`}
+        onClick={minimize ? changeQuerySize : ""}
+        className={toggleInput ? "light-form" : ""}
+      >
+        <div id={toggleInput ? "form-light" : "form"}>
+          <form
+            onSubmit={Search}
+            class={`form-${minimize ? "minimize" : "maximize"}`}
+            ref={max}
+          >
+            <div id="row-1">
+              <div className="row-wrapper">
+                <label>username</label>
+                <input
+                  value={userinput.username}
+                  placeholder="Username"
+                  type="text"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, username: e.target.value });
+                  }}
+                  id="username-input"
+                ></input>{" "}
+              </div>
+              <div className="row-wrapper">
+                <label>subreddit</label>
+                <input
+                  value={userinput.subreddit}
+                  placeholder="Subreddit"
+                  type="text"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, subreddit: e.target.value });
+                  }}
+                  id="subreddit-input"
+                ></input>{" "}
+              </div>
+              <div className="row-wrapper">
+                <label id="search-for-input">search for</label>
+                <select
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, query: e.target.value });
+                  }}
+                >
+                  {" "}
+                  <option>Any</option>
+                  <option>Comments</option>
+                  <option>Submissions</option>
+                </select>{" "}
+              </div>
             </div>
-            <div className="row-wrapper">
-              <label>subreddit</label>
-              <input
-                value={userinput.subreddit}
-                placeholder="Subreddit"
-                type="text"
-                onChange={(e) => {
-                  setUserInput({ ...userinput, subreddit: e.target.value });
-                }}
-                id="subreddit-input"
-              ></input>{" "}
-            </div>
-            <div className="row-wrapper">
-              <label id="search-for-input">search for</label>
-              <select
-                onChange={(e) => {
-                  setUserInput({ ...userinput, query: e.target.value });
-                }}
-              >
-                {" "}
-                <option>Any</option>
-                <option>Comments</option>
-                <option>Submissions</option>
-              </select>{" "}
-            </div>
-          </div>
-          <div id="row-2">
-            <div id="num-input">
-              <div id="score-input">
-                <div className="row-wrapper">
-                  <label>score</label>
-                  <input
-                    placeholder="Score"
-                    type="number"
-                    id="score-input-box"
-                    min="25"
-                    step="25"
-                    value={userinput.score}
-                    onChange={(e) => {
-                      setUserInput({ ...userinput, score: e.target.value });
+            <div id="row-2">
+              <div id="num-input">
+                <div id="score-input">
+                  <div className="row-wrapper">
+                    <label>score</label>
+                    <input
+                      placeholder="Score"
+                      type="number"
+                      id="score-input-box"
+                      min="25"
+                      step="25"
+                      value={userinput.score}
+                      onChange={(e) => {
+                        setUserInput({ ...userinput, score: e.target.value });
+                      }}
+                    ></input>{" "}
+                  </div>{" "}
+                </div>
+              </div>
+              <div className="row-wrapper">
+                <div id="before-input">
+                  <label>before</label>
+                  <DatePicker
+                    popperProps={{
+                      positionFixed: true, // use this to make the popper position: fixed
                     }}
-                  ></input>{" "}
+                    value={userinput.before}
+                    selected={userinput.before}
+                    onChange={(e) => {
+                      setUserInput({ ...userinput, before: e });
+                    }}
+                  />{" "}
+                  <span class="fa fa-calendar-o"></span>
                 </div>{" "}
               </div>
-            </div>
-            <div className="row-wrapper">
-              <div id="before-input">
-                <label>before</label>
-                <DatePicker
-                  popperProps={{
-                    positionFixed: true, // use this to make the popper position: fixed
-                  }}
-                  value={userinput.before}
-                  selected={userinput.before}
-                  onChange={(e) => {
-                    setUserInput({ ...userinput, before: e });
-                  }}
-                />{" "}
-                <span class="fa fa-calendar-o"></span>
-              </div>{" "}
-            </div>
-            <div className="row-wrapper">
-              <div id="after-input">
-                <label>after</label>
-                <DatePicker
-                  popperProps={{
-                    positionFixed: true, // use this to make the popper position: fixed
-                  }}
-                  type="text"
-                  selected={userinput.after}
-                  onChange={(e) => setUserInput({ ...userinput, after: e })}
-                />{" "}
-                <span class="fa fa-calendar-o"></span>
-              </div>
-            </div>
-          </div>{" "}
-          <div id="row-3">
-            <div id="search-term-input">
               <div className="row-wrapper">
-                <label>Search Terms</label>
+                <div id="after-input">
+                  <label>after</label>
+                  <DatePicker
+                    popperProps={{
+                      positionFixed: true, // use this to make the popper position: fixed
+                    }}
+                    type="text"
+                    selected={userinput.after}
+                    onChange={(e) => setUserInput({ ...userinput, after: e })}
+                  />{" "}
+                  <span class="fa fa-calendar-o"></span>
+                </div>
+              </div>
+            </div>{" "}
+            <div id="row-3">
+              <div id="search-term-input">
+                <div className="row-wrapper">
+                  <label>Search Terms</label>
+                  <input
+                    value={userinput.searchTerm}
+                    placeholder="Search Terms"
+                    type="text"
+                    onChange={(e) => {
+                      setUserInput({
+                        ...userinput,
+                        searchTerm: e.target.value,
+                      });
+                    }}
+                  ></input>{" "}
+                </div>
+              </div>
+              <div className="row-wrapper">
+                <label>amount returned</label>
                 <input
-                  value={userinput.searchTerm}
-                  placeholder="Search Terms"
-                  type="text"
+                  placeholder="Size"
                   onChange={(e) => {
-                    setUserInput({ ...userinput, searchTerm: e.target.value });
+                    setUserInput({
+                      ...userinput,
+                      numReturned: parseInt(e.target.value),
+                    });
                   }}
+                  value={userinput.numReturned}
+                  type="number"
+                  min="25"
+                  step="25"
+                  id="amnt-ret"
                 ></input>{" "}
               </div>
             </div>
-            <div className="row-wrapper">
-              <label>amount returned</label>
-              <input
-                placeholder="Size"
-                onChange={(e) => {
-                  setUserInput({
-                    ...userinput,
-                    numReturned: parseInt(e.target.value),
-                  });
-                }}
-                value={userinput.numReturned}
-                type="number"
-                min="25"
-                step="25"
-                id="amnt-ret"
-              ></input>{" "}
-            </div>
-          </div>
-          <div id="row-4">
-            <div id="seach-btn">
-              <div className="row-wrapper">
-                <input id="search-btn" value="Search" type="submit"></input>{" "}
+            <div id="row-4">
+              <div id="seach-btn">
+                <div className="row-wrapper">
+                  <input id="search-btn" value="Search" type="submit"></input>{" "}
+                </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
