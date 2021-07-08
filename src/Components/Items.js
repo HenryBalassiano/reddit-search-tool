@@ -3,7 +3,6 @@ import Loader from "./Loader";
 import { useEffect, useRef, useState } from "react";
 import Marker from "react-mark.js/Marker";
 import parse from "html-react-parser";
-
 function Items({
   api,
   query,
@@ -26,10 +25,11 @@ function Items({
 
   const showMore = useRef();
   const description = useRef();
-  const more = () => {
+  const more = (event) => {
     setMore(true);
   };
   const SnuOwnd = require("snuownd");
+  console.log(api);
   return (
     <div
       id={`${minimizeR ? "results-minimized" : ""}`}
@@ -141,6 +141,7 @@ function Items({
             const text = SnuOwnd.getParser().render(
               e.body ? e.body : e.selftext
             );
+
             return (
               <div
                 className="parent"
@@ -213,18 +214,25 @@ function Items({
                       <div id="details-child">
                         <Marker mark={searchTerm}>
                           {e.title ? (
-                            <h3 id="title" ref={titleText}>
-                              <a
-                                id="title-anchor"
-                                href={
-                                  e.full_link ||
-                                  `https://reddit.com${permalink}`
-                                }
-                              >
-                                {e.title}
-                              </a>{" "}
-                              <a id="domain">({e.domain})</a>
-                            </h3>
+                            <div id="title" ref={titleText}>
+                              <a id="title-anchor">
+                                <p>
+                                  <a
+                                    id="title-anchor-child"
+                                    href={
+                                      e.full_link ||
+                                      `https://reddit.com${permalink}`
+                                    }
+                                  >
+                                    {" "}
+                                    {e.title}
+                                  </a>{" "}
+                                  <a id="domain" href={e.url}>
+                                    ({e.domain})
+                                  </a>
+                                </p>
+                              </a>
+                            </div>
                           ) : (
                             ""
                           )}

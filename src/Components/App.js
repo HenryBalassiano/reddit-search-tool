@@ -16,14 +16,17 @@ import createHistory from "history/createBrowserHistory";
 
 function App() {
   const [data, setData] = useState({
-    username: false,
+    author: false,
     subreddit: false,
-    query: false,
-    numReturned: 100,
+    type: false,
+    size: 100,
     score: false,
     before: false,
     after: false,
-    searchTerm: false,
+    q: false,
+    is_self: false,
+    id: false,
+    link_id: false,
   });
   const [api, apiData] = useState([]);
   const [search, setSearch] = useState(true);
@@ -46,10 +49,10 @@ function App() {
 
   const showFava = useRef(false);
   const history = createHistory();
-
   const [locationKeys, setLocationKeys] = useState([]);
 
   // reload page when back button pressed
+
   useEffect(() => {
     return history.listen((location) => {
       if (history.action === "PUSH") {
@@ -69,48 +72,41 @@ function App() {
   }, [locationKeys]);
 
   const error = useRef(null);
-  let query = "";
   let type = "Any";
   let next = "";
-  let before = "";
-  let after = "";
 
-  if (data.username) {
-    query += "author=" + data.username.replace(/\s/g, "") + "&";
-  }
-  if (data.subreddit) {
-    query += "subreddit=" + data.subreddit.replace(/\s/g, "") + "&";
-  }
-  if (data.searchTerm) {
-    query += "q=" + data.searchTerm.replace(/\s/g, "") + "&";
-  }
-  if (data.numReturned) {
-    query += "size=" + data.numReturned + "&";
+  if (data.type.length > 0) {
+    type = data.type.toLowerCase().slice(0, -1);
   }
 
-  if (data.query.length > 0) {
-    type = data.query.toLowerCase().slice(0, -1);
+  const parseParams = (querystring) => {
+    const params = new URLSearchParams(querystring);
+    const obj = {};
+    for (const key of params.keys()) {
+      if (params.getAll(key).length > 1) {
+        obj[key] = params.getAll(key);
+      } else {
+        obj[key] = params.get(key);
+      }
+    }
+
+    return obj;
+  };
+  const paramsObj = parseParams(window.location.search);
+  if (paramsObj.before) {
+    paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
   }
 
-  if (data.before) {
-    before +=
-      "before=" + Math.floor(new Date(data.before).getTime() / 1000) + "&";
-    next = "";
-  }
-  if (data.after) {
-    after += "after=" + Math.floor(new Date(data.after).getTime() / 1000) + "&";
-  }
-  if (data.score) {
-    query += "score=>" + data.score + "&";
-  }
-
+  var esc = encodeURIComponent;
+  var query = Object.keys(paramsObj)
+    .map((k) => esc(k) + "=" + esc(paramsObj[k]))
+    .join("&");
+  let pushshiftURL = `https://api.pushshift.io/reddit/search/${type}/?${query}&html_decode=true`;
   async function fetchData() {
     try {
       apiData([false]);
 
-      const response = await fetch(
-        `https://api.pushshift.io/reddit/search/${type}/?${query}${after}${before}${next}`
-      );
+      const response = await fetch(pushshiftURL);
       const data = await response.json();
 
       if (data.data.length === 0) {
@@ -130,14 +126,14 @@ function App() {
       apiData([false]);
 
       const submission = await fetch(
-        `https://api.pushshift.io/reddit/search/submission/?${query}${after}${before}${next}`
+        `https://api.pushshift.io/reddit/search/submission/?${query}&html_decode=true`
       );
       const comment = await fetch(
-        `https://api.pushshift.io/reddit/search/comment/?${query}${after}${before}${next}`
+        `https://api.pushshift.io/reddit/search/comment/?${query}&html_decode=true`
       );
       const data1 = await submission.json();
       const data2 = await comment.json();
-      console.log(data1, data2, submission, comment);
+      console.log(data1, data2, submission.url);
       if (data1.data.length === 0) {
         setError("No Results");
         error.current.style.display = "block";
@@ -157,16 +153,18 @@ function App() {
 
   async function loadMore() {
     try {
+      const utc = api.slice(-1)[0].created_utc;
+      next += "before=" + utc + "&";
       const submission = await fetch(
-        `https://api.pushshift.io/reddit/search/submission/?${query}${after}${before}${next}`
+        `https://api.pushshift.io/reddit/search/submission/?${query}&${next}&html_decode=true`
       );
       const comment = await fetch(
-        `https://api.pushshift.io/reddit/search/comment/?${query}${after}${before}${next}`
+        `https://api.pushshift.io/reddit/search/comment/?${query}&${next}&html_decode=true`
       );
 
       const data1 = await submission.json();
       const data2 = await comment.json();
-      console.log(data1, data2, submission, comment);
+      console.log(data1, data2, submission.url, comment, "LOAD MORR");
 
       if (data1.data.length === 0) {
         setError("No Results");
@@ -179,6 +177,7 @@ function App() {
           return new Date(b.created_utc) > new Date(a.created_utc) ? 1 : -1;
         });
         apiData((prevArray) => [...prevArray, ...requestData]);
+        setLoadingMessage(false);
       });
     } catch (err) {
       console.log(err);
@@ -198,31 +197,28 @@ function App() {
 
   useEffect(() => {
     if (more) {
-      if (data.numReturned < api.length) {
-        data.numReturned += 25;
+      if (data.size < api.length) {
+        data.size += 25;
         setMore(false);
         setLoadingMessage(false);
-      } else if (data.numReturned === api.length) {
-        const utc = api.slice(-1)[0].created_utc;
-        next += "before=" + utc + "&";
-        before = "";
-        after = "";
+      } else if (data.size === api.length) {
         loadMore();
         setLoadingMessage(true);
       }
     }
   });
+  console.log(more, data.size, api.length);
 
   let resultAmt = 0;
   if (api.length === 1 && !api[0]) {
     resultAmt = 0;
-  } else if (api.length < data.numReturned) {
+  } else if (api.length < data.size) {
     resultAmt = api.length;
   } else {
-    resultAmt = data.numReturned;
+    resultAmt = data.size;
   }
 
-  console.log(more, data.numReturned, api.length, api);
+  console.log(api, data.size);
 
   function changeQuerySize() {
     setMinimize(true);
@@ -256,6 +252,7 @@ function App() {
       setToggleInput(false);
     }
   });
+
   useEffect(() => {
     if (toggleInput) {
       document.body.classList.add("light-mode");
@@ -369,9 +366,9 @@ function App() {
                   data={setData}
                   setMore={setMore}
                   showResults={showResults}
-                  size={data.numReturned}
+                  size={data.size}
                   loadingMessage={loadingMessage}
-                  searchTerm={data.searchTerm}
+                  searchTerm={data.q}
                   changeResultsSize={changeResultsSize}
                   resultAmt={resultAmt}
                   toggleInput={toggleInput}

@@ -1,0 +1,50 @@
+#settings-child {
+  display: flex;
+  border: 1px solid #222;
+  flex-direction: column;
+  border-radius: 8px;
+  margin: 14px 0 8px 0;
+  padding: 8px;
+  padding-top: 10px;
+  border: 1px solid #555;
+  width: 50%;
+  position: relative;
+  bottom: 7em;
+}
+#settings-tag {
+  position: absolute;
+  color: #555;
+  top: 8.86em;
+  z-index: 999;
+  font-size: 0.97em;
+  margin-left: 10px;
+  background-color: #080808;
+}
+#settings-parent {
+  display: flex;
+  justify-content: center;
+}
+#settings-child input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+}
+#settings-child > div {
+  display: flex;
+  flex-direction: row;
+}
+#settings-child > div > label {
+  font-size: 16px;
+  color: #eee;
+  font-weight: normal;
+  word-wrap: break-word;
+  position: relative;
+  top: 1px;
+}
+@media only screen and (max-width: 900px) {
+  #settings-tag {
+    top: 7.3em;
+  }
+  #settings-child {
+    width: 92vw;
+  }
+}

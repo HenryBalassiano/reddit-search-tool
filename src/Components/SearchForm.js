@@ -14,6 +14,10 @@ function SearchForm({
   changeQuerySize,
   toggleInput,
 }) {
+  const advancedRow = useRef();
+  const apiAdvanced = useRef();
+  const developerRow = useRef();
+
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
     const obj = {};
@@ -31,12 +35,10 @@ function SearchForm({
   const paramsObj = parseParams(window.location.search);
 
   const [userinput, setUserInput] = useState({
-    username: paramsObj.username ? paramsObj.username : "",
+    author: paramsObj.author ? paramsObj.author : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
-    query: paramsObj.query ? paramsObj.query : "",
-    numReturned: parseInt(paramsObj.numReturned)
-      ? parseInt(paramsObj.numReturned)
-      : 25,
+    type: paramsObj.type ? paramsObj.type : "",
+    size: parseInt(paramsObj.size) ? parseInt(paramsObj.size) : 25,
     score: paramsObj.score ? paramsObj.score : "",
     before: paramsObj.before
       ? Math.floor((new Date(paramsObj.before).getTime() / 1000) * 1000)
@@ -44,48 +46,15 @@ function SearchForm({
     after: paramsObj.after
       ? Math.floor((new Date(paramsObj.after).getTime() / 1000) * 1000)
       : "",
-    searchTerm: paramsObj.searchTerm ? paramsObj.searchTerm : "",
+    q: paramsObj.searchTerm ? paramsObj.searchTerm : "",
+    over_18: paramsObj.over_18 ? paramsObj.over_18 : "",
+    stickied: paramsObj.stickied ? paramsObj.stickied : "",
+    is_self: paramsObj.is_self ? paramsObj.is_self : "",
+    locked: paramsObj.locked ? paramsObj.locked : "",
+    distinguished: paramsObj.distinguished ? paramsObj.distinguished : "",
+    id: paramsObj.id ? paramsObj.id : "",
+    link_id: paramsObj.link_id ? paramsObj.link_id : "",
   });
-
-  function setUrlParameter(url, key, value) {
-    var key = encodeURIComponent(key),
-      value = encodeURIComponent(value);
-    let urlQueryString;
-    var baseUrl = url.split("?")[0],
-      newParam = key + "=" + value,
-      params = "?" + newParam;
-
-    if (url.split("?")[1] === undefined) {
-      urlQueryString = "";
-    } else {
-      urlQueryString = "?" + url.split("?")[1];
-    }
-
-    if (urlQueryString) {
-      var updateRegex = new RegExp("([?&])" + key + "=[^&]*");
-      var removeRegex = new RegExp("([?&])" + key + "=[^&;]+[&;]?");
-
-      if (
-        value === undefined ||
-        value === null ||
-        value === "" ||
-        value === "null"
-      ) {
-        params = urlQueryString.replace(removeRegex, "$1");
-        params = params.replace(/[&;]$/, "");
-      } else if (urlQueryString.match(updateRegex) !== null) {
-        params = urlQueryString.replace(updateRegex, "$1" + newParam);
-      } else if (urlQueryString == "") {
-        params = "?" + newParam;
-      } else {
-        params = urlQueryString + "&" + newParam;
-      }
-    }
-
-    params = params === "?" ? "" : params;
-
-    return baseUrl + params;
-  }
 
   const Search = (e) => {
     updateData(userinput);
@@ -96,33 +65,17 @@ function SearchForm({
 
     showResults.current.style.display = "block";
 
-    const properties = [];
+    var esc = encodeURIComponent;
+    var str = "";
 
     for (var key in userinput) {
-      for (var propKey in userinput) {
-        if (
-          userinput.hasOwnProperty(propKey) &&
-          typeof userinput[propKey] !== "function"
-        ) {
-          properties.push(propKey);
-        }
-
-        let value = userinput[key];
-
-        if (value || !value) {
-          window.history.replaceState(
-            "",
-            "",
-            setUrlParameter(
-              window.location.href
-                .replace(/[^?=&]+=(&|$)/g, "")
-                .replace(/&$/, ""),
-              key,
-              value
-            )
-          );
-        }
+      if (str != "") {
+        str += "&";
       }
+      str += key + "=" + encodeURIComponent(userinput[key]);
+      str = str.replace(/[^=&]+=(&|$)/g, "").replace(/&$/, "");
+
+      window.location.search = str;
     }
   };
 
@@ -145,7 +98,15 @@ function SearchForm({
     callOnce();
   }, []);
   console.log(paramsObj);
-  const max = useRef();
+  useEffect(() => {
+    if (localStorage.getItem("setting1") === "checked") {
+      advancedRow.current.style.display = "flex";
+      apiAdvanced.current.style.display = "block";
+    }
+    if (localStorage.getItem("setting2") === "checked") {
+      developerRow.current.style.display = "flex";
+    }
+  });
   return (
     <div
       id={`${minimize ? "search-query-minimized" : "search-query-maximized"}`}
@@ -174,17 +135,16 @@ function SearchForm({
           <form
             onSubmit={Search}
             class={`form-${minimize ? "minimize" : "maximize"}`}
-            ref={max}
           >
             <div id="row-1">
               <div className="row-wrapper">
                 <label>username</label>
                 <input
-                  value={userinput.username}
+                  value={userinput.author}
                   placeholder="Username"
                   type="text"
                   onChange={(e) => {
-                    setUserInput({ ...userinput, username: e.target.value });
+                    setUserInput({ ...userinput, author: e.target.value });
                   }}
                   id="username-input"
                 ></input>{" "}
@@ -205,7 +165,7 @@ function SearchForm({
                 <label id="search-for-input">search for</label>
                 <select
                   onChange={(e) => {
-                    setUserInput({ ...userinput, query: e.target.value });
+                    setUserInput({ ...userinput, type: e.target.value });
                   }}
                 >
                   {" "}
@@ -213,7 +173,7 @@ function SearchForm({
                   <option>Comments</option>
                   <option>Submissions</option>
                 </select>{" "}
-              </div>
+              </div>{" "}
             </div>
             <div id="row-2">
               <div id="num-input">
@@ -239,7 +199,7 @@ function SearchForm({
                   <label>before</label>
                   <DatePicker
                     popperProps={{
-                      positionFixed: true, // use this to make the popper position: fixed
+                      positionFixed: true,
                     }}
                     value={userinput.before}
                     selected={userinput.before}
@@ -255,7 +215,7 @@ function SearchForm({
                   <label>after</label>
                   <DatePicker
                     popperProps={{
-                      positionFixed: true, // use this to make the popper position: fixed
+                      positionFixed: true,
                     }}
                     type="text"
                     selected={userinput.after}
@@ -263,8 +223,83 @@ function SearchForm({
                   />{" "}
                   <span class="fa fa-calendar-o"></span>
                 </div>
-              </div>
+              </div>{" "}
             </div>{" "}
+            <div id="advanced-row" ref={advancedRow}>
+              <div className="row-wrapper">
+                <label>NSFW</label>
+                <select
+                  className="advanced-input"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, over_18: e.target.value });
+                  }}
+                >
+                  <option>Any</option>
+
+                  <option>True</option>
+                  <option>False</option>
+                </select>{" "}
+              </div>{" "}
+              <div className="row-wrapper">
+                <label>Stickied</label>
+                <select
+                  className="advanced-input"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, stickied: e.target.value });
+                  }}
+                >
+                  <option>Any</option>
+
+                  <option>True</option>
+                  <option>False</option>
+                </select>{" "}
+              </div>{" "}
+              <div className="row-wrapper">
+                <label>Is Self</label>
+                <select
+                  className="advanced-input"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, is_self: e.target.value });
+                  }}
+                >
+                  <option>Any</option>
+
+                  <option>True</option>
+                  <option>False</option>
+                </select>{" "}
+              </div>
+              <div className="row-wrapper">
+                <label>Locked</label>
+                <select
+                  className="advanced-input"
+                  onChange={(e) => {
+                    setUserInput({ ...userinput, locked: e.target.value });
+                  }}
+                >
+                  <option>Any</option>
+
+                  <option>True</option>
+                  <option>False</option>
+                </select>{" "}
+              </div>{" "}
+              <div className="row-wrapper">
+                <label>Distinguished</label>
+                <select
+                  className="advanced-input"
+                  onChange={(e) => {
+                    setUserInput({
+                      ...userinput,
+                      distinguished: e.target.value,
+                    });
+                  }}
+                >
+                  <option>Any</option>
+
+                  <option>Admin</option>
+                  <option>Moderator</option>
+                </select>{" "}
+              </div>
+            </div>
             <div id="row-3">
               <div id="search-term-input">
                 <div className="row-wrapper">
@@ -276,7 +311,7 @@ function SearchForm({
                     onChange={(e) => {
                       setUserInput({
                         ...userinput,
-                        searchTerm: e.target.value,
+                        q: e.target.value,
                       });
                     }}
                   ></input>{" "}
@@ -289,16 +324,53 @@ function SearchForm({
                   onChange={(e) => {
                     setUserInput({
                       ...userinput,
-                      numReturned: parseInt(e.target.value),
+                      size: parseInt(e.target.value),
                     });
                   }}
-                  value={userinput.numReturned}
+                  value={userinput.size}
                   type="number"
                   min="25"
                   step="25"
                   id="amnt-ret"
                 ></input>{" "}
+              </div>{" "}
+              <div className="row-wrapper" id="api-wrapper" ref={apiAdvanced}>
+                <label>API</label>
+                <select id="advanced-api-search">
+                  <option>Pushshift</option>
+
+                  <option>True</option>
+                  <option>False</option>
+                </select>{" "}
               </div>
+            </div>
+            <div id="developer-row" ref={developerRow}>
+              <div className="row-wrapper">
+                <label>ID</label>
+                <input
+                  placeholder="ID"
+                  type="text"
+                  onChange={(e) => {
+                    setUserInput({
+                      ...userinput,
+                      id: e.target.value,
+                    });
+                  }}
+                ></input>{" "}
+              </div>{" "}
+              <div className="row-wrapper">
+                <label>Link ID</label>
+                <input
+                  placeholder="Link ID"
+                  type="text"
+                  onChange={(e) => {
+                    setUserInput({
+                      ...userinput,
+                      link_id: e.target.value,
+                    });
+                  }}
+                ></input>{" "}
+              </div>{" "}
             </div>
             <div id="row-4">
               <div id="seach-btn">

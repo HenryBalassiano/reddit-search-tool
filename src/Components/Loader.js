@@ -8,7 +8,6 @@ function Loader() {
         className="fa fa-cog fa-spin"
         style={{
           color: "white",
-          display: "block",
           fontSize: "2em",
           position: "relative",
           display: "flex",

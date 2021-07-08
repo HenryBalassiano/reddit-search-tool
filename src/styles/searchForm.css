@@ -8,10 +8,10 @@ select {
 }
 input:not([type="submit"]) {
   font-size: 14px;
-  background-color: #333533;
+  background-color: #222;
   border: none;
   width: 260px;
-  color: #f8f9fa;
+  color: #eee;
   padding: 5px;
 }
 input[type="submit"] {
@@ -20,12 +20,33 @@ input[type="submit"] {
   padding: 8px 16px;
   border: 0 none;
   cursor: pointer;
-  background-color: #484948;
-  color: white;
+  background-color: #222;
+  color: #eee;
   border-radius: 4px;
 }
+.advanced-input {
+  width: 65px !important;
+}
+
+#developer-row {
+  display: flex;
+  display: none;
+}
+#developer-row input {
+  width: 210px;
+}
+#api-wrapper {
+  display: none;
+}
+#advanced-api-search {
+  width: 90px !important;
+}
+#advanced-row {
+  display: flex;
+  display: none;
+}
 input:hover {
-  background-color: #3f413f;
+  background-color: #2a2a2a;
 }
 .light-form {
   border: 1px solid white !important;
@@ -69,16 +90,9 @@ input:hover {
   background: #1a1c1f70 !important;
 }
 #form-parent {
-  /* margin-top: 7em;
-  border: 1px rgba(255, 255, 255, 0.473) solid;
-  border-radius: 10px;
-  width: 960px;
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px; */
   position: relative;
   margin-top: 7em;
-  border: 1px rgba(255, 255, 255, 0.473) solid;
+  border: 1px#555 solid;
   border-radius: 10px;
   width: 960px;
   padding-left: 10px;
@@ -101,46 +115,55 @@ input:hover {
 }
 @media only screen and (max-width: 1200px) {
   input:not([type="submit"]) {
-    width: 220px;
+    width: calc(100% - 2px);
   }
 }
 @media only screen and (max-width: 900px) {
   input:not([type="submit"]) {
-    width: 200px;
+    width: calc(100% - 2px);
   }
 }
 @media only screen and (max-width: 780px) {
   input:not([type="submit"]) {
-    width: 150px;
+    width: calc(100% - 2px);
   }
   #form-parent select {
-    width: 230px;
+    width: calc(100% - 2px);
   }
   #form-hover select {
-    width: 230px;
+    width: calc(100% - 2px);
   }
 }
 @media only screen and (max-width: 620px) {
   #form-parent select {
-    width: 140px;
+    width: calc(100% - 2px);
+  }
+  #form-parent {
+    padding-right: 10px;
   }
   #form-hover select {
-    width: 140px;
+    width: calc(100% - 2px);
+  }
+  #form-hover {
+    padding-right: 10px;
   }
   #row-1 input {
-    width: 136px;
+    width: calc(100% - 2px);
   }
   #row-2 input {
-    width: 138px;
+    width: calc(100% - 2px);
   }
   #row-3 input {
-    width: 212px;
+    width: calc(100% - 2px);
+  }
+  #developer-row input {
+    width: calc(100% - 2px);
   }
 }
 #form-hover {
   position: relative;
   margin-top: 7em;
-  border: 1px rgba(255, 255, 255, 0.473) solid;
+  border: 1px #555 solid;
   border-radius: 10px;
   width: 960px;
   padding-left: 10px;
@@ -185,8 +208,8 @@ span.fa {
 }
 select {
   background: 0;
-  background-color: #333533;
-  color: #f8f9fa;
+  background-color: #222;
+  color: #eee;
   border: 0;
   vertical-align: top;
   height: 20px;
@@ -202,7 +225,7 @@ select {
   box-sizing: border-box;
 }
 select:hover {
-  background-color: #3f413f;
+  background-color: #2a2a2a;
 }
 
 input,
@@ -282,22 +305,12 @@ label {
 }
 @media only screen and (max-width: 620px) {
   #form-parent {
-    width: 460px;
+    width: 92vw;
   }
   #form-hover {
     min-width: 0;
 
-    width: 460px;
+    width: 92vw;
     z-index: 0;
-  }
-}
-@media only screen and (max-width: 450px) {
-  #form-parent {
-    width: 420px;
-  }
-  #form-hover {
-    min-width: 0;
-
-    width: 420px;
   }
 }
