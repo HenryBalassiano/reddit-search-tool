@@ -27,7 +27,9 @@ input[type="submit"] {
 .advanced-input {
   width: 65px !important;
 }
-
+#author-required {
+  background-color: rgb(71, 35, 35) !important;
+}
 #developer-row {
   display: flex;
   display: none;

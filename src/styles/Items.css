@@ -129,6 +129,9 @@ a {
   color: white !important;
   text-decoration: none;
 }
+#tags {
+  display: flex;
+}
 #details-child {
   position: relative;
   color: #888;
@@ -227,6 +230,21 @@ a {
   margin: 3px 0 0;
   color: white;
 }
+#upvote-percentage {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  background-color: #222;
+  width: fit-content;
+  height: fit-content;
+  padding: 4px;
+  border-radius: 4px;
+  margin: 3px 4px 0;
+  color: white;
+}
+#score {
+  font-size: small;
+}
 .light-results-tag {
   background-color: #0069c0 !important;
   color: rgba(255, 255, 255, 0.815) !important;
@@ -294,7 +312,9 @@ a {
 #view-on-reddit:hover {
   text-decoration: underline;
 }
-
+#view-on-reddit a:visited {
+  color: #888;
+}
 #self-post {
   max-width: 80px !important;
   height: 100%;

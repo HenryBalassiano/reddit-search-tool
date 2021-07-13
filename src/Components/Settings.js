@@ -1,9 +1,6 @@
 import "../styles/Settings.css";
 import { useState, useRef, useEffect } from "react";
 function Settings() {
-  const [checkNSFW, setNSFW] = useState();
-  const [checkAdvancedOptions, setAdvanced] = useState();
-  const [checkDeveloperOptions, setDev] = useState();
   const NSFW = useRef(false);
   const advancedOptions = useRef(false);
   const developerOptions = useRef(false);

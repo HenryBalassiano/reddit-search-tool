@@ -13,10 +13,14 @@ function SearchForm({
   showFava,
   changeQuerySize,
   toggleInput,
+  setApi,
+  apis,
+  syncingData,
 }) {
   const advancedRow = useRef();
   const apiAdvanced = useRef();
   const developerRow = useRef();
+  const authorInput = useRef();
 
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
@@ -38,7 +42,7 @@ function SearchForm({
     author: paramsObj.author ? paramsObj.author : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
     type: paramsObj.type ? paramsObj.type : "",
-    size: parseInt(paramsObj.size) ? parseInt(paramsObj.size) : 25,
+    size: parseInt(paramsObj.size) ? parseInt(paramsObj.size) : 100,
     score: paramsObj.score ? paramsObj.score : "",
     before: paramsObj.before
       ? Math.floor((new Date(paramsObj.before).getTime() / 1000) * 1000)
@@ -46,7 +50,7 @@ function SearchForm({
     after: paramsObj.after
       ? Math.floor((new Date(paramsObj.after).getTime() / 1000) * 1000)
       : "",
-    q: paramsObj.searchTerm ? paramsObj.searchTerm : "",
+    q: paramsObj.q ? paramsObj.q : "",
     over_18: paramsObj.over_18 ? paramsObj.over_18 : "",
     stickied: paramsObj.stickied ? paramsObj.stickied : "",
     is_self: paramsObj.is_self ? paramsObj.is_self : "",
@@ -55,6 +59,7 @@ function SearchForm({
     id: paramsObj.id ? paramsObj.id : "",
     link_id: paramsObj.link_id ? paramsObj.link_id : "",
   });
+  const [required, setRequired] = useState(false);
 
   const Search = (e) => {
     updateData(userinput);
@@ -65,7 +70,6 @@ function SearchForm({
 
     showResults.current.style.display = "block";
 
-    var esc = encodeURIComponent;
     var str = "";
 
     for (var key in userinput) {
@@ -107,6 +111,16 @@ function SearchForm({
       developerRow.current.style.display = "flex";
     }
   });
+  useEffect(() => {
+    if (apis === "Miser" && !userinput.author) {
+      authorInput.current.required = true;
+      setRequired(true);
+    } else {
+      authorInput.current.required = false;
+      setRequired(false);
+    }
+  }, [apis, userinput.author]);
+
   return (
     <div
       id={`${minimize ? "search-query-minimized" : "search-query-maximized"}`}
@@ -146,7 +160,8 @@ function SearchForm({
                   onChange={(e) => {
                     setUserInput({ ...userinput, author: e.target.value });
                   }}
-                  id="username-input"
+                  ref={authorInput}
+                  id={`author-${required ? "required" : "input"}`}
                 ></input>{" "}
               </div>
               <div className="row-wrapper">
@@ -167,6 +182,7 @@ function SearchForm({
                   onChange={(e) => {
                     setUserInput({ ...userinput, type: e.target.value });
                   }}
+                  value={userinput.type}
                 >
                   {" "}
                   <option>Any</option>
@@ -201,7 +217,7 @@ function SearchForm({
                     popperProps={{
                       positionFixed: true,
                     }}
-                    value={userinput.before}
+                    value={new Date(userinput.before * 1000)}
                     selected={userinput.before}
                     onChange={(e) => {
                       setUserInput({ ...userinput, before: e });
@@ -336,11 +352,17 @@ function SearchForm({
               </div>{" "}
               <div className="row-wrapper" id="api-wrapper" ref={apiAdvanced}>
                 <label>API</label>
-                <select id="advanced-api-search">
+                <select
+                  id="advanced-api-search"
+                  onChange={(e) => {
+                    setApi(e.target.value);
+                  }}
+                  value={apis}
+                >
                   <option>Pushshift</option>
 
-                  <option>True</option>
-                  <option>False</option>
+                  <option>Reddit</option>
+                  <option>Miser</option>
                 </select>{" "}
               </div>
             </div>
