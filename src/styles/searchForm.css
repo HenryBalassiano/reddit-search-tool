@@ -178,22 +178,14 @@ input:hover {
 
 .form-minimize {
   max-height: 0;
-  -webkit-transition: all 0.5s -0.1s ease-out;
-  -moz-transition: all 0.5s -0.1s ease-out;
-  -o-transition: all 0.5s -0.1s ease-out;
-  -ms-transition: all 0.5s -0.1s ease-out;
-  transition: all 0.5s -0.1s ease-out;
+
   overflow: hidden !important;
   z-index: 999;
 }
 
 .form-maximize {
   max-height: 500px;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  transition: all 1s ease;
+
   overflow: hidden !important;
   z-index: 999;
 }

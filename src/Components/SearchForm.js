@@ -39,7 +39,7 @@ function SearchForm({
   const paramsObj = parseParams(window.location.search);
 
   const [userinput, setUserInput] = useState({
-    author: paramsObj.author ? paramsObj.author : "",
+    author: paramsObj.author ? paramsObj.author.replace(/ /g, "") : "",
     subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
     type: paramsObj.type ? paramsObj.type : "",
     size: parseInt(paramsObj.size) ? parseInt(paramsObj.size) : 100,
@@ -101,7 +101,6 @@ function SearchForm({
     }
     callOnce();
   }, []);
-  console.log(paramsObj);
   useEffect(() => {
     if (localStorage.getItem("setting1") === "checked") {
       advancedRow.current.style.display = "flex";
@@ -158,7 +157,10 @@ function SearchForm({
                   placeholder="Username"
                   type="text"
                   onChange={(e) => {
-                    setUserInput({ ...userinput, author: e.target.value });
+                    setUserInput({
+                      ...userinput,
+                      author: e.target.value.replace(/ /g, ""),
+                    });
                   }}
                   ref={authorInput}
                   id={`author-${required ? "required" : "input"}`}
@@ -171,7 +173,10 @@ function SearchForm({
                   placeholder="Subreddit"
                   type="text"
                   onChange={(e) => {
-                    setUserInput({ ...userinput, subreddit: e.target.value });
+                    setUserInput({
+                      ...userinput,
+                      subreddit: e.target.value.replace(/ /g, ""),
+                    });
                   }}
                   id="subreddit-input"
                 ></input>{" "}
@@ -321,7 +326,7 @@ function SearchForm({
                 <div className="row-wrapper">
                   <label>Search Terms</label>
                   <input
-                    value={userinput.searchTerm}
+                    value={userinput.q}
                     placeholder="Search Terms"
                     type="text"
                     onChange={(e) => {
@@ -388,7 +393,7 @@ function SearchForm({
                   onChange={(e) => {
                     setUserInput({
                       ...userinput,
-                      link_id: e.target.value,
+                      link_id: e.target.value.replace(/ /g, ""),
                     });
                   }}
                 ></input>{" "}

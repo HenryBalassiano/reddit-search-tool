@@ -3,9 +3,9 @@ import Loader from "./Loader";
 import { useEffect, useRef, useState } from "react";
 import Marker from "react-mark.js/Marker";
 import parse from "html-react-parser";
+
 function Items({
   api,
-  query,
   errorMessage,
   error,
   data,
@@ -19,6 +19,9 @@ function Items({
   resultAmt,
   toggleInput,
   syncingData,
+  loading,
+  requests,
+  itemCount,
 }) {
   const results = useRef(false);
   const bodyText = useRef(false);
@@ -58,13 +61,18 @@ function Items({
           {" "}
           {errorMessage}
         </div>
-        {!syncingData ? (
+        {!syncingData && errorMessage !== "No Results" ? (
           <div id="loader-wrapper">
-            <Loader /> <div id="loading-text">Loading &#8226; Results </div>{" "}
+            <Loader />{" "}
+            <div id="loading-text">
+              Loading &#8226;{" "}
+              {`Fetching ${itemCount}/${size} items in ${requests} requests`}{" "}
+            </div>{" "}
           </div>
         ) : (
           false
         )}
+
         {syncingData &&
           api.slice(0, size).map((e, i) => {
             const months = {
@@ -112,15 +120,15 @@ function Items({
 
             const num = months[postDate.slice(4, 7)];
 
-            // if (!syncingData) {
-            //   showMore.current.style.display = "none";
-            //   return (
-            //     <div id="loader-wrapper">
-            //       <Loader key={i} />{" "}
-            //       <div id="loading-text">Loading &#8226; Results </div>{" "}
-            //     </div>
-            //   );
-            // }
+            if (!e) {
+              showMore.current.style.display = "none";
+              return (
+                <div id="loader-wrapper">
+                  <Loader key={i} />{" "}
+                  <div id="loading-text">Loading &#8226; Results </div>{" "}
+                </div>
+              );
+            }
 
             let permalink;
             if (e.permalink) {
@@ -140,7 +148,7 @@ function Items({
               if (size > api.length) {
                 showMore.current.style.display = "none";
               }
-              if (api.length === 0 && api) {
+              if (api.length === 0) {
                 error.current.style.display = "block";
               } else {
                 error.current.style.display = "none";
@@ -260,20 +268,24 @@ function Items({
                             <div id="upvote">
                               <i class="fa fa-arrow-up" aria-hidden="true">
                                 {" "}
-                                <span id="score">
-                                  {/* {e.upvote_ratio ? e.upvote_ratio * 100 : 100}% */}
-                                  {e.score}
-                                </span>
+                                <span id="score">{e.score}</span>
                               </i>
                             </div>
-                            <div id="upvote-percentage">
-                              <i class="fa fa-line-chart" aria-hidden="true">
-                                {" "}
-                                <span id="score">
-                                  {e.upvote_ratio ? e.upvote_ratio * 100 : 100}%
-                                </span>
-                              </i>
-                            </div>{" "}
+                            {e.kind === "t3" ? (
+                              <div id="upvote-percentage">
+                                <i class="fa fa-line-chart" aria-hidden="true">
+                                  {" "}
+                                  <span id="score">
+                                    {e.upvote_ratio
+                                      ? Math.trunc(e.upvote_ratio * 100)
+                                      : 100}
+                                    %
+                                  </span>
+                                </i>
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
                       </div>

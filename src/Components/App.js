@@ -15,6 +15,7 @@ import {
 import createHistory from "history/createBrowserHistory";
 
 function App() {
+  const pRetry = require("p-retry");
   const [data, setData] = useState({
     author: false,
     subreddit: false,
@@ -38,6 +39,11 @@ function App() {
 
   const [apis, setApi] = useState();
   const [idState, setIdState] = useState();
+
+  const [requests, setRequests] = useState(0);
+  const [itemCount, setItemCount] = useState(0);
+
+  const [queueState, setQueue] = useState();
 
   const [home, setHome] = useState(false);
   const [about, setAbout] = useState(false);
@@ -106,7 +112,6 @@ function App() {
 
   if (paramsObj.before && !/^\d+$/.test(paramsObj.before)) {
     paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
-  } else {
   }
 
   var esc = encodeURIComponent;
@@ -125,51 +130,174 @@ function App() {
       : "";
   }
   let before;
-
   function miserURL(id) {
     query.replace(/^[^?]+\?/, "");
     return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}`;
   }
-  function pushshiftURL(id) {
+  function pushshiftURL(id, before) {
     query.replace(/^[^?]+\?/, "");
 
     return `https://api.pushshift.io/reddit/search/${id}/?${query}${
-      before ? "&" + before : ""
+      before ? `&before=${before}` : ""
     }&html_decode=true`;
   }
-  console.log(query, paramsObj.before);
+  const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+  async function fetchManyCalls() {
+    try {
+      const queue = [];
+      const apiDatas = [];
+      let formula = data.size / 100;
+      let getbeforeDec = formula.toString().split(".")[0];
+      let beforeDec = parseInt(getbeforeDec, 10);
+      let fetchAmt = 0;
+      if (value.length === 1) {
+        console.log(fetchAmt, beforeDec, data.size);
+        while (fetchAmt !== beforeDec) {
+          before = queue.slice(-1)[0];
 
+          console.info("fetching pushshift > 100");
+          setRequests((counter) => counter + 1);
+
+          let response = await fetch(
+            pushshiftURL(value[0], before ? before : "")
+          );
+
+          console.info(response.url);
+
+          let responseData = await response.json();
+
+          if (responseData.data.length === 0) {
+            if (apiDatas.length === 0) {
+              console.info("break");
+              setError("No Results");
+              error.current.style.display = "block";
+              break;
+            } else {
+              break;
+            }
+          }
+
+          if (responseData.data.length > 0) {
+            setItemCount((counter) => counter + responseData.data.length);
+          }
+          queue.push(responseData.data.slice(-1)[0].created_utc);
+          apiDatas.push(responseData.data);
+
+          fetchAmt += 1;
+          console.info("cooldown between request");
+          await timer(1500);
+        }
+      } else if (value.length > 1) {
+        console.log(fetchAmt, beforeDec, data.size);
+        while (fetchAmt !== beforeDec) {
+          let before = queue.slice(-1)[0];
+
+          console.info("fetching pushshift > 100");
+          setRequests((counter) => counter + 1);
+          let submission = await fetch(
+            pushshiftURL("submission", before ? before : "")
+          );
+          let comment = await fetch(
+            pushshiftURL("comment", before ? before : "")
+          );
+          if (comment.status === 404) {
+            throw new pRetry.AbortError(comment.statusText);
+          }
+          console.info(comment.url);
+          console.info(submission.url);
+
+          let commentData = await comment.json();
+          let submissionData = await submission.json();
+          let requestData = submissionData
+            ? submissionData.data.concat(commentData.data)
+            : "";
+          let sortedRequest = requestData
+            ? requestData.sort((a, b) => {
+                return b.created_utc - a.created_utc;
+              })
+            : "";
+          if (
+            commentData.data.length === 0 &&
+            submissionData.data.length === 0
+          ) {
+            if (apiDatas.length === 0) {
+              console.info("break");
+              setError("No Results");
+              error.current.style.display = "block";
+              break;
+            } else {
+              break;
+            }
+          }
+          if (sortedRequest) {
+            apiDatas.push(sortedRequest);
+            queue.push(sortedRequest.slice(-1)[0].created_utc);
+            setItemCount((counter) => counter + sortedRequest.length);
+          }
+
+          fetchAmt += 1;
+          console.info("cooldown between request");
+          await timer(1500);
+        }
+      }
+      {
+        setQueue(apiDatas.concat.apply([], apiDatas));
+        queue.length = 0;
+        apiDatas.length = 0;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const apiObj = {
     pushshift: function fetchPushshift() {
       try {
-        apiData([false]);
-        Promise.all(
-          value.map((id) =>
-            fetch(pushshiftURL(id)).then(function (response) {
-              console.info(response.url);
-              return response.json();
-            })
-          )
-        ).then(function (data) {
-          if (value.length == 1) {
-            apiData(data[0].data);
-          } else {
-            Promise.all([...data[0].data, ...data[1].data]).then(
-              (requestData) => {
-                requestData.sort(function (a, b) {
-                  return new Date(b.created_utc) - new Date(a.created_utc);
-                });
-                if (requestData.length === 0) {
-                  setError("No Results");
-                  error.current.style.display = "block";
-                } else {
-                  error.current.style.display = "none";
-                }
-                apiData(requestData);
+        if (!more) {
+          apiData([false]);
+        }
+        if (data.size <= 100) {
+          Promise.all(
+            value.map((id) =>
+              fetch(pushshiftURL(id)).then(function (response) {
+                console.info(response.url);
+                console.info("fetching <= 100");
+                setRequests(requests + 1);
+
+                return response.json();
+              })
+            )
+          ).then(function (data) {
+            if (value.length == 1) {
+              setQueue(data[0].data);
+              if (data[0].data.length === 0) {
+                setError("No Results");
+                error.current.style.display = "block";
+              } else {
+                error.current.style.display = "none";
               }
-            );
-          }
-        });
+              setItemCount((counter) => counter + data[0].data.length);
+            } else {
+              Promise.all([...data[0].data, ...data[1].data]).then(
+                (requestData) => {
+                  requestData.sort(function (a, b) {
+                    return new Date(b.created_utc) - new Date(a.created_utc);
+                  });
+                  if (requestData.length === 0) {
+                    setError("No Results");
+                    error.current.style.display = "block";
+                  } else {
+                    error.current.style.display = "none";
+                  }
+                  setItemCount((counter) => counter + requestData.length);
+
+                  setQueue(requestData);
+                }
+              );
+            }
+          });
+        } else if (data.size > 100) {
+          fetchManyCalls();
+        }
       } catch (err) {
         console.log(err);
       }
@@ -315,6 +443,7 @@ function App() {
             body: "grant_type=https://oauth.reddit.com/grants/installed_client&device_id=DO_NOT_TRACK_THIS_DEVICE",
           }
         );
+        console.info(tokenResponse.url);
 
         const token_data = await tokenResponse.json();
 
@@ -336,14 +465,13 @@ function App() {
     },
     syncData: function syncPushshiftData() {
       let ids = [];
-      for (let key in api) {
-        if (api[key].domain) {
-          ids.push(`t3_${api[key].id}`);
+      for (let key in queueState) {
+        if (queueState[key].domain) {
+          ids.push(`t3_${queueState[key].id}`);
         } else {
-          ids.push(`t1_${api[key].id}`);
+          ids.push(`t1_${queueState[key].id}`);
         }
       }
-
       let idTags = ids.join(",");
       const postIdChunks = [];
       for (let i = 0; i < ids.length; i += 100) {
@@ -352,7 +480,10 @@ function App() {
       }
 
       try {
-        if (JSON.parse(window.sessionStorage.getItem("reddit_access_token"))) {
+        if (
+          JSON.parse(window.sessionStorage.getItem("reddit_access_token")) &&
+          queueState
+        ) {
           let token = JSON.parse(
             window.sessionStorage.getItem("reddit_access_token")
           ).access_token;
@@ -363,72 +494,83 @@ function App() {
                   Authorization: "Bearer " + token,
                 },
               }).then(function (response) {
-                console.info("fetched reddit data");
-                console.info(response.url);
                 return response.json();
               })
             )
           ).then(function (redditData) {
-            for (var i = 0; i < redditData.length; i++) {
-              let dataRed = redditData[i].data.children;
-              for (let apiKeys in api) {
-                for (let redditKeys in dataRed) {
-                  if (api[apiKeys].id === dataRed[redditKeys].data.id) {
-                    api[apiKeys].upvote_ratio =
-                      dataRed[redditKeys].data.upvote_ratio;
-                    api[apiKeys].kind = dataRed[redditKeys].kind;
+            if (queueState) {
+              for (var i = 0; i < redditData.length; i++) {
+                let dataRed = redditData[i].data.children;
+                for (let apiKeys in queueState) {
+                  for (let redditKeys in dataRed) {
                     if (
-                      (dataRed[redditKeys].data.author === "[deleted]" &&
-                        dataRed[redditKeys].data.body === "[deleted]") ||
-                      (dataRed[redditKeys].data.author === "[deleted]" &&
-                        dataRed[redditKeys].data.selftext === "[deleted]")
+                      queueState[apiKeys].id === dataRed[redditKeys].data.id
                     ) {
-                      api[apiKeys].is_deleted = "deleted";
-                    } else if (
-                      dataRed[redditKeys].data.body === "[removed]" ||
-                      dataRed[redditKeys].data.selftext === "[removed]"
-                    ) {
-                      api[apiKeys].is_deleted = "removed";
+                      queueState[apiKeys].upvote_ratio =
+                        dataRed[redditKeys].data.upvote_ratio;
+                      queueState[apiKeys].kind = dataRed[redditKeys].kind;
+                      if (
+                        (dataRed[redditKeys].data.author === "[deleted]" &&
+                          dataRed[redditKeys].data.body === "[deleted]") ||
+                        (dataRed[redditKeys].data.author === "[deleted]" &&
+                          dataRed[redditKeys].data.selftext === "[deleted]")
+                      ) {
+                        queueState[apiKeys].is_deleted = "deleted";
+                      } else if (
+                        dataRed[redditKeys].data.body === "[removed]" ||
+                        dataRed[redditKeys].data.selftext === "[removed]"
+                      ) {
+                        queueState[apiKeys].is_deleted = "removed";
+                      }
                     }
                   }
                 }
+                console.info("synced with reddit");
+                ids.length = 0;
               }
-              console.log(redditData, "Reddit Data");
-              setSyncingData(true);
-              console.info("synced with reddit");
+              if (!more) {
+                apiData(queueState);
+                setSyncingData(true);
+              } else if (more) {
+                console.log("mere");
+                apiData((prevArray) => [...prevArray, ...queueState]);
+              }
             }
           });
+          if (queueState.length === 0) {
+            setSyncingData(true);
+          }
         }
       } catch (err) {
         console.log(err);
       }
     },
   };
-
-  console.log(api);
-
-  // ----- fix bug where it cant request more than 100
   // make it work with loadmore
-  // fix max at 200 and add details on requests on loading screen
-  // add all flairs and the rest of the design features
+  // remove before attribute if set to original once queue true,
+  // fetch after decimal
+  // change size attribute
+  // add all flairs and the rest of the design features, issticky, deleted, removed,locked, nsfw, moderator, sub flairs,
   // fix bugs
   // reddit api search
-  // FIX ALL bugs
   // filter search for detled/removed
-
-  // you should be able to create flairs for deleted/ removed posts and be able to add a search option for such
 
   if (!search && apis !== "Miser") {
     apiObj.pushshift();
     redditObj.tokenAuth();
+
     setSearch(true);
     error.current.style.display = "none";
   }
-  let once = false;
-  if (api[0] && apis !== "reddit" && !once) {
-    redditObj.syncData();
-    once = true;
-  }
+  useEffect(() => {
+    let once = false;
+
+    if ((queueState && !once) || more) {
+      redditObj.syncData();
+      once = true;
+    }
+  }, [queueState]);
+
   if (!search && apis === "Miser") {
     apiObj.miser();
     setSearch(true);
@@ -444,13 +586,11 @@ function App() {
       } else if (data.size === api.length) {
         const utc = api.slice(-1)[0].created_utc;
 
-        paramsObj.before
-          ? (paramsObj.before = utc)
-          : (query += "&before=" + utc);
+        before = utc;
 
         console.log(query);
 
-        apiObj.loadMorePushshift();
+        apiObj.pushshift();
 
         setLoadingMessage(true);
       }
@@ -640,6 +780,8 @@ function App() {
                   resultAmt={resultAmt}
                   toggleInput={toggleInput}
                   syncingData={syncingData}
+                  requests={requests}
+                  itemCount={itemCount}
                 />
               </div>
             </div>
