@@ -251,6 +251,7 @@ function SearchForm({
                 <label>NSFW</label>
                 <select
                   className="advanced-input"
+                  value={userinput.over_18}
                   onChange={(e) => {
                     setUserInput({ ...userinput, over_18: e.target.value });
                   }}
@@ -265,6 +266,7 @@ function SearchForm({
                 <label>Stickied</label>
                 <select
                   className="advanced-input"
+                  value={userinput.stickied}
                   onChange={(e) => {
                     setUserInput({ ...userinput, stickied: e.target.value });
                   }}
@@ -279,6 +281,7 @@ function SearchForm({
                 <label>Is Self</label>
                 <select
                   className="advanced-input"
+                  value={userinput.is_self}
                   onChange={(e) => {
                     setUserInput({ ...userinput, is_self: e.target.value });
                   }}
@@ -293,6 +296,7 @@ function SearchForm({
                 <label>Locked</label>
                 <select
                   className="advanced-input"
+                  value={userinput.locked}
                   onChange={(e) => {
                     setUserInput({ ...userinput, locked: e.target.value });
                   }}
@@ -307,6 +311,7 @@ function SearchForm({
                 <label>Distinguished</label>
                 <select
                   className="advanced-input"
+                  value={userinput.distinguished}
                   onChange={(e) => {
                     setUserInput({
                       ...userinput,

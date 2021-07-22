@@ -108,12 +108,13 @@ function App() {
   };
 
   const paramsObj = parseParams(window.location.search);
-  // fix utc paramsObj bug
 
   if (paramsObj.before && !/^\d+$/.test(paramsObj.before)) {
     paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
   }
-
+  if (paramsObj.size > 100) {
+    paramsObj.size = 100;
+  }
   var esc = encodeURIComponent;
   var query = Object.keys(paramsObj)
     .map((k) => esc(k) + "=" + esc(paramsObj[k]))
@@ -129,7 +130,7 @@ function App() {
       ? paramsObj.type.toLowerCase().slice(0, -1).split(" ")
       : "";
   }
-  let before;
+  let before = paramsObj.before ? "" : "";
   function miserURL(id) {
     query.replace(/^[^?]+\?/, "");
     return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}`;
@@ -150,17 +151,26 @@ function App() {
       let getbeforeDec = formula.toString().split(".")[0];
       let beforeDec = parseInt(getbeforeDec, 10);
       let fetchAmt = 0;
+      let afterDec = formula.toString().split(".")[1]
+        ? formula.toString().split(".")[1]
+        : "";
+      let numAfterDec = parseFloat(
+        afterDec.length > 1 ? afterDec : afterDec + "0",
+        10
+      );
+      let afterDecValue = numAfterDec;
+      console.log(afterDecValue);
       if (value.length === 1) {
         console.log(fetchAmt, beforeDec, data.size);
         while (fetchAmt !== beforeDec) {
-          before = queue.slice(-1)[0];
+          if (queue.length > 0) {
+            before = queue.slice(-1)[0];
+          }
 
           console.info("fetching pushshift > 100");
           setRequests((counter) => counter + 1);
 
-          let response = await fetch(
-            pushshiftURL(value[0], before ? before : "")
-          );
+          let response = await fetch(pushshiftURL(value[0], before));
 
           console.info(response.url);
 
@@ -187,18 +197,40 @@ function App() {
           console.info("cooldown between request");
           await timer(1500);
         }
+        if (afterDecValue && value.length == 1) {
+          console.info("fetching rest of data");
+          setRequests((counter) => counter + 1);
+          before = queue.slice(-1)[0];
+
+          let moreResponse = await fetch(
+            `https://api.pushshift.io/reddit/search/${
+              value[0]
+            }/?${query.replace(/size=\d+/, `size=${afterDecValue}`)}${
+              before ? `&before=${before}` : ""
+            }&html_decode=true`
+          );
+
+          console.info(moreResponse.url);
+
+          let moreResponseData = await moreResponse.json();
+
+          setItemCount((counter) => counter + moreResponseData.data.length);
+          apiDatas.push(moreResponseData.data);
+        }
       } else if (value.length > 1) {
         console.log(fetchAmt, beforeDec, data.size);
         while (fetchAmt !== beforeDec) {
-          let before = queue.slice(-1)[0];
-
+          if (queue.length > 0) {
+            before = queue.slice(-1)[0];
+          }
+          console.log(query);
           console.info("fetching pushshift > 100");
           setRequests((counter) => counter + 1);
           let submission = await fetch(
-            pushshiftURL("submission", before ? before : "")
+            pushshiftURL("submission", paramsObj.before ? "" : before)
           );
           let comment = await fetch(
-            pushshiftURL("comment", before ? before : "")
+            pushshiftURL("comment", paramsObj.before ? "" : before)
           );
           if (comment.status === 404) {
             throw new pRetry.AbortError(comment.statusText);
@@ -239,6 +271,42 @@ function App() {
           console.info("cooldown between request");
           await timer(1500);
         }
+
+        if (afterDecValue && value.length > 1) {
+          console.info("fetching rest of data");
+          setRequests((counter) => counter + 1);
+          before = queue.slice(-1)[0];
+
+          let moreSub = await fetch(
+            `https://api.pushshift.io/reddit/search/submission/?${query.replace(
+              /size=\d+/,
+              `size=${afterDecValue}`
+            )}${before ? `&before=${before}` : ""}&html_decode=true`
+          );
+          let moreCom = await fetch(
+            `https://api.pushshift.io/reddit/search/comment/?${query.replace(
+              /size=\d+/,
+              `size=${afterDecValue}`
+            )}${before ? `&before=${before}` : ""}&html_decode=true`
+          );
+          console.info(moreSub.url);
+          console.info(moreCom.url);
+
+          let moreCommentData = await moreCom.json();
+          let moreSubmissionData = await moreSub.json();
+
+          let newData = moreSubmissionData
+            ? moreSubmissionData.data.concat(moreCommentData.data)
+            : "";
+          let sortedMoreData = newData
+            ? newData.sort((a, b) => {
+                return b.created_utc - a.created_utc;
+              })
+            : "";
+          setItemCount((counter) => counter + sortedMoreData.length);
+
+          apiDatas.push(sortedMoreData);
+        }
       }
       {
         setQueue(apiDatas.concat.apply([], apiDatas));
@@ -258,7 +326,7 @@ function App() {
         if (data.size <= 100) {
           Promise.all(
             value.map((id) =>
-              fetch(pushshiftURL(id)).then(function (response) {
+              fetch(pushshiftURL(id, before)).then(function (response) {
                 console.info(response.url);
                 console.info("fetching <= 100");
                 setRequests(requests + 1);
@@ -298,34 +366,6 @@ function App() {
         } else if (data.size > 100) {
           fetchManyCalls();
         }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    loadMorePushshift: function loadMore() {
-      try {
-        Promise.all(
-          value.map((id) =>
-            fetch(pushshiftURL(id)).then(function (response) {
-              console.log(response.url);
-              return response.json();
-            })
-          )
-        ).then(function (data) {
-          if (value.length == 1) {
-            apiData((prevArray) => [...prevArray, ...data[0].data]);
-          } else {
-            Promise.all([...data[0].data, ...data[1].data]).then(
-              (requestData) => {
-                requestData.sort(function (a, b) {
-                  return new Date(b.created_utc) - new Date(a.created_utc);
-                });
-                apiData((prevArray) => [...prevArray, ...requestData]);
-                setLoadingMessage(false);
-              }
-            );
-          }
-        });
       } catch (err) {
         console.log(err);
       }
@@ -546,14 +586,11 @@ function App() {
       }
     },
   };
-  // make it work with loadmore
-  // remove before attribute if set to original once queue true,
-  // fetch after decimal
-  // change size attribute
   // add all flairs and the rest of the design features, issticky, deleted, removed,locked, nsfw, moderator, sub flairs,
   // fix bugs
   // reddit api search
   // filter search for detled/removed
+  // add clear
 
   if (!search && apis !== "Miser") {
     apiObj.pushshift();
@@ -582,8 +619,9 @@ function App() {
       if (data.size < api.length) {
         data.size += 25;
         setMore(false);
+
         setLoadingMessage(false);
-      } else if (data.size === api.length) {
+      } else if (data.size === api.length || data.size > api.length) {
         const utc = api.slice(-1)[0].created_utc;
 
         before = utc;
@@ -613,8 +651,8 @@ function App() {
         setLoadingMessage(true);
       }
     }
-  });
-
+  }, [more, api]);
+  console.log(data.size, api.length);
   let resultAmt = 0;
   if (api.length === 1 && !api[0]) {
     resultAmt = 0;

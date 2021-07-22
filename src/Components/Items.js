@@ -72,7 +72,6 @@ function Items({
         ) : (
           false
         )}
-
         {syncingData &&
           api.slice(0, size).map((e, i) => {
             const months = {
@@ -153,6 +152,12 @@ function Items({
               } else {
                 error.current.style.display = "none";
               }
+              if (size > api.length) {
+                showMore.current.style.display = "block";
+              }
+              if (size > api.length) {
+                showMore.current.style.display = "none";
+              }
               const text = SnuOwnd.getParser().render(
                 e.body ? e.body : e.selftext ? e.selftext : ""
               );
@@ -192,10 +197,26 @@ function Items({
                             e.domain.slice(0, 4) === "self") ||
                           e.thumbnail === "self" ? (
                             <div id="self-post">
-                              <i
-                                className="fa fa-file-text-o"
-                                aria-hidden="true"
-                              ></i>
+                              {e.is_deleted ? (
+                                <i
+                                  class="fa fa-trash"
+                                  style={{
+                                    fontSize: "30px",
+                                    color: "white",
+                                  }}
+                                  aria-hidden="true"
+                                ></i>
+                              ) : (
+                                ""
+                              )}
+                              <div
+                                style={{ opacity: e.is_deleted ? "0.3" : "" }}
+                              >
+                                <i
+                                  className="fa fa-file-text-o"
+                                  aria-hidden="true"
+                                ></i>
+                              </div>{" "}
                             </div>
                           ) : (
                             ""
@@ -243,6 +264,13 @@ function Items({
                                       {" "}
                                       {e.title}
                                     </a>{" "}
+                                    {e.is_deleted ? (
+                                      <span id="is-deleted">
+                                        {e.is_deleted}
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
                                     <a id="domain" href={e.url}>
                                       ({e.domain})
                                     </a>
@@ -261,9 +289,7 @@ function Items({
                             {" "}
                             {timeSince(new Date(postDate))} ago in{" "}
                           </a>
-                          <a className="subreddit">
-                            r/{e.subreddit} {e.is_deleted}
-                          </a>
+                          <a className="subreddit">r/{e.subreddit}</a>
                           <div id="tags">
                             <div id="upvote">
                               <i class="fa fa-arrow-up" aria-hidden="true">
@@ -327,10 +353,40 @@ function Items({
             } else {
               showMore.current.style.display = "none";
             }
-          })}
-        <button id="load-more" onClick={more} ref={showMore}>
-          {loadingMessage ? "Loading..." : "Load More"}
-        </button>
+          })}{" "}
+        <button
+          id="load-more"
+          onClick={more}
+          ref={showMore}
+          style={{ pointerEvents: loadingMessage ? "none" : "" }}
+        >
+          <div id="load-more-wrapper">
+            {loadingMessage ? (
+              <div id="load-more-parent">
+                {" "}
+                <i
+                  className="fa fa-cog fa-spin"
+                  style={{
+                    color: "white",
+                    fontSize: "2em",
+                    position: "relative",
+                    display: "flex",
+                    alignContent: "center",
+                    fontSmooth: "auto",
+                    bottom: "1px",
+                  }}
+                ></i>
+              </div>
+            ) : (
+              ""
+            )}
+            <div id="load-more-text">
+              {loadingMessage
+                ? `Loading • Fetching ${itemCount}/${size} items in ${requests} requests`
+                : "Load More"}{" "}
+            </div>{" "}
+          </div>{" "}
+        </button>{" "}
       </div>
     </div>
   );
