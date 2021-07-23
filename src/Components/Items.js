@@ -26,12 +26,19 @@ function Items({
   const results = useRef(false);
   const bodyText = useRef(false);
   const titleText = useRef(false);
-
+  const [imageExpanded, setImageExpand] = useState({ expanded: "" });
   const showMore = useRef();
   const description = useRef();
   const more = (event) => {
     setMore(true);
   };
+  function expand(i) {
+    setImageExpand({ expanded: i });
+    if (imageExpanded) {
+      setImageExpand(false);
+    }
+  }
+
   const SnuOwnd = require("snuownd");
   return (
     <div
@@ -179,6 +186,12 @@ function Items({
                           e.thumbnail !== "spoiler" ? (
                             <div
                               id="image"
+                              onClick={() => {
+                                setImageExpand({ expanded: i });
+                                if (imageExpanded.expanded === i) {
+                                  setImageExpand({ expanded: false });
+                                }
+                              }}
                               style={{
                                 backgroundImage: `url(${
                                   e.url.substring(e.url.length - 3) === "bmp" ||
@@ -201,8 +214,9 @@ function Items({
                                 <i
                                   class="fa fa-trash"
                                   style={{
-                                    fontSize: "30px",
+                                    fontSize: "25px",
                                     color: "white",
+                                    zIndex: "999",
                                   }}
                                   aria-hidden="true"
                                 ></i>
@@ -210,10 +224,13 @@ function Items({
                                 ""
                               )}
                               <div
-                                style={{ opacity: e.is_deleted ? "0.3" : "" }}
+                                style={{
+                                  opacity: e.is_deleted ? "0.4" : "",
+                                  filter: "brightness(0.75)",
+                                }}
                               >
                                 <i
-                                  className="fa fa-file-text-o"
+                                  className="fa fa-file-text"
                                   aria-hidden="true"
                                 ></i>
                               </div>{" "}
@@ -224,10 +241,31 @@ function Items({
                           {e.thumbnail === "nsfw" ||
                           e.thumbnail === "spoiler" ? (
                             <div id="nsfw">
-                              <i
-                                className="fa fa-user-secret"
-                                aria-hidden="true"
-                              ></i>
+                              {" "}
+                              {e.is_deleted ? (
+                                <i
+                                  class="fa fa-trash"
+                                  style={{
+                                    fontSize: "25px",
+                                    color: "white",
+                                    zIndex: "999",
+                                  }}
+                                  aria-hidden="true"
+                                ></i>
+                              ) : (
+                                ""
+                              )}
+                              <div
+                                style={{
+                                  opacity: e.is_deleted ? "0.4" : "",
+                                  filter: "brightness(0.75)",
+                                }}
+                              >
+                                <i
+                                  className="fa fa-user-secret"
+                                  aria-hidden="true"
+                                ></i>
+                              </div>{" "}
                             </div>
                           ) : (
                             ""
@@ -238,7 +276,27 @@ function Items({
                           (e.thumbnail !== "nsfw" &&
                             e.thumbnail === "image") ? (
                             <div id="link-post">
-                              <i class="fa fa-link" aria-hidden="true"></i>
+                              {e.is_deleted ? (
+                                <i
+                                  class="fa fa-trash"
+                                  style={{
+                                    fontSize: "25px",
+                                    color: "white",
+                                    zIndex: "999",
+                                  }}
+                                  aria-hidden="true"
+                                ></i>
+                              ) : (
+                                ""
+                              )}
+                              <div
+                                style={{
+                                  opacity: e.is_deleted ? "0.4" : "",
+                                  filter: "brightness(0.75)",
+                                }}
+                              >
+                                <i class="fa fa-link" aria-hidden="true"></i>
+                              </div>{" "}
                             </div>
                           ) : (
                             ""
@@ -266,7 +324,87 @@ function Items({
                                     </a>{" "}
                                     {e.is_deleted ? (
                                       <span id="is-deleted">
-                                        {e.is_deleted}
+                                        {e.is_deleted}{" "}
+                                        <i
+                                          style={{
+                                            position: "relative",
+                                            lineHeight: "0px",
+                                            fontWeight: "200",
+                                            display: "inline-block",
+                                          }}
+                                          class="fa fa-trash-o"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {e.over_18 ? (
+                                      <span id="NSFW-flair">
+                                        NSFW{" "}
+                                        <i
+                                          style={{
+                                            position: "relative",
+                                            lineHeight: "0px",
+                                            fontWeight: "200",
+                                            display: "inline-block",
+                                          }}
+                                          class="fa fa-eye-slash"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {e.stickied ? (
+                                      <span id="stickied-flair">
+                                        Stickied{" "}
+                                        <i
+                                          style={{
+                                            position: "relative",
+                                            lineHeight: "0px",
+                                            fontWeight: "200",
+                                            display: "inline-block",
+                                          }}
+                                          class="fa fa-sticky-note-o"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {e.locked ? (
+                                      <span id="locked-flair">
+                                        Locked{" "}
+                                        <i
+                                          style={{
+                                            position: "relative",
+                                            lineHeight: "0px",
+                                            fontWeight: "200",
+                                            display: "inline-block",
+                                          }}
+                                          class="fa fa-lock"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {e.distinguished ? (
+                                      <span id="distinguished-flair">
+                                        {e.distinguished === "moderator"
+                                          ? "moderator"
+                                          : "admin"}{" "}
+                                        <i
+                                          style={{
+                                            position: "relative",
+                                            lineHeight: "0px",
+                                            fontWeight: "200",
+                                            display: "inline-block",
+                                          }}
+                                          class="fa fa-lock"
+                                          aria-hidden="true"
+                                        ></i>
                                       </span>
                                     ) : (
                                       ""
@@ -289,7 +427,21 @@ function Items({
                             {" "}
                             {timeSince(new Date(postDate))} ago in{" "}
                           </a>
-                          <a className="subreddit">r/{e.subreddit}</a>
+                          <a className="subreddit">r/{e.subreddit}</a>{" "}
+                          {e.is_deleted && e.kind === "t1" ? (
+                            <i
+                              class="fa fa-trash-o"
+                              title={e.is_deleted}
+                              style={{
+                                fontSize: "15px",
+                                color: "#eee",
+                                zIndex: "999",
+                              }}
+                              aria-hidden="true"
+                            ></i>
+                          ) : (
+                            ""
+                          )}
                           <div id="tags">
                             <div id="upvote">
                               <i class="fa fa-arrow-up" aria-hidden="true">
@@ -316,11 +468,33 @@ function Items({
                         </div>
                       </div>
                     </div>
-                    {e.body || e.selftext ? (
+                    {e.body ||
+                    e.selftext ||
+                    (e.kind === "t3" && imageExpanded.expanded === i) ? (
                       <div id="body-parent">
                         <Marker mark={searchTerm}>
                           <div id="body" ref={bodyText}>
                             {parse(text)}
+                            {e.kind === "t3"
+                              ? !e.url.match(
+                                  "^(https?|ftp)://.*(jpg|png|gif|bmp)"
+                                )
+                                ? e.url
+                                : ""
+                              : ""}
+                            {e.kind === "t3" ? (
+                              <div id="body-image">
+                                {e.url.match(
+                                  "^(https?|ftp)://.*(jpg|png|gif|bmp)"
+                                ) ? (
+                                  <img src={e.url} />
+                                ) : (
+                                  ""
+                                )}{" "}
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </Marker>
                       </div>

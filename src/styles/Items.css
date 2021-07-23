@@ -45,19 +45,106 @@
   margin-left: 0;
   margin-right: 5px;
   overflow: hidden;
-  padding: 0 4px;
+  padding: 8px 4px;
   text-overflow: ellipsis;
   vertical-align: middle;
   white-space: nowrap;
   max-width: none;
   display: inline-block;
   margin-right: 0.5em;
-  background: #333;
-  color: #eee;
+  color: rgb(255, 255, 255);
+  unicode-bidi: isolate;
+  line-height: 0;
+  border: 1px solid;
+  text-transform: capitalize;
+}
+#NSFW-flair {
+  font-size: 12px;
+  font-weight: 500;
   border-radius: 2px;
+  display: inline-block;
+  height: 16px;
+  margin-left: 0;
+  margin-right: 5px;
+  overflow: hidden;
+  padding: 8px 4px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: none;
+  display: inline-block;
+  margin-right: 0.5em;
+  color: #c5344c;
   unicode-bidi: isolate;
   text-transform: uppercase;
-  line-height: 16px;
+  line-height: 0;
+  border: 1px solid;
+}
+#stickied-flair {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  display: inline-block;
+  height: 16px;
+  margin-left: 0;
+  margin-right: 5px;
+  overflow: hidden;
+  padding: 8px 4px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: none;
+  display: inline-block;
+  margin-right: 0.5em;
+  color: rgb(92, 167, 92);
+  unicode-bidi: isolate;
+  line-height: 0;
+  border: 1px solid;
+  text-transform: capitalize;
+}
+#locked-flair {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  display: inline-block;
+  height: 16px;
+  margin-left: 0;
+  margin-right: 5px;
+  overflow: hidden;
+  padding: 8px 4px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: none;
+  display: inline-block;
+  margin-right: 0.5em;
+  color: #ffd634;
+  unicode-bidi: isolate;
+  text-transform: capitalize;
+  line-height: 0;
+  border: 1px solid;
+}
+#distinguished-flair {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  display: inline-block;
+  height: 16px;
+  margin-left: 0;
+  margin-right: 5px;
+  overflow: hidden;
+  padding: 8px 4px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+  max-width: none;
+  display: inline-block;
+  margin-right: 0.5em;
+  color: rgb(92, 167, 92);
+  unicode-bidi: isolate;
+  line-height: 0;
+  border: 1px solid;
+  text-transform: capitalize;
 }
 
 #title-anchor-child {
@@ -403,6 +490,16 @@ a {
   background-color: #555;
 }
 
+#body-image {
+  width: 30%;
+  height: 30%;
+  display: flex;
+  justify-content: center !important;
+}
+#body-image img {
+  height: auto;
+  max-width: 100%;
+}
 #link-post {
   max-width: 80px !important;
   height: 100%;
@@ -424,7 +521,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   color: #eee;
 }
 #nsfw .fa {
@@ -432,6 +533,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
   color: #eee;
 }

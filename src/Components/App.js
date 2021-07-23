@@ -223,7 +223,6 @@ function App() {
           if (queue.length > 0) {
             before = queue.slice(-1)[0];
           }
-          console.log(query);
           console.info("fetching pushshift > 100");
           setRequests((counter) => counter + 1);
           let submission = await fetch(
@@ -652,7 +651,6 @@ function App() {
       }
     }
   }, [more, api]);
-  console.log(data.size, api.length);
   let resultAmt = 0;
   if (api.length === 1 && !api[0]) {
     resultAmt = 0;
@@ -702,7 +700,7 @@ function App() {
       document.body.classList.remove("light-mode");
     }
   }, [toggleInput]);
-
+  console.log(api);
   return (
     <Router basename={process.env.PUBLIC_URL} forceRefresh>
       <div className="App">
