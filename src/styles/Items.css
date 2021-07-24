@@ -370,61 +370,81 @@ a {
   font-size: small;
 }
 .light-results-tag {
-  background-color: #0069c0 !important;
-  color: rgba(255, 255, 255, 0.815) !important;
+  background-color: #e9ecef !important;
+  color: #495057 !important;
 }
 .light-results {
-  border: 1px solid white !important;
+  border: 1px solid #adb5bd !important;
 }
 .light-results .parent {
-  background-color: #137fd9;
-  border: 1px solid #6bbef9;
+  background-color: #ced4da;
+  border: 1px solid #dee2e6;
 }
 .light-results #nsfw {
-  background-color: #0f3253;
+  background-color: #343a40;
 }
 .light-results #link-post {
-  background-color: #0f3253;
+  background-color: #343a40;
 }
 .light-results #self-post {
-  background-color: #0f3253;
+  background-color: #343a40;
 }
 
 .light-results #details-child {
-  color: #eee;
+  color: #212529;
 }
+
 .light-results #title #domain {
-  color: white;
+  color: #495057;
+}
+
+.light-results #title #is-deleted {
+  color: #495057;
+}
+.light-results #title p {
+  color: #495057;
 }
 .light-results #view-on-reddit a {
-  color: #eee !important;
+  color: #495057 !important;
 }
 .light-results #body {
-  background-color: #2196f3;
+  background-color: #dee2e6;
 
-  color: #fff;
+  color: #495057;
 }
 .light-results #body a {
   color: rgba(0, 0, 255, 0.671);
 }
 .light-results #body-parent {
-  background-color: #2196f3;
+  background-color: #dee2e6;
 
   color: #fff;
 }
+.light-results #loading-text {
+  color: #495057;
+}
+.light-results #title #title-anchor-child:visited {
+  color: #495057 !important;
+  text-decoration: none;
+}
+
 .light-results #upvote {
-  background-color: #2196f3;
-  color: #fff;
+  background-color: #dee2e6;
+  color: #495057;
+}
+.light-results #upvote-percentage {
+  background-color: #dee2e6;
+  color: #495057;
 }
 
 .light-results #load-more {
-  background-color: #2195f3d8;
+  background-color: #adb5bd;
 }
 .light-results #load-more:hover {
-  background-color: #2195f3;
+  background-color: #adb5bddc;
 }
 .light-results #loader-wrapper {
-  border: 1px solid #6bbef9;
+  border: 1px solid #adb5bd96;
 }
 #view-on-reddit {
   position: relative;
@@ -489,19 +509,7 @@ a {
   background-position: center;
   background-color: #555;
 }
-#nsfw-image {
-  max-width: 80px !important;
-  height: 100%;
-  image-rendering: -webkit-optimize-contrast;
-  display: flex;
-  justify-content: center;
-  min-width: 80px;
-  position: relative;
-  border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-  background-color: #555;
-}
+
 #image .fa {
   position: absolute;
   left: 50%;
@@ -509,7 +517,7 @@ a {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   display: none;
-  color: #eee;
+  color: white !important;
 }
 
 #image:hover {

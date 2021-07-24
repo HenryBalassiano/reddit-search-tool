@@ -1,6 +1,6 @@
 import "../styles/Loader.css";
 
-function Loader() {
+function Loader({ toggleInput }) {
   return (
     <div id="loader-parent">
       {" "}
@@ -14,6 +14,7 @@ function Loader() {
           alignContent: "center",
           top: "2px",
           fontSmooth: "auto",
+          color: toggleInput ? "#495057" : "#eee",
         }}
       ></i>
     </div>

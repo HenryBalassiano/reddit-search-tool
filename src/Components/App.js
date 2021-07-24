@@ -115,6 +115,9 @@ function App() {
   if (paramsObj.size > 100) {
     paramsObj.size = 100;
   }
+  if (paramsObj.score) {
+    paramsObj.score = ">" + paramsObj.score;
+  }
   var esc = encodeURIComponent;
   var query = Object.keys(paramsObj)
     .map((k) => esc(k) + "=" + esc(paramsObj[k]))
@@ -131,6 +134,7 @@ function App() {
       : "";
   }
   let before = paramsObj.before ? "" : "";
+
   function miserURL(id) {
     query.replace(/^[^?]+\?/, "");
     return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}`;
@@ -589,9 +593,10 @@ function App() {
   // reddit api search/miser
   // filter search for detled/removed
   // add clear
-  // light/dark
+  // ---light/dark
   //save search
   // analytics
+  // download button
   // about section
 
   if (!search && apis !== "Miser") {
@@ -703,7 +708,6 @@ function App() {
       document.body.classList.remove("light-mode");
     }
   }, [toggleInput]);
-  console.log(api);
   return (
     <Router basename={process.env.PUBLIC_URL} forceRefresh>
       <div className="App">

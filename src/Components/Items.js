@@ -71,7 +71,7 @@ function Items({
         </div>
         {!syncingData && errorMessage !== "No Results" ? (
           <div id="loader-wrapper">
-            <Loader />{" "}
+            <Loader toggleInput={toggleInput} />{" "}
             <div id="loading-text">
               Loading &#8226;{" "}
               {`Fetching ${itemCount}/${size} items in ${requests} requests`}{" "}
@@ -548,6 +548,7 @@ function Items({
                     alignContent: "center",
                     fontSmooth: "auto",
                     bottom: "1px",
+                    color: toggleInput ? "#495057" : "#eee",
                   }}
                 ></i>
               </div>

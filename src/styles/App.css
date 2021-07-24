@@ -17,21 +17,20 @@ html {
   margin-top: -1em;
 }
 .light-pushift {
-  color: #ccc !important;
+  color: #adb5bd !important;
+}
+.light-mode .active {
+  color: #212529 !important;
+  border-bottom: #212529 4px solid;
+}
+.light-mode .non-active {
+  color: #212529 !important;
 }
 .light-mode {
-  background-color: #0069c0;
+  background-color: #e9ecef;
 }
-.theme-light {
-  --color-primary: #0060df;
-  --color-accent: #fd6f53;
-  --font-color: #000000;
-}
-.theme-dark {
-  --color-primary: #17ed90;
-  --color-secondary: #2a2c2d;
-  --color-accent: #12cdea;
-  --font-color: #ffffff;
+.light-mode #logo-text {
+  color: #6c757d;
 }
 
 .container {
@@ -78,7 +77,7 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(119, 119, 119);
+  background-color: #888;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -96,13 +95,13 @@ html {
   -webkit-transition: 0.4s;
   transition: 0.4s;
   box-shadow: 0 0px 15px #2020203d;
-  background: white url("https://i.imgur.com/8NZgGGE.png");
+  background: #333;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #f8f9fa;
 }
 
 input:focus + .slider {
@@ -113,7 +112,7 @@ input:checked + .slider:before {
   -webkit-transform: translateX(24px);
   -ms-transform: translateX(24px);
   transform: translateX(24px);
-  background: white url("https://i.imgur.com/Uk2n2kl.png");
+  background: white;
   background-repeat: no-repeat;
   background-position: center;
 }

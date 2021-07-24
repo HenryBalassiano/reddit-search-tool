@@ -51,45 +51,53 @@ input:hover {
   background-color: #2a2a2a;
 }
 .light-form {
-  border: 1px solid white !important;
+  border: 1px solid #adb5bd !important;
 }
 .light-search-tag {
-  background-color: #0069c0 !important;
-  color: rgba(255, 255, 255, 0.815) !important;
+  background-color: #e9ecef !important;
+  color: #495057 !important;
 }
 .light-search-tag .fa {
-  color: rgba(255, 255, 255, 0.815) !important;
+  color: #495057 !important;
 }
 #form-light input {
-  background-color: #6bbef99d;
+  background-color: #adb5bd;
   -webkit-transition: 0.4s;
   transition: 0.4s;
-  color: white;
+  color: #495057;
+}
+#form-light label {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  color: #212529;
 }
 #form-light input:hover {
-  background-color: #6bbef9d0;
+  background-color: #adb5bdab;
   -webkit-transition: none !important;
   -moz-transition: none !important;
   -o-transition: none !important;
   transition: none !important;
 }
 #form-light .fa {
-  color: #eee;
+  color: #495057;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 #form-light input::placeholder {
-  color: #eee;
+  color: #495057;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+
 #form-light select {
-  background-color: #6bbef99d;
+  background-color: #adb5bd;
   -webkit-transition: 0.4s;
+  color: #495057;
+
   transition: 0.4s;
 }
 #form-light select option {
-  background: #1a1c1f70 !important;
+  background: #ced4da !important;
 }
 #form-parent {
   position: relative;
