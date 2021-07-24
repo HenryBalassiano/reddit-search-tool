@@ -489,12 +489,47 @@ a {
   background-position: center;
   background-color: #555;
 }
+#nsfw-image {
+  max-width: 80px !important;
+  height: 100%;
+  image-rendering: -webkit-optimize-contrast;
+  display: flex;
+  justify-content: center;
+  min-width: 80px;
+  position: relative;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-color: #555;
+}
+#image .fa {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: none;
+  color: #eee;
+}
+
+#image:hover {
+  filter: brightness(0.75);
+}
+#image:hover .fa {
+  display: block;
+}
 
 #body-image {
   width: 30%;
   height: 30%;
   display: flex;
   justify-content: center !important;
+}
+@media only screen and (max-width: 620px) {
+  #body-image {
+    width: 70%;
+    height: 70%;
+  }
 }
 #body-image img {
   height: auto;

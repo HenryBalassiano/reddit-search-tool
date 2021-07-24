@@ -345,23 +345,23 @@ body {
   }
 }
 @media only screen and (max-width: 620px) {
-  nav {
-    bottom: 7em;
-    right: 8em;
-  }
   #logo-text {
-    left: -1.4em;
     font-size: 2.5em;
   }
+  #logo-parent {
+    justify-content: left;
+    position: relative;
+    right: -10em;
+  }
   #pushift-descript {
-    right: 0.05em;
+    right: 3.5em;
     font-size: 1.5em;
     bottom: 2.6em;
   }
   #container-parent {
-    left: 11.4em;
+    left: 35vw;
   }
   nav {
-    right: 10em;
+    right: 32vw;
   }
 }

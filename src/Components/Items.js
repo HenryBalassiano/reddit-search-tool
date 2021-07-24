@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import { useEffect, useRef, useState } from "react";
 import Marker from "react-mark.js/Marker";
 import parse from "html-react-parser";
+import moment from "moment";
 
 function Items({
   api,
@@ -97,32 +98,6 @@ function Items({
             };
             const date = new Date(e.created_utc * 1000);
             const postDate = date.toString();
-            function timeSince(date) {
-              var seconds = Math.floor((new Date() - date) / 1000);
-
-              var interval = seconds / 31536000;
-
-              if (interval > 1) {
-                return Math.floor(interval) + " years";
-              }
-              interval = seconds / 2592000;
-              if (interval > 1) {
-                return Math.floor(interval) + " months";
-              }
-              interval = seconds / 86400;
-              if (interval > 1) {
-                return Math.floor(interval) + " days";
-              }
-              interval = seconds / 3600;
-              if (interval > 1) {
-                return Math.floor(interval) + " hours";
-              }
-              interval = seconds / 60;
-              if (interval > 1) {
-                return Math.floor(interval) + " minutes";
-              }
-              return Math.floor(seconds) + " seconds";
-            }
 
             const num = months[postDate.slice(4, 7)];
 
@@ -179,11 +154,13 @@ function Items({
                     <div className="image-parent">
                       {e.domain ? (
                         <div id="image-child">
-                          {e.thumbnail !== "self" &&
-                          e.thumbnail !== "default" &&
-                          e.thumbnail !== "nsfw" &&
-                          e.thumbnail !== "image" &&
-                          e.thumbnail !== "spoiler" ? (
+                          {(e.thumbnail !== "self" &&
+                            e.thumbnail !== "default" &&
+                            e.thumbnail !== "nsfw" &&
+                            e.thumbnail !== "image" &&
+                            e.thumbnail !== "spoiler") ||
+                          (e.thumbnail === "nsfw" &&
+                            localStorage.getItem("setting3") !== "checked") ? (
                             <div
                               id="image"
                               onClick={() => {
@@ -202,7 +179,17 @@ function Items({
                                     : e.thumbnail
                                 })`,
                               }}
-                            ></div>
+                            >
+                              <i
+                                class="fa fa-expand"
+                                style={{
+                                  fontSize: "25px",
+                                  color: "white",
+                                  zIndex: "999",
+                                }}
+                                aria-hidden="true"
+                              ></i>
+                            </div>
                           ) : (
                             ""
                           )}
@@ -238,8 +225,10 @@ function Items({
                           ) : (
                             ""
                           )}
-                          {e.thumbnail === "nsfw" ||
-                          e.thumbnail === "spoiler" ? (
+                          {(e.thumbnail === "nsfw" &&
+                            localStorage.getItem("setting3") === "checked") ||
+                          (e.thumbnail === "spoiler" &&
+                            localStorage.getItem("setting3") === "checked") ? (
                             <div id="nsfw">
                               {" "}
                               {e.is_deleted ? (
@@ -402,7 +391,7 @@ function Items({
                                             fontWeight: "200",
                                             display: "inline-block",
                                           }}
-                                          class="fa fa-lock"
+                                          class="fa fa-shield"
                                           aria-hidden="true"
                                         ></i>
                                       </span>
@@ -425,7 +414,7 @@ function Items({
                           <a className="author">u/{e.author}</a>
                           <a title={new Date(postDate)}>
                             {" "}
-                            {timeSince(new Date(postDate))} ago in{" "}
+                            {moment(new Date(postDate)).fromNow()} in{" "}
                           </a>
                           <a className="subreddit">r/{e.subreddit}</a>{" "}
                           {e.is_deleted && e.kind === "t1" ? (
@@ -475,13 +464,24 @@ function Items({
                         <Marker mark={searchTerm}>
                           <div id="body" ref={bodyText}>
                             {parse(text)}
-                            {e.kind === "t3"
-                              ? !e.url.match(
-                                  "^(https?|ftp)://.*(jpg|png|gif|bmp)"
-                                )
-                                ? e.url
-                                : ""
-                              : ""}
+                            {e.kind === "t3" &&
+                            e.thumbnail !== "self" &&
+                            e.thumbnail !== "default" &&
+                            e.thumbnail !== "nsfw" &&
+                            e.thumbnail !== "image" &&
+                            e.thumbnail !== "spoiler" ? (
+                              !e.url.match(
+                                "^(https?|ftp)://.*(jpg|png|gif|bmp)"
+                              ) ? (
+                                <a href={e.url} target="_blank">
+                                  {e.url}
+                                </a>
+                              ) : (
+                                ""
+                              )
+                            ) : (
+                              ""
+                            )}
                             {e.kind === "t3" ? (
                               <div id="body-image">
                                 {e.url.match(

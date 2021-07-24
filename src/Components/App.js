@@ -585,11 +585,14 @@ function App() {
       }
     },
   };
-  // add all flairs and the rest of the design features, issticky, deleted, removed,locked, nsfw, moderator, sub flairs,
-  // fix bugs
-  // reddit api search
+
+  // reddit api search/miser
   // filter search for detled/removed
   // add clear
+  // light/dark
+  //save search
+  // analytics
+  // about section
 
   if (!search && apis !== "Miser") {
     apiObj.pushshift();
