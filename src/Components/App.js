@@ -599,6 +599,17 @@ function App() {
   // download button
   // about section
 
+  // ----features
+  // infinite requests
+  // light/dark
+  //filter for deletd
+  // synced with reddit
+  // save searches
+  // analatyics on username
+  // interactive and detailed UI
+  // download user data
+  // differnt API
+  console.log(api);
   if (!search && apis !== "Miser") {
     apiObj.pushshift();
     redditObj.tokenAuth();

@@ -180,6 +180,44 @@ function Items({
                                 })`,
                               }}
                             >
+                              {localStorage.getItem("setting3") !== "checked" &&
+                              !e.url.match(
+                                "^(https?|ftp)://.*(jpg|png|gif|bmp)"
+                              ) &&
+                              !e.thumbnail.match(
+                                "^(https?|ftp)://.*(jpg|png|gif|bmp)"
+                              ) &&
+                              e.thumbnail === "nsfw" ? (
+                                <div id="nsfw">
+                                  {" "}
+                                  {e.is_deleted ? (
+                                    <i
+                                      class="fa fa-trash"
+                                      style={{
+                                        fontSize: "25px",
+                                        color: "white",
+                                        zIndex: "999",
+                                      }}
+                                      aria-hidden="true"
+                                    ></i>
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div
+                                    style={{
+                                      opacity: e.is_deleted ? "0.4" : "",
+                                      filter: "brightness(0.75)",
+                                    }}
+                                  >
+                                    <i
+                                      className="fa fa-eye-slash"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </div>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
                               <i
                                 class="fa fa-expand"
                                 style={{

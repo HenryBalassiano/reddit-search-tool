@@ -510,21 +510,31 @@ a {
   background-color: #555;
 }
 
-#image .fa {
+#image .fa-expand {
   position: absolute;
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  display: none;
+  visibility: hidden;
   color: white !important;
 }
+#image .fa-eye-slash {
+  max-width: 80px !important;
+  height: 100%;
 
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  min-width: 80px;
+  position: absolute;
+  border-radius: 8px;
+}
 #image:hover {
   filter: brightness(0.75);
 }
 #image:hover .fa {
-  display: block;
+  visibility: visible;
 }
 
 #body-image {
