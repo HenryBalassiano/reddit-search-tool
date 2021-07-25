@@ -383,6 +383,9 @@ a {
 .light-results #nsfw {
   background-color: #343a40;
 }
+.light-results #locked-flair {
+  color: #a5934b;
+}
 .light-results #link-post {
   background-color: #343a40;
 }

@@ -112,8 +112,11 @@ function App() {
   if (paramsObj.before && !/^\d+$/.test(paramsObj.before)) {
     paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
   }
-  if (paramsObj.size > 100) {
+  if (paramsObj.size > 100 && apis !== "Miser") {
     paramsObj.size = 100;
+  }
+  if (paramsObj.size > 1000 && apis === "Miser") {
+    paramsObj.size = 1000;
   }
   if (paramsObj.score) {
     paramsObj.score = ">" + paramsObj.score;
@@ -135,9 +138,11 @@ function App() {
   }
   let before = paramsObj.before ? "" : "";
 
-  function miserURL(id) {
+  function miserURL(id, before) {
     query.replace(/^[^?]+\?/, "");
-    return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}`;
+    return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}${
+      before ? `&before=${before}` : ""
+    }`;
   }
   function pushshiftURL(id, before) {
     query.replace(/^[^?]+\?/, "");
@@ -320,6 +325,178 @@ function App() {
       console.error(err);
     }
   }
+
+  async function fetchManyMiserCalls() {
+    try {
+      const queue = [];
+      const apiDatas = [];
+      let formula = data.size / 100;
+      let getbeforeDec = formula.toString().split(".")[0];
+      let beforeDec = parseInt(getbeforeDec, 10);
+      let fetchAmt = 0;
+      let afterDec = formula.toString().split(".")[1]
+        ? formula.toString().split(".")[1]
+        : "";
+      let numAfterDec = parseFloat(
+        afterDec.length > 1 ? afterDec : afterDec + "0",
+        10
+      );
+      let afterDecValue = numAfterDec;
+      console.log(afterDecValue);
+      if (value.length === 1) {
+        console.log(fetchAmt, beforeDec, data.size);
+        while (fetchAmt !== beforeDec) {
+          if (queue.length > 0) {
+            before = queue.slice(-1)[0];
+          }
+
+          console.info("fetching pushshift > 100");
+          setRequests((counter) => counter + 1);
+
+          let response = await fetch(miserURL(value[0], before));
+
+          console.info(response.url);
+
+          let responseData = await response.json();
+
+          if (responseData.data.length === 0) {
+            if (apiDatas.length === 0) {
+              console.info("break");
+              setError("No Results");
+              error.current.style.display = "block";
+              break;
+            } else {
+              break;
+            }
+          }
+
+          if (responseData.data.length > 0) {
+            setItemCount((counter) => counter + responseData.data.length);
+          }
+          queue.push(responseData.data.slice(-1)[0].created_utc);
+          apiDatas.push(responseData.data);
+
+          fetchAmt += 1;
+          console.info("cooldown between request");
+          await timer(1500);
+        }
+        if (afterDecValue && value.length == 1) {
+          console.info("fetching rest of data");
+          setRequests((counter) => counter + 1);
+          before = queue.slice(-1)[0];
+
+          let moreResponse = await fetch(
+            `https://archivesort.org/discuss/reddit/miser?type=${
+              value[0]
+            }&${query}${before ? `&before=${before}` : ""}`
+          );
+
+          console.info(moreResponse.url);
+
+          let moreResponseData = await moreResponse.json();
+
+          setItemCount((counter) => counter + moreResponseData.data.length);
+          apiDatas.push(moreResponseData.data);
+        }
+      } else if (value.length > 1) {
+        console.log(fetchAmt, beforeDec, data.size);
+        while (fetchAmt !== beforeDec) {
+          if (queue.length > 0) {
+            before = queue.slice(-1)[0];
+          }
+          console.info("fetching miser > 1000");
+          setRequests((counter) => counter + 1);
+          let submission = await fetch(
+            miserURL("submissions", paramsObj.before ? "" : before)
+          );
+          let comment = await fetch(
+            miserURL("comments", paramsObj.before ? "" : before)
+          );
+          if (comment.status === 404) {
+            throw new pRetry.AbortError(comment.statusText);
+          }
+          console.info(comment.url);
+          console.info(submission.url);
+
+          let commentData = await comment.json();
+          let submissionData = await submission.json();
+          let requestData = submissionData
+            ? submissionData.data.concat(commentData.data)
+            : "";
+          let sortedRequest = requestData
+            ? requestData.sort((a, b) => {
+                return b.created_utc - a.created_utc;
+              })
+            : "";
+          if (
+            commentData.data.length === 0 &&
+            submissionData.data.length === 0
+          ) {
+            if (apiDatas.length === 0) {
+              console.info("break");
+              setError("No Results");
+              error.current.style.display = "block";
+              break;
+            } else {
+              break;
+            }
+          }
+          if (sortedRequest) {
+            apiDatas.push(sortedRequest);
+            queue.push(sortedRequest.slice(-1)[0].created_utc);
+            setItemCount((counter) => counter + sortedRequest.length);
+          }
+
+          fetchAmt += 1;
+          console.info("cooldown between request");
+          await timer(1500);
+        }
+
+        if (afterDecValue && value.length > 1) {
+          console.info("fetching rest of data");
+          setRequests((counter) => counter + 1);
+          before = queue.slice(-1)[0];
+
+          let moreSub = await fetch(
+            `https://archivesort.org/discuss/reddit/miser?type=submissions/?${query.replace(
+              /size=\d+/,
+              `size=${afterDecValue}`
+            )}${before ? `&before=${before}` : ""}`
+          );
+          let moreCom = await fetch(
+            `https://archivesort.org/discuss/reddit/miser?type=comments/?${query.replace(
+              /size=\d+/,
+              `size=${afterDecValue}`
+            )}${before ? `&before=${before}` : ""}`
+          );
+          console.info(moreSub.url);
+          console.info(moreCom.url);
+
+          let moreCommentData = await moreCom.json();
+          let moreSubmissionData = await moreSub.json();
+
+          let newData = moreSubmissionData
+            ? moreSubmissionData.data.concat(moreCommentData.data)
+            : "";
+          let sortedMoreData = newData
+            ? newData.sort((a, b) => {
+                return b.created_utc - a.created_utc;
+              })
+            : "";
+          setItemCount((counter) => counter + sortedMoreData.length);
+
+          apiDatas.push(sortedMoreData);
+        }
+      }
+      {
+        setQueue(apiDatas.concat.apply([], apiDatas));
+        queue.length = 0;
+        apiDatas.length = 0;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
   const apiObj = {
     pushshift: function fetchPushshift() {
       try {
@@ -375,76 +552,58 @@ function App() {
     },
     miser: function fetchMiser() {
       try {
-        apiData([false]);
+        if (!more) {
+          apiData([false]);
+        }
         let newValue;
         let newArrValue = [];
         for (var i = 0; i < value.length; i++) {
           newValue = value[i] += "s";
           newArrValue.push(newValue);
         }
-        Promise.all(
-          newArrValue.map((id) =>
-            fetch(miserURL(id)).then(function (response) {
-              console.info(response.url);
-              return response.json();
-            })
-          )
-        ).then(function (data) {
-          if (newArrValue.length == 1) {
-            apiData(data[0].data);
-          } else {
-            Promise.all([...data[0].data, ...data[1].data]).then(
-              (requestData) => {
-                requestData.sort(function (a, b) {
-                  return new Date(b.created_utc) - new Date(a.created_utc);
-                });
-                if (requestData.length === 0) {
-                  setError("No Results");
-                  error.current.style.display = "block";
-                } else {
-                  error.current.style.display = "none";
-                }
-                console.info(requestData, "ITWOR");
+        if (data.size <= 1000) {
+          Promise.all(
+            newArrValue.map((id) =>
+              fetch(miserURL(id, before)).then(function (response) {
+                console.info(response.url);
+                console.info("fetching <= 1000");
+                setRequests(requests + 1);
 
-                apiData(requestData);
+                return response.json();
+              })
+            )
+          ).then(function (data) {
+            if (value.length == 1) {
+              setQueue(data[0].data);
+              if (data[0].data.length === 0) {
+                setError("No Results");
+                error.current.style.display = "block";
+              } else {
+                error.current.style.display = "none";
               }
-            );
-          }
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    loadMoreMiser: function loadMoreMis() {
-      try {
-        let newValue;
-        let newArrValue = [];
-        for (var i = 0; i < value.length; i++) {
-          newValue = value[i] += "s";
-          newArrValue.push(newValue);
+              setItemCount((counter) => counter + data[0].data.length);
+            } else {
+              Promise.all([...data[0].data, ...data[1].data]).then(
+                (requestData) => {
+                  requestData.sort(function (a, b) {
+                    return new Date(b.created_utc) - new Date(a.created_utc);
+                  });
+                  if (requestData.length === 0) {
+                    setError("No Results");
+                    error.current.style.display = "block";
+                  } else {
+                    error.current.style.display = "none";
+                  }
+                  setItemCount((counter) => counter + requestData.length);
+
+                  setQueue(requestData);
+                }
+              );
+            }
+          });
+        } else if (data.size > 1000) {
+          fetchManyMiserCalls();
         }
-        Promise.all(
-          value.map((id) =>
-            fetch(miserURL(id)).then(function (response) {
-              console.log(response.url);
-              return response.json();
-            })
-          )
-        ).then(function (data) {
-          if (newArrValue.length == 1) {
-            apiData((prevArray) => [...prevArray, ...data[0].data]);
-          } else {
-            Promise.all([...data[0].data, ...data[1].data]).then(
-              (requestData) => {
-                requestData.sort(function (a, b) {
-                  return new Date(b.created_utc) - new Date(a.created_utc);
-                });
-                apiData((prevArray) => [...prevArray, ...requestData]);
-                setLoadingMessage(false);
-              }
-            );
-          }
-        });
       } catch (err) {
         console.log(err);
       }
@@ -575,7 +734,6 @@ function App() {
                 apiData(queueState);
                 setSyncingData(true);
               } else if (more) {
-                console.log("mere");
                 apiData((prevArray) => [...prevArray, ...queueState]);
               }
             }
@@ -599,17 +757,6 @@ function App() {
   // download button
   // about section
 
-  // ----features
-  // infinite requests
-  // light/dark
-  //filter for deletd
-  // synced with reddit
-  // save searches
-  // analatyics on username
-  // interactive and detailed UI
-  // download user data
-  // differnt API
-  console.log(api);
   if (!search && apis !== "Miser") {
     apiObj.pushshift();
     redditObj.tokenAuth();
@@ -628,7 +775,10 @@ function App() {
 
   if (!search && apis === "Miser") {
     apiObj.miser();
+    redditObj.tokenAuth();
+
     setSearch(true);
+
     error.current.style.display = "none";
   }
 
@@ -655,17 +805,17 @@ function App() {
       if (data.size < api.length) {
         data.size += 25;
         setMore(false);
+
         setLoadingMessage(false);
-      } else if (data.size === api.length) {
+      } else if (data.size === api.length || data.size > api.length) {
         const utc = api.slice(-1)[0].created_utc;
 
-        paramsObj.before
-          ? (paramsObj.before = utc)
-          : (query += "&before=" + utc);
+        before = utc;
 
         console.log(query);
 
-        apiObj.loadMoreMiser();
+        apiObj.miser();
+
         setLoadingMessage(true);
       }
     }
