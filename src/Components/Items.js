@@ -140,6 +140,7 @@ function Items({
               if (size > api.length) {
                 showMore.current.style.display = "none";
               }
+
               const text = SnuOwnd.getParser().render(
                 e.body ? e.body : e.selftext ? e.selftext : ""
               );

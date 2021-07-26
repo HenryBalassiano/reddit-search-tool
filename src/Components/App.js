@@ -40,6 +40,8 @@ function App() {
   const [apis, setApi] = useState();
   const [idState, setIdState] = useState();
 
+  const [deletionStatus, setDeletionStatus] = useState();
+
   const [requests, setRequests] = useState(0);
   const [itemCount, setItemCount] = useState(0);
 
@@ -89,6 +91,17 @@ function App() {
 
   useEffect(() => {
     window.localStorage.setItem("API", apis);
+  });
+
+  useEffect(() => {
+    let persistDeletionState = window.localStorage.getItem("is_deleted");
+    if (persistDeletionState) {
+      setDeletionStatus(persistDeletionState);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("is_deleted", deletionStatus);
   });
   const error = useRef(null);
   let next = "";
@@ -774,8 +787,22 @@ function App() {
                 console.info("synced with reddit");
                 ids.length = 0;
               }
-              if (!more) {
+              if (!more && deletionStatus === "All Submissions/Comments") {
                 apiData(queueState);
+                setSyncingData(true);
+              } else if (
+                !more &&
+                deletionStatus === "Deleted Submissions/Comments"
+              ) {
+                for (var i = queueState.length - 1; i >= 0; --i) {
+                  if (queueState[i].is_deleted !== "deleted") {
+                    if (queueState[i].is_deleted !== "removed") {
+                      queueState.splice(i, 1);
+
+                      apiData(queueState);
+                    }
+                  }
+                }
                 setSyncingData(true);
               } else if (more) {
                 apiData((prevArray) => [...prevArray, ...queueState]);
@@ -791,12 +818,9 @@ function App() {
       }
     },
   };
-
-  // ---reddit api search/miser
   // filter search for detled/removed
   // add clear
-  // ---light/dark
-  //save search
+  // save search
   // analytics
   // download button
   // about section
@@ -1012,6 +1036,8 @@ function App() {
                   toggleInput={toggleInput}
                   setApi={setApi}
                   apis={apis}
+                  setDeletionStatus={setDeletionStatus}
+                  deletionStatus={deletionStatus}
                   syncingData={syncingData}
                 />
               </div>

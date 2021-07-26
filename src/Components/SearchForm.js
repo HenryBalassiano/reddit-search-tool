@@ -16,6 +16,8 @@ function SearchForm({
   setApi,
   apis,
   syncingData,
+  setDeletionStatus,
+  deletionStatus,
 }) {
   const advancedRow = useRef();
   const apiAdvanced = useRef();
@@ -169,6 +171,25 @@ function SearchForm({
     }
   });
 
+  function ClearButton() {
+    setUserInput({
+      author: "",
+      subreddit: "",
+      type: "",
+      size: 100,
+      score: "",
+      before: "",
+      after: "",
+      q: "",
+      over_18: "",
+      stickied: "",
+      is_self: "",
+      locked: "",
+      distinguished: "",
+      id: "",
+      link_id: "",
+    });
+  }
   return (
     <div
       id={`${minimize ? "search-query-minimized" : "search-query-maximized"}`}
@@ -437,6 +458,20 @@ function SearchForm({
                   <option>Miser</option>
                 </select>{" "}
               </div>
+              <div className="row-wrapper" id="api-wrapper">
+                <label>Deletion Status</label>
+                <select
+                  id="advanced-api-search"
+                  onChange={(e) => {
+                    setDeletionStatus(e.target.value);
+                  }}
+                  value={deletionStatus}
+                >
+                  <option>All Submissions/Comments </option>
+
+                  <option>Deleted Submissions/Comments</option>
+                </select>{" "}
+              </div>
             </div>
             <div id="developer-row" ref={developerRow}>
               <div className="row-wrapper">
@@ -469,7 +504,18 @@ function SearchForm({
               </div>{" "}
             </div>
             <div id="row-4">
-              <div id="seach-btn">
+              {" "}
+              <div>
+                <div className="row-wrapper">
+                  <input
+                    id="clear-btn"
+                    value="Clear"
+                    onClick={ClearButton}
+                    type="button"
+                  ></input>
+                </div>
+              </div>
+              <div id="search-btn">
                 <div className="row-wrapper">
                   <input id="search-btn" value="Search" type="submit"></input>{" "}
                 </div>

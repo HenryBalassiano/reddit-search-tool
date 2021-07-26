@@ -1,5 +1,5 @@
 input:not([type="submit"]) {
-  max-height: 28px;
+  height: 28px;
   border-radius: 4px 4px 4px 4px;
 }
 
@@ -23,6 +23,20 @@ input[type="submit"] {
   background-color: #222;
   color: #eee;
   border-radius: 4px;
+}
+#clear-btn {
+  font-size: 1em;
+  height: 38px;
+  width: 82px;
+  padding: 8px 16px;
+  border: 0 none;
+  cursor: pointer;
+  background-color: rgba(34, 34, 34, 0.562);
+  color: #eee;
+  border-radius: 4px;
+}
+#clear-btn:hover {
+  background-color: rgba(34, 34, 34, 0.644);
 }
 .advanced-input {
   width: 65px !important;
