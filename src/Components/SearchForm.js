@@ -22,6 +22,21 @@ function SearchForm({
   const developerRow = useRef();
   const authorInput = useRef();
 
+  const subredditInput = useRef();
+  const over_18Input = useRef();
+  const stickiedInput = useRef();
+  const searchInput = useRef();
+  const is_selfInput = useRef();
+  const beforeInput = useRef();
+  const afterInput = useRef();
+  const distinguishedInput = useRef();
+  const lockedInput = useRef();
+  const scoreInput = useRef();
+  const idInput = useRef();
+  const link_idInput = useRef();
+  const qInput = useRef();
+  const sizeInput = useRef();
+
   const parseParams = (querystring) => {
     const params = new URLSearchParams(querystring);
     const obj = {};
@@ -104,7 +119,6 @@ function SearchForm({
   useEffect(() => {
     if (localStorage.getItem("setting1") === "checked") {
       advancedRow.current.style.display = "flex";
-      apiAdvanced.current.style.display = "block";
     }
     if (localStorage.getItem("setting2") === "checked") {
       developerRow.current.style.display = "flex";
@@ -119,6 +133,41 @@ function SearchForm({
       setRequired(false);
     }
   }, [apis, userinput.author]);
+  useEffect(() => {
+    if (apis === "Reddit") {
+      authorInput.current.disabled = true;
+      searchInput.current.disabled = true;
+      over_18Input.current.disabled = true;
+      stickiedInput.current.disabled = true;
+      subredditInput.current.disabled = true;
+      distinguishedInput.current.disabled = true;
+      scoreInput.current.disabled = true;
+      lockedInput.current.disabled = true;
+      is_selfInput.current.disabled = true;
+      idInput.current.disabled = true;
+      link_idInput.current.disabled = true;
+      beforeInput.current.disabled = true;
+      afterInput.current.disabled = true;
+      qInput.current.required = true;
+      sizeInput.current.disabled = true;
+    } else {
+      authorInput.current.disabled = false;
+      searchInput.current.disabled = false;
+      over_18Input.current.disabled = false;
+      stickiedInput.current.disabled = false;
+      subredditInput.current.disabled = false;
+      distinguishedInput.current.disabled = false;
+      scoreInput.current.disabled = false;
+      lockedInput.current.disabled = false;
+      is_selfInput.current.disabled = false;
+      idInput.current.disabled = false;
+      link_idInput.current.disabled = false;
+      beforeInput.current.disabled = false;
+      afterInput.current.disabled = false;
+      qInput.current.required = false;
+      sizeInput.current.disabled = false;
+    }
+  });
 
   return (
     <div
@@ -172,6 +221,7 @@ function SearchForm({
                   value={userinput.subreddit}
                   placeholder="Subreddit"
                   type="text"
+                  ref={subredditInput}
                   onChange={(e) => {
                     setUserInput({
                       ...userinput,
@@ -188,6 +238,7 @@ function SearchForm({
                     setUserInput({ ...userinput, type: e.target.value });
                   }}
                   value={userinput.type}
+                  ref={searchInput}
                 >
                   {" "}
                   <option>Any</option>
@@ -202,11 +253,13 @@ function SearchForm({
                   <div className="row-wrapper">
                     <label>score</label>
                     <input
+                      ref={searchInput}
                       placeholder="Score"
                       type="number"
                       id="score-input-box"
                       min="25"
                       step="25"
+                      ref={scoreInput}
                       value={userinput.score}
                       onChange={(e) => {
                         setUserInput({ ...userinput, score: e.target.value });
@@ -222,6 +275,7 @@ function SearchForm({
                     popperProps={{
                       positionFixed: true,
                     }}
+                    ref={beforeInput}
                     value={new Date(userinput.before * 1000)}
                     selected={userinput.before}
                     onChange={(e) => {
@@ -238,6 +292,7 @@ function SearchForm({
                     popperProps={{
                       positionFixed: true,
                     }}
+                    ref={afterInput}
                     type="text"
                     selected={userinput.after}
                     onChange={(e) => setUserInput({ ...userinput, after: e })}
@@ -250,6 +305,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>NSFW</label>
                 <select
+                  ref={over_18Input}
                   className="advanced-input"
                   value={userinput.over_18}
                   onChange={(e) => {
@@ -265,6 +321,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>Stickied</label>
                 <select
+                  ref={stickiedInput}
                   className="advanced-input"
                   value={userinput.stickied}
                   onChange={(e) => {
@@ -280,6 +337,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>Is Self</label>
                 <select
+                  ref={is_selfInput}
                   className="advanced-input"
                   value={userinput.is_self}
                   onChange={(e) => {
@@ -295,6 +353,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>Locked</label>
                 <select
+                  ref={lockedInput}
                   className="advanced-input"
                   value={userinput.locked}
                   onChange={(e) => {
@@ -310,6 +369,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>Distinguished</label>
                 <select
+                  ref={distinguishedInput}
                   className="advanced-input"
                   value={userinput.distinguished}
                   onChange={(e) => {
@@ -334,6 +394,7 @@ function SearchForm({
                     value={userinput.q}
                     placeholder="Search Terms"
                     type="text"
+                    ref={qInput}
                     onChange={(e) => {
                       setUserInput({
                         ...userinput,
@@ -353,6 +414,7 @@ function SearchForm({
                       size: parseInt(e.target.value),
                     });
                   }}
+                  ref={sizeInput}
                   value={userinput.size}
                   type="number"
                   min="25"
@@ -360,7 +422,7 @@ function SearchForm({
                   id="amnt-ret"
                 ></input>{" "}
               </div>{" "}
-              <div className="row-wrapper" id="api-wrapper" ref={apiAdvanced}>
+              <div className="row-wrapper" id="api-wrapper">
                 <label>API</label>
                 <select
                   id="advanced-api-search"
@@ -380,6 +442,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>ID</label>
                 <input
+                  ref={idInput}
                   placeholder="ID"
                   type="text"
                   onChange={(e) => {
@@ -393,6 +456,7 @@ function SearchForm({
               <div className="row-wrapper">
                 <label>Link ID</label>
                 <input
+                  ref={link_idInput}
                   placeholder="Link ID"
                   type="text"
                   onChange={(e) => {

@@ -42,7 +42,7 @@
 }
 @media only screen and (max-width: 900px) {
   #settings-tag {
-    top: 7.3em;
+    top: 7em;
   }
   #settings-child {
     width: 92vw;

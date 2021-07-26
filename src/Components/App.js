@@ -108,7 +108,15 @@ function App() {
   };
 
   const paramsObj = parseParams(window.location.search);
-
+  if (paramsObj.author) {
+    paramsObj.author = paramsObj.author.toLowerCase();
+  }
+  if (paramsObj.subreddit) {
+    paramsObj.subreddit = paramsObj.subreddit.toLowerCase();
+  }
+  if (paramsObj.q) {
+    paramsObj.q = paramsObj.q.toLowerCase();
+  }
   if (paramsObj.before && !/^\d+$/.test(paramsObj.before)) {
     paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
   }
@@ -608,8 +616,44 @@ function App() {
         console.log(err);
       }
     },
-  };
+    reddit: async function fetchReddit() {
+      try {
+        if (!more) {
+          apiData([false]);
+        }
+        const allData = [];
 
+        if (data.size <= 100) {
+          if (
+            JSON.parse(window.sessionStorage.getItem("reddit_access_token"))
+          ) {
+            let token = JSON.parse(
+              window.sessionStorage.getItem("reddit_access_token")
+            ).access_token;
+            console.info("fetching <= 100 reddit");
+
+            let redditRes = await fetch(
+              `https://oauth.reddit.com/search?${query}`,
+              {
+                headers: {
+                  Authorization: "Bearer " + token,
+                },
+              }
+            );
+            console.info(redditRes.url);
+            let redditData = await redditRes.json();
+            const arr = [];
+            for (var i = 0; i < redditData.data.children.length; i++) {
+              arr.push(redditData.data.children[i].data);
+            }
+            setQueue(arr);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  };
   function timeDifference(dt2, dt1) {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
     diff /= 60 * 60;
@@ -748,7 +792,7 @@ function App() {
     },
   };
 
-  // reddit api search/miser
+  // ---reddit api search/miser
   // filter search for detled/removed
   // add clear
   // ---light/dark
@@ -756,8 +800,7 @@ function App() {
   // analytics
   // download button
   // about section
-
-  if (!search && apis !== "Miser") {
+  if (!search && apis !== "Miser" && apis !== "Reddit") {
     apiObj.pushshift();
     redditObj.tokenAuth();
 
@@ -767,11 +810,11 @@ function App() {
   useEffect(() => {
     let once = false;
 
-    if ((queueState && !once) || more) {
+    if ((queueState && !once) || (more && apis)) {
       redditObj.syncData();
       once = true;
     }
-  }, [queueState]);
+  }, [queueState, apis]);
 
   if (!search && apis === "Miser") {
     apiObj.miser();
@@ -781,7 +824,14 @@ function App() {
 
     error.current.style.display = "none";
   }
+  if (!search && apis === "Reddit") {
+    apiObj.reddit();
+    redditObj.tokenAuth();
 
+    setSearch(true);
+
+    error.current.style.display = "none";
+  }
   useEffect(() => {
     if (more && apis !== "Miser") {
       if (data.size < api.length) {

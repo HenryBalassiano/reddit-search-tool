@@ -114,7 +114,7 @@ function Items({
             let permalink;
             if (e.permalink) {
               permalink = e.permalink;
-            } else {
+            } else if (e.link_id) {
               permalink = `/comments/${e.link_id.split("_")[1]}/_/${e.id}`;
             }
 

@@ -37,9 +37,7 @@ input[type="submit"] {
 #developer-row input {
   width: 210px;
 }
-#api-wrapper {
-  display: none;
-}
+
 #advanced-api-search {
   width: 90px !important;
 }
@@ -47,6 +45,16 @@ input[type="submit"] {
   display: flex;
   display: none;
 }
+input[disabled] {
+  opacity: 0.7 !important;
+}
+input[disabled]:hover {
+  cursor: not-allowed;
+}
+input:required {
+  background-color: rgb(71, 35, 35) !important;
+}
+
 input:hover {
   background-color: #2a2a2a;
 }
