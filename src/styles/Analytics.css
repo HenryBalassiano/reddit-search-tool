@@ -1,0 +1,103 @@
+#analytics {
+	border: 1px #555 solid;
+	border-radius: 10px;
+	padding: 5px;
+	width: 960px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	max-height: max-content;
+	min-height: 5px;
+	display: flex;
+	flex-direction: column;
+}
+#in-beta-tag {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	border-radius: 2px;
+	display: inline !important;
+	height: 16px;
+	margin-left: 0;
+	margin-right: 5px;
+	overflow: hidden !important;
+	padding: 0 4px;
+	text-overflow: ellipsis !important;
+	vertical-align: middle;
+	white-space: nowrap !important;
+	max-width: none;
+	background-color: #444;
+	color: white;
+	text-transform: capitalize;
+	filter: brightness(0.9);
+}
+#an-hover {
+	border: 1px #555 solid;
+	border-radius: 10px;
+	padding: 5px;
+	width: 960px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	max-height: max-content;
+	min-height: 5px;
+}
+#analytics-minimized {
+	opacity: 0.6;
+}
+#analytics-minimized:hover {
+	opacity: 1;
+}
+#analytics-minimized-inner {
+	max-height: 0;
+	/* -webkit-transition: all 0.5s -0.1s ease-out;
+    -moz-transition: all 0.5s -0.1s ease-out;
+    -o-transition: all 0.5s -0.1s ease-out;
+    -ms-transition: all 0.5s -0.1s ease-out;
+    transition: all 0.5s -0.1s ease-out; */
+	overflow: hidden !important;
+	display: none;
+}
+#analytics-child {
+	display: flex;
+	justify-content: center;
+}
+#analytics h2 {
+	text-align: center;
+	color: white;
+	letter-spacing: 1px;
+}
+@media only screen and (max-width: 1200px) {
+	#analytics {
+		width: 800px;
+	}
+	#an-hover {
+		width: 800px;
+	}
+}
+@media only screen and (max-width: 900px) {
+	#analytics {
+		width: 700px;
+	}
+	#an-hover {
+		width: 700px;
+	}
+}
+@media only screen and (max-width: 780px) {
+	#analytics {
+		width: 600px;
+	}
+	#an-hover {
+		width: 600px;
+	}
+}
+@media only screen and (max-width: 620px) {
+	#analytics {
+		width: 92vw;
+	}
+	#an-hover {
+		width: 92vw;
+	}
+}

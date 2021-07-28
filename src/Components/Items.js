@@ -492,6 +492,16 @@ function Items({
                             ) : (
                               ""
                             )}
+                            {e.kind === "t3" ? (
+                              <div id="upvote-percentage">
+                                <i class="fa fa-commenting" aria-hidden="true">
+                                  {" "}
+                                  <span id="score">{e.num_comments}</span>
+                                </i>
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
                         </div>
                       </div>
