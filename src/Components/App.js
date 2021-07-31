@@ -1109,7 +1109,11 @@ function App() {
 					</Route>{' '}
 					<Route path="/about">
 						<div id="about-section">
+<<<<<<< HEAD
 							<About toggleInput={toggleInput} />
+=======
+							<About />
+>>>>>>> df773ea (finished analytics)
 						</div>
 					</Route>
 					<Route path="/settings">

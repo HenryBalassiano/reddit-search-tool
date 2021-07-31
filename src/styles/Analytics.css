@@ -13,6 +13,7 @@
 	display: flex;
 	flex-direction: column;
 }
+<<<<<<< HEAD
 .light-analytics #best-comment-parent {
 	color: #212529 !important;
 }
@@ -50,6 +51,8 @@
 .light-analytics .worst-upvote-comment {
 	color: red !important;
 }
+=======
+>>>>>>> df773ea (finished analytics)
 #username-header-tag {
 	font-size: 20px;
 	word-spacing: 4px;

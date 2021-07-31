@@ -188,7 +188,11 @@ function Analytics({
 				const queue = [];
 				let commentArr = [];
 
+<<<<<<< HEAD
 				let limit = 3;
+=======
+				let limit = 5;
+>>>>>>> df773ea (finished analytics)
 				let min = 0;
 
 				while (min < limit) {
@@ -270,6 +274,7 @@ function Analytics({
 
 				let userDetailsData = await userDetailsRes.json();
 				console.info(userDetailsRes.url);
+<<<<<<< HEAD
 				console.log(userDetailsData.error);
 				if (userDetailsData.error !== 404) {
 					userObj.img = userDetailsData.data.icon_img.replace(
@@ -282,6 +287,17 @@ function Analytics({
 				} else {
 					setAllDetails(true);
 				}
+=======
+
+				userObj.img = userDetailsData.data.icon_img.replace(
+					/^(.+?\.(png|jpe?g)).*$/i,
+					'$1'
+				);
+				userObj.submissionKarma = userDetailsData.data.link_karma;
+				userObj.commentKarma = userDetailsData.data.comment_karma;
+				userObj.creationDate = userDetailsData.data.created;
+
+>>>>>>> df773ea (finished analytics)
 				if (!userDetailsData.data) {
 					return false;
 				}
@@ -317,7 +333,11 @@ function Analytics({
 		worstComment ? worstComment.body : ''
 	);
 	return (
+<<<<<<< HEAD
 		<div className={toggleInput ? 'light-analytics' : 'dark-analytics'}>
+=======
+		<div>
+>>>>>>> df773ea (finished analytics)
 			{syncingData && api[0] && analyticalComments && allDetails ? (
 				<div
 					id={`${minAnalytics ? 'analytics-minimized' : ''}`}
@@ -394,7 +414,11 @@ function Analytics({
 								<div id="subtext">
 									{' '}
 									<small>
+<<<<<<< HEAD
 										*Data is available from 300 comments and 1000 submissions
+=======
+										*Data is available from 500 comments and 1000 submissions
+>>>>>>> df773ea (finished analytics)
 										ago (Miser/Pushshift API limitations)
 									</small>
 								</div>

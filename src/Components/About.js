@@ -1,8 +1,14 @@
 import '../styles/About.css';
 
+<<<<<<< HEAD
 function About({ toggleInput }) {
 	return (
 		<div id="about" className={toggleInput ? 'light-about' : 'dark-about'}>
+=======
+function About() {
+	return (
+		<div id="about">
+>>>>>>> df773ea (finished analytics)
 			<main>
 				{' '}
 				<section>
@@ -16,7 +22,12 @@ function About({ toggleInput }) {
 						</a>{' '}
 						, I'm a pretty terrible designer so I decided to model this site's
 						design off that one. I think he (or she) did a great job.
+<<<<<<< HEAD
 						Unfortunately as of now that site is down.
+=======
+						Unfortunately as of now that site is down, so you'll have to stick
+						with my awful site. :({' '}
+>>>>>>> df773ea (finished analytics)
 					</p>{' '}
 					<p>
 						If you would like to contact the creator of Pushshift to request
@@ -27,7 +38,11 @@ function About({ toggleInput }) {
 				</section>{' '}
 				<section>
 					{' '}
+<<<<<<< HEAD
 					<h2>FAQ</h2> <h3>How does this site work?</h3>{' '}
+=======
+					<h2>FAQ</h2> <h3>How does this site?</h3>{' '}
+>>>>>>> df773ea (finished analytics)
 					<p>
 						{' '}
 						As of now, Pushshift does not update the data it collects, so you
@@ -67,7 +82,11 @@ function About({ toggleInput }) {
 						</li>{' '}
 						<li>
 							{' '}
+<<<<<<< HEAD
 							<strong>Other Sites:</strong>{' '}
+=======
+							<strong>Alternatives to This Mess:</strong>{' '}
+>>>>>>> df773ea (finished analytics)
 							<ul>
 								{' '}
 								<li>
@@ -124,12 +143,17 @@ function About({ toggleInput }) {
 				</section>{' '}
 				<section>
 					{' '}
+<<<<<<< HEAD
 					<h2>Contact</h2> <p>For any questions or other inquiries</p>{' '}
+=======
+					<h2>Contact</h2>{' '}
+>>>>>>> df773ea (finished analytics)
 					<p>
 						Email:{' '}
 						<a href="mailto:henrybalassiano@gmail.com">
 							henrybalassiano@gmail.com
 						</a>
+<<<<<<< HEAD
 					</p>
 				</section>{' '}
 				<a
@@ -142,6 +166,10 @@ function About({ toggleInput }) {
 						style={{ fontSize: '60px' }}
 					></i>
 				</a>
+=======
+					</p>{' '}
+				</section>{' '}
+>>>>>>> df773ea (finished analytics)
 			</main>
 		</div>
 	);

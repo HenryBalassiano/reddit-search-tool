@@ -4,9 +4,12 @@
 	justify-content: center;
 	color: white;
 }
+<<<<<<< HEAD
 .light-about > * {
 	color: #212529;
 }
+=======
+>>>>>>> df773ea (finished analytics)
 #site {
 	color: #79a2c9;
 }
