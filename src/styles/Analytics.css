@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap');
 #analytics {
 	border: 1px #555 solid;
 	border-radius: 10px;
@@ -11,6 +12,173 @@
 	min-height: 5px;
 	display: flex;
 	flex-direction: column;
+}
+#username-header-tag {
+	font-size: 20px;
+	word-spacing: 4px;
+	color: #79a2c9;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 2rem;
+	text-align: center;
+	margin-top: 0;
+}
+#user-img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 8px;
+	border-radius: 8px;
+}
+#creation-date {
+	text-align: center;
+	color: #cad6e6;
+	font-size: large;
+}
+#karma-status {
+	text-align: center;
+	color: #cad6e6;
+	font-size: medium;
+}
+#best-comment-parent {
+	font-size: 18px;
+	white-space: nowrap;
+
+	display: flex;
+	justify-content: center;
+	color: #eee;
+}
+#best-comment {
+	width: 70%;
+}
+#worst-comment {
+	width: 70%;
+}
+
+#charts-parent {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.best-upvote-comment {
+	color: green;
+	margin: 3px;
+}
+#best-comment-body {
+	color: #cad6e6;
+	font-size: medium;
+	margin: 3px;
+}
+#best-comment-body > :first-child {
+	margin-top: 0;
+}
+#worst-comment-body > :first-child {
+	margin-top: 0;
+}
+#worst-comment-body p {
+	margin: 0;
+	white-space: pre;
+	word-wrap: break-word;
+	white-space: -moz-pre-wrap; /* Firefox */
+	white-space: -pre-wrap; /* ancient Opera */
+	white-space: -o-pre-wrap; /* newer Opera */
+	white-space: pre-wrap; /* Chrome; W3C standard */
+	word-wrap: break-word; /* IE */
+	-webkit-font-smoothing: antialiased;
+}
+#best-comment-body p {
+	margin: 0;
+	white-space: pre;
+	word-wrap: break-word;
+	white-space: -moz-pre-wrap; /* Firefox */
+	white-space: -pre-wrap; /* ancient Opera */
+	white-space: -o-pre-wrap; /* newer Opera */
+	white-space: pre-wrap; /* Chrome; W3C standard */
+	word-wrap: break-word; /* IE */
+	-webkit-font-smoothing: antialiased;
+}
+
+#best-comment-body h1,
+#best-comment-body h2,
+#best-comment-body h3,
+#best-comment-body h4,
+#best-comment-body h5,
+#best-comment-body h6 {
+	margin: 8px 0;
+}
+
+#worst-comment-body h1,
+#worst-comment-body h2,
+#worst-comment-body h3,
+#worst-comment-body h4,
+#worst-comment-body h5,
+#worst-comment-body h6 {
+	margin: 8px 0;
+}
+
+#best-comment-body a {
+	font-size: 18px;
+	color: #79a2c9;
+}
+#best-comment-body a:hover {
+	text-decoration: underline;
+}
+#subtext {
+	text-align: center;
+	color: #cad6e6c0;
+	margin: 0 0 2rem;
+	font-size: 14px;
+}
+#worst-comment-body a {
+	font-size: 18px;
+	color: #79a2c9;
+}
+#worst-comment-body a:hover {
+	text-decoration: underline;
+}
+#worst-comment-body {
+	color: #cad6e6;
+	font-size: medium;
+	margin: 3px;
+}
+#details-best {
+	color: #cad6e6;
+	font-size: small;
+	margin: 3px;
+}
+#details-worst {
+	color: #cad6e6;
+	margin: 3px;
+
+	font-size: small;
+}
+
+#worst-comment-parent {
+	font-size: 18px;
+	white-space: nowrap;
+
+	display: flex;
+	justify-content: center;
+	color: #eee;
+}
+
+#worst-comment-parent a:hover {
+	text-decoration: underline;
+}
+#best-comment-parent a:hover {
+	text-decoration: underline;
+}
+#best-and-worst-comments {
+	display: flex;
+	flex-direction: column;
+}
+
+.worst-upvote-comment {
+	color: red;
+	margin: 3px;
+}
+#username-header-tag a:hover {
+	text-decoration: underline;
 }
 #in-beta-tag {
 	font-size: 12px;
@@ -32,6 +200,14 @@
 	text-transform: capitalize;
 	filter: brightness(0.9);
 }
+#best-comment-wrapper {
+	display: flex;
+	justify-content: center;
+}
+#worst-comment-wrapper {
+	display: flex;
+	justify-content: center;
+}
 #an-hover {
 	border: 1px #555 solid;
 	border-radius: 10px;
@@ -47,27 +223,33 @@
 #analytics-minimized {
 	opacity: 0.6;
 }
+#overview {
+	color: #eee;
+}
+#charts-wrapper {
+	display: flex;
+	justify-content: center;
+}
 #analytics-minimized:hover {
 	opacity: 1;
 }
 #analytics-minimized-inner {
 	max-height: 0;
-	/* -webkit-transition: all 0.5s -0.1s ease-out;
-    -moz-transition: all 0.5s -0.1s ease-out;
-    -o-transition: all 0.5s -0.1s ease-out;
-    -ms-transition: all 0.5s -0.1s ease-out;
-    transition: all 0.5s -0.1s ease-out; */
+
 	overflow: hidden !important;
 	display: none;
 }
 #analytics-child {
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 }
 #analytics h2 {
 	text-align: center;
-	color: white;
-	letter-spacing: 1px;
+	color: #feffff;
+	font-size: 18px;
+	word-wrap: break-word;
+	width: 400px;
 }
 @media only screen and (max-width: 1200px) {
 	#analytics {
@@ -76,6 +258,18 @@
 	#an-hover {
 		width: 800px;
 	}
+	#best-comment-wrapper {
+		justify-content: left;
+	}
+	#worst-comment-wrapper {
+		justify-content: left;
+	}
+	#best-comment {
+		width: 100%;
+	}
+	#worst-comment {
+		width: 100%;
+	}
 }
 @media only screen and (max-width: 900px) {
 	#analytics {
@@ -83,6 +277,9 @@
 	}
 	#an-hover {
 		width: 700px;
+	}
+	#charts-parent {
+		flex-direction: column;
 	}
 }
 @media only screen and (max-width: 780px) {

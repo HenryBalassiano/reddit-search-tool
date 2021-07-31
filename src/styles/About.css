@@ -1,9 +1,32 @@
-#temp{
-    color:white;
-    text-align:center;
-    font-size: 2em;
-    text-transform: capitalize;   
-     border: 3px solid rgb(116, 108, 108)
-
-
+#about {
+	width: 960px;
+	display: flex;
+	justify-content: center;
+	color: white;
+}
+#site {
+	color: #79a2c9;
+}
+#site:hover {
+	text-decoration: underline;
+}
+@media only screen and (max-width: 1200px) {
+	#about {
+		width: 800px;
+	}
+}
+@media only screen and (max-width: 900px) {
+	#about {
+		width: 700px;
+	}
+}
+@media only screen and (max-width: 780px) {
+	#about {
+		width: 600px;
+	}
+}
+@media only screen and (max-width: 620px) {
+	#about {
+		width: 92vw;
+	}
 }

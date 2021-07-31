@@ -12,7 +12,12 @@ body {
 html {
 	background-color: #161615;
 }
-
+#about-section {
+	display: flex;
+	justify-content: center;
+	position: relative;
+	bottom: 7em;
+}
 .App {
 	margin-top: -1em;
 }

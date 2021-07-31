@@ -40,6 +40,9 @@ function App() {
 	const [syncingReddit, setSyncingReddit] = useState(false);
 	const [dataRecieved, setDataRecieved] = useState(false);
 
+	const [allDetails, setAllDetails] = useState(true);
+	const [analyticalComments, setAnalyticalComments] = useState(true);
+
 	const [minAnalytics, setMinAnalytics] = useState(false);
 
 	const [apis, setApi] = useState();
@@ -775,6 +778,11 @@ function App() {
 											queueState[apiKeys].upvote_ratio =
 												dataRed[redditKeys].data.upvote_ratio;
 											queueState[apiKeys].kind = dataRed[redditKeys].kind;
+											queueState[apiKeys].synced_score =
+												dataRed[redditKeys].data.score;
+											queueState[apiKeys].synced_comments =
+												dataRed[redditKeys].data.num_comments;
+
 											if (
 												(dataRed[redditKeys].data.author === '[deleted]' &&
 													dataRed[redditKeys].data.body === '[deleted]') ||
@@ -1067,6 +1075,11 @@ function App() {
 									toggleInput={toggleInput}
 									minAnalytics={minAnalytics}
 									changeAnalyticsSize={changeAnalyticsSize}
+									api={api}
+									setAnalyticalComments={setAnalyticalComments}
+									setAllDetails={setAllDetails}
+									allDetails={allDetails}
+									analyticalComments={analyticalComments}
 								/>
 							) : (
 								''
@@ -1092,12 +1105,15 @@ function App() {
 									syncingData={syncingData}
 									requests={requests}
 									itemCount={itemCount}
+									allDetails={allDetails}
+									analyticalComments={analyticalComments}
+									author={data.author}
 								/>
 							</div>
 						</div>
 					</Route>{' '}
 					<Route path="/about">
-						<div>
+						<div id="about-section">
 							<About />
 						</div>
 					</Route>
