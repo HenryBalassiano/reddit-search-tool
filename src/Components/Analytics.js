@@ -24,7 +24,7 @@ function Analytics({
 	const [bestComment, setBestComment] = useState(false);
 	const [worstComment, setWorstComment] = useState(false);
 	const [detailsObj, setDetailsObj] = useState(false);
-//
+
 	const [subObj, setSubObj] = useState({
 		options: {
 			labels: [],
