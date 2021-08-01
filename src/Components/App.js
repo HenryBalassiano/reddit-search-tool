@@ -980,7 +980,7 @@ function App() {
 								href="https://pushshift.io/"
 								target="_blank"
 							>
-								Utilizing Pushift.io
+								Utilizing Pushshift.io
 							</a>{' '}
 						</h2>{' '}
 					</div>{' '}
