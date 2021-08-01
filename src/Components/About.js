@@ -1,8 +1,8 @@
 import '../styles/About.css';
 
-function About() {
+function About({ toggleInput }) {
 	return (
-		<div id="about">
+		<div id="about" className={toggleInput ? 'light-about' : 'dark-about'}>
 			<main>
 				{' '}
 				<section>
@@ -16,8 +16,7 @@ function About() {
 						</a>{' '}
 						, I'm a pretty terrible designer so I decided to model this site's
 						design off that one. I think he (or she) did a great job.
-						Unfortunately as of now that site is down, so you'll have to stick
-						with my awful site. :({' '}
+						Unfortunately as of now that site is down.
 					</p>{' '}
 					<p>
 						If you would like to contact the creator of Pushshift to request
@@ -28,7 +27,7 @@ function About() {
 				</section>{' '}
 				<section>
 					{' '}
-					<h2>FAQ</h2> <h3>How does this site?</h3>{' '}
+					<h2>FAQ</h2> <h3>How does this site work?</h3>{' '}
 					<p>
 						{' '}
 						As of now, Pushshift does not update the data it collects, so you
@@ -68,7 +67,7 @@ function About() {
 						</li>{' '}
 						<li>
 							{' '}
-							<strong>Alternatives to This Mess:</strong>{' '}
+							<strong>Other Sites:</strong>{' '}
 							<ul>
 								{' '}
 								<li>
@@ -125,14 +124,24 @@ function About() {
 				</section>{' '}
 				<section>
 					{' '}
-					<h2>Contact</h2>{' '}
+					<h2>Contact</h2> <p>For any questions or other inquiries</p>{' '}
 					<p>
 						Email:{' '}
 						<a href="mailto:henrybalassiano@gmail.com">
 							henrybalassiano@gmail.com
 						</a>
-					</p>{' '}
+					</p>
 				</section>{' '}
+				<a
+					href="https://github.com/HenryBalassiano/reddit-search-tool"
+					target="_blank"
+				>
+					<i
+						class="fa fa-github"
+						aria-hidden="true"
+						style={{ fontSize: '60px' }}
+					></i>
+				</a>
 			</main>
 		</div>
 	);

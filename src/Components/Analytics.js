@@ -119,6 +119,8 @@ function Analytics({
 	const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 	useEffect(() => {
+		setAnalyticalComments(false);
+
 		async function fetchSubAggs() {
 			try {
 				console.info('fetching analytics');
@@ -186,7 +188,7 @@ function Analytics({
 				const queue = [];
 				let commentArr = [];
 
-				let limit = 5;
+				let limit = 3;
 				let min = 0;
 
 				while (min < limit) {
@@ -268,15 +270,18 @@ function Analytics({
 
 				let userDetailsData = await userDetailsRes.json();
 				console.info(userDetailsRes.url);
-
-				userObj.img = userDetailsData.data.icon_img.replace(
-					/^(.+?\.(png|jpe?g)).*$/i,
-					'$1'
-				);
-				userObj.submissionKarma = userDetailsData.data.link_karma;
-				userObj.commentKarma = userDetailsData.data.comment_karma;
-				userObj.creationDate = userDetailsData.data.created;
-
+				console.log(userDetailsData.error);
+				if (userDetailsData.error !== 404) {
+					userObj.img = userDetailsData.data.icon_img.replace(
+						/^(.+?\.(png|jpe?g)).*$/i,
+						'$1'
+					);
+					userObj.submissionKarma = userDetailsData.data.link_karma;
+					userObj.commentKarma = userDetailsData.data.comment_karma;
+					userObj.creationDate = userDetailsData.data.created;
+				} else {
+					setAllDetails(true);
+				}
 				if (!userDetailsData.data) {
 					return false;
 				}
@@ -312,7 +317,7 @@ function Analytics({
 		worstComment ? worstComment.body : ''
 	);
 	return (
-		<div>
+		<div className={toggleInput ? 'light-analytics' : 'dark-analytics'}>
 			{syncingData && api[0] && analyticalComments && allDetails ? (
 				<div
 					id={`${minAnalytics ? 'analytics-minimized' : ''}`}
@@ -389,7 +394,7 @@ function Analytics({
 								<div id="subtext">
 									{' '}
 									<small>
-										*Data is available from 500 comments and 1000 submissions
+										*Data is available from 300 comments and 1000 submissions
 										ago (Miser/Pushshift API limitations)
 									</small>
 								</div>

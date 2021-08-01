@@ -4,6 +4,9 @@
 	justify-content: center;
 	color: white;
 }
+.light-about > * {
+	color: #212529;
+}
 #site {
 	color: #79a2c9;
 }

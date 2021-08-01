@@ -82,7 +82,7 @@ function Items({
 				) : (
 					''
 				)}
-				{syncingData && !analyticalComments ? (
+				{syncingData && !analyticalComments && errorMessage !== 'No Results' ? (
 					<div id="loader-wrapper">
 						<Loader toggleInput={toggleInput} />{' '}
 						<div id="loading-text">

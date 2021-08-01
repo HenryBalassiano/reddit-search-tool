@@ -833,11 +833,7 @@ function App() {
 			}
 		},
 	};
-	// analytics
-	// save search
-	// download button
 
-	// about section
 	if (!search && apis !== 'Miser' && apis !== 'Reddit') {
 		apiObj.pushshift();
 		redditObj.tokenAuth();
@@ -945,7 +941,6 @@ function App() {
 			setToggleInput(false);
 		}
 		localStorage.setItem('theme', theme);
-		window.location.reload();
 	}
 	useEffect(() => {
 		if (localStorage.getItem('theme') === 'light') {
@@ -1066,7 +1061,7 @@ function App() {
 						{'  '}
 						<div className="analytics-parent">
 							{' '}
-							{data.author ? (
+							{data.author && queueState ? (
 								<Analytics
 									username={data.author}
 									setDataRecieved={setDataRecieved}
@@ -1114,13 +1109,13 @@ function App() {
 					</Route>{' '}
 					<Route path="/about">
 						<div id="about-section">
-							<About />
+							<About toggleInput={toggleInput} />
 						</div>
 					</Route>
 					<Route path="/settings">
 						{' '}
 						<div>
-							<Settings />
+							<Settings toggleInput={toggleInput} />
 						</div>
 					</Route>
 				</Switch>
