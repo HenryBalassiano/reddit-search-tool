@@ -18,12 +18,14 @@
 
 
 
-<ins> <h2> Disclaimer? </h2></ins>
+<ins> <h2> Disclaimer </h2></ins>
 
 <p> This is a work in progress and 100% has bugs of some kind in it, more features/bug fixes are continuously being added.</p> 
 
 
 
+<ins> <h2> Contact </h2></ins>
 
+If you have any questions, suggestions, find any bugs or have ANY other inquries. Please feel free me to email me at henrybalassiano@gmail.com or submit a <code>pull request</code>. 
 
 https://redditsearchtool.com/
