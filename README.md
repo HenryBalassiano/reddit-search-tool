@@ -1,3 +1,7 @@
+<h1 style='color:red'> Reddit Search Tool </h1>
+[![Build Status](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME}.png?branch=master)](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME})
+
+
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
   </li>
