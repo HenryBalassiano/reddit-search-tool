@@ -1,5 +1,5 @@
 <h1 style='color:red'> Reddit Search Tool </h1>
-[![Build Status](https://redditsearchtool.com/{henrybalassiano}/{reddit-search-tool}.png?branch=master)](https://redditsearchtool.com/{henrybalassiano}/{reddit-search-tool})
+## Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
 
 <ins> <h2> What does this site/app do? </h2></ins>
