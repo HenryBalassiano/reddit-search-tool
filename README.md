@@ -1,7 +1,7 @@
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
-<img src="https://i.imgur.com/knXxwt1.gif" width="40" height="40" />
   </li>
+<img src="https://i.imgur.com/knXxwt1.gif" width="200" height="200" />
 
 <li> No limit on size amount, Pushshift has a max limit set to 100. This site gets around that by constantly making requests and setting a before parameter to every new request with a value of the last request, last object's property <code>created_utc></code>.
   
