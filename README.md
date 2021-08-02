@@ -1,5 +1,6 @@
 <h1 > <a style="color:red" href="https://redditsearchtool.com/" > Reddit Search Tool </a></h1>
-  <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>
+  <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>  <img src='https://img.shields.io/github/package-json/v/henrybalassiano/reddit-search-tool?color=%230090FF&style=flat-square'/>
+
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
   </li>
