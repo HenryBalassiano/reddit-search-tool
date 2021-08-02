@@ -18,6 +18,9 @@
 
 
 
+<ins> <h2> Disclaimer? </h2></ins>
+
+<p> This is a work in progress and 100% has bugs of some kind in it, more features/bug fixes are continuously being added.</p> 
 
 
 
