@@ -30,6 +30,6 @@
 
 <ins> <h2> Contact </h2></ins>
 
-If you have any questions, suggestions, find any bugs or have ANY other inquries. Please feel free me to email me at henrybalassiano@gmail.com or submit a <code>pull request</code>. 
+If you have any questions, suggestions, find any bugs or have ANY other inquries. Please feel free to email me at henrybalassiano@gmail.com or submit a <code>pull request</code>. 
 
 https://redditsearchtool.com/
