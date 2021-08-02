@@ -1,4 +1,4 @@
-<h1 > <a style="color:blue !important" href="redditsearchtool.com"> Reddit Search Tool </a></h1>
+<h1 > <a style="color:red !important" href="redditsearchtool.com" target='_blank' > Reddit Search Tool </a></h1>
   <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
