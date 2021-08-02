@@ -1,5 +1,5 @@
 <h1 style='color:red'> Reddit Search Tool </h1>
-[![Build Status](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME}.png?branch=master)](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME})
+[![Build Status](https://redditsearchtool.com/{henrybalassiano}/{reddit-search-tool}.png?branch=master)](https://redditsearchtool.com/{henrybalassiano}/{reddit-search-tool})
 
 
 <ins> <h2> What does this site/app do? </h2></ins>
