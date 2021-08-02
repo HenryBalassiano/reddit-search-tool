@@ -1,4 +1,5 @@
-  # Reddit Search Tool  <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>
+<h1 style="color:red, border-bottom:2px">Reddit Search Tool </h1>
+  <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>
 
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
