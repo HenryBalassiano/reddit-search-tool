@@ -1,4 +1,4 @@
-<h1 style="color:blue"> Reddit Search Tool </h1>
+<h1 style="color:blue !important"> Reddit Search Tool </h1>
   <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>
 
 <ins> <h2> What does this site/app do? </h2></ins>
