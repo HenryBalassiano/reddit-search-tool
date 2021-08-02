@@ -35,4 +35,3 @@
 
 If you have any questions, suggestions, find any bugs or have any other inquries. Please feel free to email me at henrybalassiano@gmail.com or submit a <code>pull request</code>. 
 
-https://redditsearchtool.com/
