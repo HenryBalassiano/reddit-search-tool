@@ -3,7 +3,7 @@
   ![Alt Text](https://i.imgur.com/knXxwt1.gif)
   </li>
 
-<li> No limit on size amount, Pushshift has a max limit set to 100. This site gets around that by constantly making requests and setting a before parameter to every new request with a value of the last request, last object's property <code>created_utc>/code>.
+<li> No limit on size amount, Pushshift has a max limit set to 100. This site gets around that by constantly making requests and setting a before parameter to every new request with a value of the last request, last object's property <code>created_utc></code>.
   
 <li> Filter for deleted posts/comments and non deleted posts/comments.
   
