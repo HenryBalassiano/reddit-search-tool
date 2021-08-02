@@ -1,6 +1,5 @@
 <h1 style='color:red'> Reddit Search Tool </h1>
-[![Build Status](https://circleci.com/gh/keithpitty/kpdotcom.svg?style=shield)](https://circleci.com/gh/keithpitty/kpdotcom)
-
+<img src='https://img.shields.io/appveyor/build/HenryBalassiano/reddit-search-tool'/>
 <ins> <h2> What does this site/app do? </h2></ins>
 <ul> <li> Analytics provided when user entered, displaying aggregated data from the Pushshift, and the Miser API.
   </li>
