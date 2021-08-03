@@ -1,7 +1,7 @@
 <h1 > <a style="color:#FF0000" href="https://redditsearchtool.com/" > Reddit Search Tool </a></h1>
 <div style='display:flex; flex-direction:row'>
   <img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'/>  
-  <img src='https://img.shields.io/github/package-json/v/henrybalassiano/reddit-search-tool?color=%230090FF&style=flat-square'/>
+  <img src='https://img.shields.io/github/v/release/henrybalassiano/reddit-search-tool'/>
   <img src='https://img.shields.io/github/last-commit/henrybalassiano/reddit-search-tool'/>
 </div>
 
