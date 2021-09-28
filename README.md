@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+<div><u> <h1> <a href='https://redditsearchtool.com/'> Reddit Search Tool </a> </u></div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div style='display:flex;flex-direction:row'>
+<img src='https://img.shields.io/github/v/release/henrybalassiano/reddit-search-tool'>
+	<img src='https://img.shields.io/github/last-commit/henrybalassiano/reddit-search-tool'>
+	<img src='https://img.shields.io/github/stars/henrybalassiano/reddit-search-tool?style=social'>
+	</div>
 
-## Available Scripts
+<h2> What does this site/app do?</h2>
+<ul> <li> Displays analytics on a Reddit user by aggregating data from the Pushshift and Miser API  </li>
+<img src='https://media2.giphy.com/media/18AgCwgX85s1WdVrrp/giphy.gif'>
 
-In the project directory, you can run:
+<br/>
+<li> No limit on the size of Pushshift's requests. Currently, Pushshift's size parameter has a max value of 100, this site gets around that by continuously making requests and setting the next requests <code>before</code> value to the last requests, last items <code>created_utc</code> </li>
+<li> Option to search for both comments and submissions simultaneously. As of now, Pushshift only allows you to search for either <code>submissions</code> or <code>comments</code>, but not in the same request. This site gives you the option to search for both by requesting one of each value type and sorting the response data </li>
 
-### `npm start`
+<li> Pushshift's data is synced up with Reddit. As of now, Pushshift does not update the data it collects, so the data you see on Pushshift may not reflect what it actually is on Reddit. This site gets around that by requesting the <code>ID's</code> from Pushshift on Reddit's API</li>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<li> Option to search through multiple API's. This site has integrated an option to search through the Pushshift, Miser, and the Reddit API's </li>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<li> The UI has full markdown support</li>
+<img src='https://media.giphy.com/media/W1Fa0nCPf79dEgkMpq/giphy.gif'>
+<u><h2> Disclaimer</h2></u>
+This is a work in progress and 100% has bugs of some kind in it, bug fixes/new features are continuously being added
 
-### `npm test`
+<u> <h2> Contact</h2></u>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<p> If you have any questions regarding this project or have any other inquiries, please feel free to contact me at henrybalassiano@gmail.com or submit a <code>pull request</code></p>
