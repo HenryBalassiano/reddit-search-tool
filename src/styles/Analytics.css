@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap");
 #analytics {
 	border: 1px #555 solid;
 	border-radius: 10px;
@@ -13,46 +13,6 @@
 	display: flex;
 	flex-direction: column;
 }
-<<<<<<< HEAD
-.light-analytics #best-comment-parent {
-	color: #212529 !important;
-}
-.light-analytics span {
-	color: #212529 !important;
-}
-.light-analytics h4 {
-	color: #212529 !important;
-}
-.light-analytics small {
-	color: #212529 !important;
-}
-.light-analytics #in-beta-tag {
-	color: white !important;
-}
-
-.light-analytics #worst-comment-parent {
-	color: #212529 !important;
-}
-.light-analytics #worst-comment p {
-	color: #212529 !important;
-}
-.light-analytics #worst-comment #details-worst {
-	color: #212529 !important;
-}
-.light-analytics #best-comment p {
-	color: #212529 !important;
-}
-.light-analytics #best-comment #details-best {
-	color: #212529 !important;
-}
-.light-analytics .best-upvote-comment {
-	color: green !important;
-}
-.light-analytics .worst-upvote-comment {
-	color: red !important;
-}
-=======
->>>>>>> df773ea (finished analytics)
 #username-header-tag {
 	font-size: 20px;
 	word-spacing: 4px;
@@ -321,6 +281,43 @@
 	#charts-parent {
 		flex-direction: column;
 	}
+}
+.light-analytics #best-comment-parent {
+	color: #212529 !important;
+}
+.light-analytics span {
+	color: #212529 !important;
+}
+.light-analytics h4 {
+	color: #212529 !important;
+}
+.light-analytics small {
+	color: #212529 !important;
+}
+.light-analytics #in-beta-tag {
+	color: white !important;
+}
+
+.light-analytics #worst-comment-parent {
+	color: #212529 !important;
+}
+.light-analytics #worst-comment p {
+	color: #212529 !important;
+}
+.light-analytics #worst-comment #details-worst {
+	color: #212529 !important;
+}
+.light-analytics #best-comment p {
+	color: #212529 !important;
+}
+.light-analytics #best-comment #details-best {
+	color: #212529 !important;
+}
+.light-analytics .best-upvote-comment {
+	color: green !important;
+}
+.light-analytics .worst-upvote-comment {
+	color: red !important;
 }
 @media only screen and (max-width: 780px) {
 	#analytics {

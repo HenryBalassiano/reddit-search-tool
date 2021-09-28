@@ -371,11 +371,7 @@ a {
 }
 .light-results-tag {
 	background-color: #e9ecef !important;
-<<<<<<< HEAD
 	color: #909192 !important;
-=======
-	color: #495057 !important;
->>>>>>> df773ea (finished analytics)
 }
 .light-results {
 	border: 1px solid #adb5bd !important;

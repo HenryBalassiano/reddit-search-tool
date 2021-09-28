@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef, useReducer } from 'react';
-import '../styles/searchForm.css';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useEffect, useState, useRef, useReducer } from "react";
+import "../styles/searchForm.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 function SearchForm({
 	updateData,
@@ -56,46 +57,49 @@ function SearchForm({
 	const paramsObj = parseParams(window.location.search);
 
 	const [userinput, setUserInput] = useState({
-		author: paramsObj.author ? paramsObj.author.replace(/ /g, '') : '',
-		subreddit: paramsObj.subreddit ? paramsObj.subreddit : '',
-		type: paramsObj.type ? paramsObj.type : '',
+		author: paramsObj.author ? paramsObj.author.replace(/ /g, "") : "",
+		subreddit: paramsObj.subreddit ? paramsObj.subreddit : "",
+		type: paramsObj.type ? paramsObj.type : "",
 		size: parseInt(paramsObj.size) ? parseInt(paramsObj.size) : 100,
-		score: paramsObj.score ? paramsObj.score : '',
-		before: paramsObj.before
-			? Math.floor((new Date(paramsObj.before).getTime() / 1000) * 1000)
-			: '',
-		after: paramsObj.after
-			? Math.floor((new Date(paramsObj.after).getTime() / 1000) * 1000)
-			: '',
-		q: paramsObj.q ? paramsObj.q : '',
-		over_18: paramsObj.over_18 ? paramsObj.over_18 : '',
-		stickied: paramsObj.stickied ? paramsObj.stickied : '',
-		is_self: paramsObj.is_self ? paramsObj.is_self : '',
-		locked: paramsObj.locked ? paramsObj.locked : '',
-		distinguished: paramsObj.distinguished ? paramsObj.distinguished : '',
-		id: paramsObj.id ? paramsObj.id : '',
-		link_id: paramsObj.link_id ? paramsObj.link_id : '',
+		score: paramsObj.score ? paramsObj.score : "",
+		before: parseInt(paramsObj.before, 10)
+			? parseInt(paramsObj.before, 10)
+			: paramsObj.before
+			? Math.floor(new Date(paramsObj.before).getTime() / 1000)
+			: "",
+		after: parseInt(paramsObj.after, 10)
+			? parseInt(paramsObj.after, 10)
+			: paramsObj.after
+			? Math.floor(new Date(paramsObj.after).getTime() / 1000)
+			: "",
+		q: paramsObj.q ? paramsObj.q : "",
+		over_18: paramsObj.over_18 ? paramsObj.over_18 : "",
+		stickied: paramsObj.stickied ? paramsObj.stickied : "",
+		is_self: paramsObj.is_self ? paramsObj.is_self : "",
+		locked: paramsObj.locked ? paramsObj.locked : "",
+		distinguished: paramsObj.distinguished ? paramsObj.distinguished : "",
+		id: paramsObj.id ? paramsObj.id : "",
+		link_id: paramsObj.link_id ? paramsObj.link_id : "",
 	});
 	const [required, setRequired] = useState(false);
-
 	const Search = (e) => {
 		updateData(userinput);
 		e.preventDefault();
 		setSearch(false);
 		setMinimize(true);
-		showFava.current.style.display = 'flex';
+		showFava.current.style.display = "flex";
 
-		showResults.current.style.display = 'block';
+		showResults.current.style.display = "block";
 
-		var str = '';
+		let str = "";
 
 		for (var key in userinput) {
-			if (str != '') {
-				str += '&';
+			if (str !== "") {
+				str += "&";
 			}
-			str += key + '=' + encodeURIComponent(userinput[key]);
-			str = str.replace(/[^=&]+=(&|$)/g, '').replace(/&$/, '');
 
+			str += key + "=" + encodeURIComponent(userinput[key]);
+			str = str.replace(/[^=&]+=(&|$)/g, "").replace(/&$/, "");
 			window.location.search = str;
 		}
 	};
@@ -104,8 +108,8 @@ function SearchForm({
 		updateData(userinput);
 		setSearch(false);
 		setMinimize(true);
-		showFava.current.style.display = 'flex';
-		showResults.current.style.display = 'block';
+		showFava.current.style.display = "flex";
+		showResults.current.style.display = "block";
 	}
 
 	useEffect(() => {
@@ -119,15 +123,15 @@ function SearchForm({
 		callOnce();
 	}, []);
 	useEffect(() => {
-		if (localStorage.getItem('setting1') === 'checked') {
-			advancedRow.current.style.display = 'flex';
+		if (localStorage.getItem("setting1") === "checked") {
+			advancedRow.current.style.display = "flex";
 		}
-		if (localStorage.getItem('setting2') === 'checked') {
-			developerRow.current.style.display = 'flex';
+		if (localStorage.getItem("setting2") === "checked") {
+			developerRow.current.style.display = "flex";
 		}
 	});
 	useEffect(() => {
-		if (apis === 'Miser' && !userinput.author) {
+		if (apis === "Miser" && !userinput.author) {
 			authorInput.current.required = true;
 			setRequired(true);
 		} else {
@@ -136,7 +140,7 @@ function SearchForm({
 		}
 	}, [apis, userinput.author]);
 	useEffect(() => {
-		if (apis === 'Reddit') {
+		if (apis === "Reddit") {
 			authorInput.current.disabled = true;
 			searchInput.current.disabled = true;
 			over_18Input.current.disabled = true;
@@ -173,51 +177,53 @@ function SearchForm({
 
 	function ClearButton() {
 		setUserInput({
-			author: '',
-			subreddit: '',
-			type: '',
+			author: "",
+			subreddit: "",
+			type: "",
 			size: 100,
-			score: '',
-			before: '',
-			after: '',
-			q: '',
-			over_18: '',
-			stickied: '',
-			is_self: '',
-			locked: '',
-			distinguished: '',
-			id: '',
-			link_id: '',
+			score: "",
+			before: "",
+			after: "",
+			q: "",
+			over_18: "",
+			stickied: "",
+			is_self: "",
+			locked: "",
+			distinguished: "",
+			id: "",
+			link_id: "",
 		});
 	}
+	var d = new Date(0);
+	var a = new Date(0); // The 0 there is the key, which sets the date to the epoch
 	return (
 		<div
-			id={`${minimize ? 'search-query-minimized' : 'search-query-maximized'}`}
+			id={`${minimize ? "search-query-minimized" : "search-query-maximized"}`}
 		>
-			{' '}
+			{" "}
 			<div className="panel-header">
 				<h2
 					id="search-min"
 					onClick={changeQuerySize}
-					className={toggleInput ? 'light-search-tag' : ''}
+					className={toggleInput ? "light-search-tag" : ""}
 				>
-					Search Query{' '}
+					Search Query{" "}
 					<i
 						onClick={changeQuerySize}
-						class={`fa fa-${minimize ? 'plus' : 'minus'}-square`}
+						class={`fa fa-${minimize ? "plus" : "minus"}-square`}
 						aria-hidden="true"
 					></i>
 				</h2>
 			</div>
 			<div
-				id={`form-${minimize ? 'hover' : 'parent'}`}
-				onClick={minimize ? changeQuerySize : ''}
-				className={toggleInput ? 'light-form' : ''}
+				id={`form-${minimize ? "hover" : "parent"}`}
+				onClick={minimize ? changeQuerySize : ""}
+				className={toggleInput ? "light-form" : ""}
 			>
-				<div id={toggleInput ? 'form-light' : 'form'}>
+				<div id={toggleInput ? "form-light" : "form"}>
 					<form
 						onSubmit={Search}
-						class={`form-${minimize ? 'minimize' : 'maximize'}`}
+						class={`form-${minimize ? "minimize" : "maximize"}`}
 					>
 						<div id="row-1">
 							<div className="row-wrapper">
@@ -234,12 +240,12 @@ function SearchForm({
 									onChange={(e) => {
 										setUserInput({
 											...userinput,
-											author: e.target.value.replace(/ /g, ''),
+											author: e.target.value.replace(/ /g, ""),
 										});
 									}}
 									ref={authorInput}
-									id={`author-${required ? 'required' : 'input'}`}
-								></input>{' '}
+									id={`author-${required ? "required" : "input"}`}
+								></input>{" "}
 							</div>
 							<div className="row-wrapper">
 								<label>subreddit</label>
@@ -251,11 +257,11 @@ function SearchForm({
 									onChange={(e) => {
 										setUserInput({
 											...userinput,
-											subreddit: e.target.value.replace(/ /g, ''),
+											subreddit: e.target.value.replace(/ /g, ""),
 										});
 									}}
 									id="subreddit-input"
-								></input>{' '}
+								></input>{" "}
 							</div>
 							<div className="row-wrapper">
 								<label id="search-for-input">search for</label>
@@ -266,12 +272,12 @@ function SearchForm({
 									value={userinput.type}
 									ref={searchInput}
 								>
-									{' '}
+									{" "}
 									<option>Any</option>
 									<option>Comments</option>
 									<option>Submissions</option>
-								</select>{' '}
-							</div>{' '}
+								</select>{" "}
+							</div>{" "}
 						</div>
 						<div id="row-2">
 							<div id="num-input">
@@ -290,8 +296,8 @@ function SearchForm({
 											onChange={(e) => {
 												setUserInput({ ...userinput, score: e.target.value });
 											}}
-										></input>{' '}
-									</div>{' '}
+										></input>{" "}
+									</div>{" "}
 								</div>
 							</div>
 							<div className="row-wrapper">
@@ -302,14 +308,16 @@ function SearchForm({
 											positionFixed: true,
 										}}
 										ref={beforeInput}
-										value={new Date(userinput.before * 1000)}
-										selected={userinput.before}
-										onChange={(e) => {
-											setUserInput({ ...userinput, before: e });
-										}}
-									/>{' '}
+										type="text"
+										selected={
+											/^\d+$/.test(userinput.before)
+												? d.setUTCSeconds(userinput.before)
+												: userinput.before
+										}
+										onChange={(e) => setUserInput({ ...userinput, before: e })}
+									/>{" "}
 									<span class="fa fa-calendar-o"></span>
-								</div>{' '}
+								</div>{" "}
 							</div>
 							<div className="row-wrapper">
 								<div id="after-input">
@@ -320,13 +328,17 @@ function SearchForm({
 										}}
 										ref={afterInput}
 										type="text"
-										selected={userinput.after}
+										selected={
+											/^\d+$/.test(userinput.after)
+												? a.setUTCSeconds(userinput.after)
+												: userinput.after
+										}
 										onChange={(e) => setUserInput({ ...userinput, after: e })}
-									/>{' '}
+									/>{" "}
 									<span class="fa fa-calendar-o"></span>
 								</div>
-							</div>{' '}
-						</div>{' '}
+							</div>{" "}
+						</div>{" "}
 						<div id="advanced-row" ref={advancedRow}>
 							<div className="row-wrapper">
 								<label>NSFW</label>
@@ -342,8 +354,8 @@ function SearchForm({
 
 									<option>True</option>
 									<option>False</option>
-								</select>{' '}
-							</div>{' '}
+								</select>{" "}
+							</div>{" "}
 							<div className="row-wrapper">
 								<label>Stickied</label>
 								<select
@@ -358,8 +370,8 @@ function SearchForm({
 
 									<option>True</option>
 									<option>False</option>
-								</select>{' '}
-							</div>{' '}
+								</select>{" "}
+							</div>{" "}
 							<div className="row-wrapper">
 								<label>Is Self</label>
 								<select
@@ -374,7 +386,7 @@ function SearchForm({
 
 									<option>True</option>
 									<option>False</option>
-								</select>{' '}
+								</select>{" "}
 							</div>
 							<div className="row-wrapper">
 								<label>Locked</label>
@@ -390,8 +402,8 @@ function SearchForm({
 
 									<option>True</option>
 									<option>False</option>
-								</select>{' '}
-							</div>{' '}
+								</select>{" "}
+							</div>{" "}
 							<div className="row-wrapper">
 								<label>Distinguished</label>
 								<select
@@ -409,7 +421,7 @@ function SearchForm({
 
 									<option>Admin</option>
 									<option>Moderator</option>
-								</select>{' '}
+								</select>{" "}
 							</div>
 						</div>
 						<div id="row-3">
@@ -427,7 +439,7 @@ function SearchForm({
 												q: e.target.value,
 											});
 										}}
-									></input>{' '}
+									></input>{" "}
 								</div>
 							</div>
 							<div className="row-wrapper">
@@ -446,8 +458,8 @@ function SearchForm({
 									min="25"
 									step="25"
 									id="amnt-ret"
-								></input>{' '}
-							</div>{' '}
+								></input>{" "}
+							</div>{" "}
 							<div className="row-wrapper" id="api-wrapper">
 								<label>API</label>
 								<select
@@ -461,7 +473,7 @@ function SearchForm({
 
 									<option>Reddit</option>
 									<option>Miser</option>
-								</select>{' '}
+								</select>{" "}
 							</div>
 							<div className="row-wrapper" id="api-wrapper">
 								<label>Deletion Status</label>
@@ -475,7 +487,7 @@ function SearchForm({
 									<option>All Submissions/Comments </option>
 
 									<option>Deleted Submissions/Comments</option>
-								</select>{' '}
+								</select>{" "}
 							</div>
 						</div>
 						<div id="developer-row" ref={developerRow}>
@@ -491,8 +503,8 @@ function SearchForm({
 											id: e.target.value,
 										});
 									}}
-								></input>{' '}
-							</div>{' '}
+								></input>{" "}
+							</div>{" "}
 							<div className="row-wrapper">
 								<label>Link ID</label>
 								<input
@@ -502,14 +514,14 @@ function SearchForm({
 									onChange={(e) => {
 										setUserInput({
 											...userinput,
-											link_id: e.target.value.replace(/ /g, ''),
+											link_id: e.target.value.replace(/ /g, ""),
 										});
 									}}
-								></input>{' '}
-							</div>{' '}
+								></input>{" "}
+							</div>{" "}
 						</div>
 						<div id="row-4">
-							{' '}
+							{" "}
 							<div>
 								<div className="row-wrapper">
 									<input
@@ -522,7 +534,7 @@ function SearchForm({
 							</div>
 							<div id="search-btn">
 								<div className="row-wrapper">
-									<input id="search-btn" value="Search" type="submit"></input>{' '}
+									<input id="search-btn" value="Search" type="submit"></input>{" "}
 								</div>
 							</div>
 						</div>

@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
-import '../styles/App.css';
-import SearchForm from './SearchForm';
-import Items from './Items';
-import About from './About';
-import Settings from './Settings';
-import Analytics from './Analytics';
+import { useEffect, useState, useRef } from "react";
+import "../styles/App.css";
+import SearchForm from "./SearchForm";
+import Items from "./Items";
+import About from "./About";
+import Settings from "./Settings";
+import Analytics from "./Analytics";
 
 import {
 	BrowserRouter as Router,
@@ -13,15 +13,15 @@ import {
 	Link,
 	NavLink,
 	useHistory,
-} from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+} from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
 
 function App() {
-	const pRetry = require('p-retry');
+	const pRetry = require("p-retry");
 	const [data, setData] = useState({
 		author: false,
 		subreddit: false,
-		type: 'any',
+		type: "any",
 		size: 100,
 		score: false,
 		before: false,
@@ -49,7 +49,7 @@ function App() {
 	const [idState, setIdState] = useState();
 
 	const [deletionStatus, setDeletionStatus] = useState(
-		'All Submissions/Comments'
+		"All Submissions/Comments"
 	);
 
 	const [requests, setRequests] = useState(0);
@@ -76,11 +76,11 @@ function App() {
 
 	useEffect(() => {
 		return history.listen((location) => {
-			if (history.action === 'PUSH') {
+			if (history.action === "PUSH") {
 				setLocationKeys([location.key]);
 			}
 
-			if (history.action === 'POP') {
+			if (history.action === "POP") {
 				if (locationKeys[1] === location.key) {
 					setLocationKeys(([_, ...keys]) => keys);
 					window.location.reload();
@@ -93,28 +93,28 @@ function App() {
 	}, [locationKeys]);
 
 	useEffect(() => {
-		let persistAPIState = window.localStorage.getItem('API');
+		let persistAPIState = window.localStorage.getItem("API");
 		if (persistAPIState) {
 			setApi(persistAPIState);
 		}
 	}, []);
 
 	useEffect(() => {
-		window.localStorage.setItem('API', apis);
+		window.localStorage.setItem("API", apis);
 	});
 
 	useEffect(() => {
-		let persistDeletionState = window.localStorage.getItem('is_deleted');
+		let persistDeletionState = window.localStorage.getItem("is_deleted");
 		if (persistDeletionState) {
 			setDeletionStatus(persistDeletionState);
 		}
 	}, []);
 
 	useEffect(() => {
-		window.localStorage.setItem('is_deleted', deletionStatus);
+		window.localStorage.setItem("is_deleted", deletionStatus);
 	});
 	const error = useRef(null);
-	let next = '';
+	let next = "";
 
 	const parseParams = (querystring) => {
 		const params = new URLSearchParams(querystring);
@@ -143,43 +143,46 @@ function App() {
 	if (paramsObj.before && !/^\d+$/.test(paramsObj.before)) {
 		paramsObj.before = Math.floor(new Date(paramsObj.before).getTime() / 1000);
 	}
-	if (paramsObj.size > 100 && apis !== 'Miser') {
+	if (paramsObj.after && !/^\d+$/.test(paramsObj.after)) {
+		paramsObj.after = Math.floor(new Date(paramsObj.after).getTime() / 1000);
+	}
+	if (paramsObj.size > 100 && apis !== "Miser") {
 		paramsObj.size = 100;
 	}
-	if (paramsObj.size > 1000 && apis === 'Miser') {
+	if (paramsObj.size > 1000 && apis === "Miser") {
 		paramsObj.size = 1000;
 	}
 	if (paramsObj.score) {
-		paramsObj.score = '>' + paramsObj.score;
+		paramsObj.score = ">" + paramsObj.score;
 	}
 	var esc = encodeURIComponent;
 	var query = Object.keys(paramsObj)
-		.map((k) => esc(k) + '=' + esc(paramsObj[k]))
-		.join('&');
+		.map((k) => esc(k) + "=" + esc(paramsObj[k]))
+		.join("&");
 
 	let value;
-	let apiURL = '';
+	let apiURL = "";
 
-	if (paramsObj.type == 'any' || paramsObj.type == 'Any' || !paramsObj.type) {
-		value = ['submission', 'comment'];
+	if (paramsObj.type == "any" || paramsObj.type == "Any" || !paramsObj.type) {
+		value = ["submission", "comment"];
 	} else {
 		value = paramsObj.type
-			? paramsObj.type.toLowerCase().slice(0, -1).split(' ')
-			: '';
+			? paramsObj.type.toLowerCase().slice(0, -1).split(" ")
+			: "";
 	}
-	let before = paramsObj.before ? '' : '';
+	let before = "";
 
 	function miserURL(id, before) {
-		query.replace(/^[^?]+\?/, '');
+		query.replace(/^[^?]+\?/, "");
 		return `https://archivesort.org/discuss/reddit/miser?type=${id}&${query}${
-			before ? `&before=${before}` : ''
+			before ? `&before=${before}` : ""
 		}`;
 	}
 	function pushshiftURL(id, before) {
-		query.replace(/^[^?]+\?/, '');
+		query.replace(/^[^?]+\?/, "");
 
 		return `https://api.pushshift.io/reddit/search/${id}/?${query}${
-			before ? `&before=${before}` : ''
+			before ? `&before=${before}` : ""
 		}&html_decode=true`;
 	}
 	const timer = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -188,14 +191,14 @@ function App() {
 			const queue = [];
 			const apiDatas = [];
 			let formula = data.size / 100;
-			let getbeforeDec = formula.toString().split('.')[0];
+			let getbeforeDec = formula.toString().split(".")[0];
 			let beforeDec = parseInt(getbeforeDec, 10);
 			let fetchAmt = 0;
-			let afterDec = formula.toString().split('.')[1]
-				? formula.toString().split('.')[1]
-				: '';
+			let afterDec = formula.toString().split(".")[1]
+				? formula.toString().split(".")[1]
+				: "";
 			let numAfterDec = parseFloat(
-				afterDec.length > 1 ? afterDec : afterDec + '0',
+				afterDec.length > 1 ? afterDec : afterDec + "0",
 				10
 			);
 			let afterDecValue = numAfterDec;
@@ -207,7 +210,7 @@ function App() {
 						before = queue.slice(-1)[0];
 					}
 
-					console.info('fetching pushshift > 100');
+					console.info("fetching pushshift > 100");
 					setRequests((counter) => counter + 1);
 
 					let response = await fetch(pushshiftURL(value[0], before));
@@ -218,9 +221,9 @@ function App() {
 
 					if (responseData.data.length === 0) {
 						if (apiDatas.length === 0) {
-							console.info('break');
-							setError('No Results');
-							error.current.style.display = 'block';
+							console.info("break");
+							setError("No Results");
+							error.current.style.display = "block";
 							break;
 						} else {
 							break;
@@ -234,11 +237,11 @@ function App() {
 					apiDatas.push(responseData.data);
 
 					fetchAmt += 1;
-					console.info('cooldown between request');
+					console.info("cooldown between request");
 					await timer(1500);
 				}
 				if (afterDecValue && value.length == 1) {
-					console.info('fetching rest of data');
+					console.info("fetching rest of data");
 					setRequests((counter) => counter + 1);
 					before = queue.slice(-1)[0];
 
@@ -246,7 +249,7 @@ function App() {
 						`https://api.pushshift.io/reddit/search/${
 							value[0]
 						}/?${query.replace(/size=\d+/, `size=${afterDecValue}`)}${
-							before ? `&before=${before}` : ''
+							before ? `&before=${before}` : ""
 						}&html_decode=true`
 					);
 
@@ -263,13 +266,13 @@ function App() {
 					if (queue.length > 0) {
 						before = queue.slice(-1)[0];
 					}
-					console.info('fetching pushshift > 100');
+					console.info("fetching pushshift > 100");
 					setRequests((counter) => counter + 1);
 					let submission = await fetch(
-						pushshiftURL('submission', paramsObj.before ? '' : before)
+						pushshiftURL("submission", paramsObj.before ? "" : before)
 					);
 					let comment = await fetch(
-						pushshiftURL('comment', paramsObj.before ? '' : before)
+						pushshiftURL("comment", paramsObj.before ? "" : before)
 					);
 					if (comment.status === 404) {
 						throw new pRetry.AbortError(comment.statusText);
@@ -281,20 +284,20 @@ function App() {
 					let submissionData = await submission.json();
 					let requestData = submissionData
 						? submissionData.data.concat(commentData.data)
-						: '';
+						: "";
 					let sortedRequest = requestData
 						? requestData.sort((a, b) => {
 								return b.created_utc - a.created_utc;
 						  })
-						: '';
+						: "";
 					if (
 						commentData.data.length === 0 &&
 						submissionData.data.length === 0
 					) {
 						if (apiDatas.length === 0) {
-							console.info('break');
-							setError('No Results');
-							error.current.style.display = 'block';
+							console.info("break");
+							setError("No Results");
+							error.current.style.display = "block";
 							break;
 						} else {
 							break;
@@ -307,12 +310,12 @@ function App() {
 					}
 
 					fetchAmt += 1;
-					console.info('cooldown between request');
+					console.info("cooldown between request");
 					await timer(1500);
 				}
 
 				if (afterDecValue && value.length > 1) {
-					console.info('fetching rest of data');
+					console.info("fetching rest of data");
 					setRequests((counter) => counter + 1);
 					before = queue.slice(-1)[0];
 
@@ -320,13 +323,13 @@ function App() {
 						`https://api.pushshift.io/reddit/search/submission/?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
-						)}${before ? `&before=${before}` : ''}&html_decode=true`
+						)}${!paramsObj.before ? `&before=${before}` : ""}&html_decode=true`
 					);
 					let moreCom = await fetch(
 						`https://api.pushshift.io/reddit/search/comment/?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
-						)}${before ? `&before=${before}` : ''}&html_decode=true`
+						)}${before ? `&before=${before}` : ""}&html_decode=true`
 					);
 					console.info(moreSub.url);
 					console.info(moreCom.url);
@@ -336,12 +339,12 @@ function App() {
 
 					let newData = moreSubmissionData
 						? moreSubmissionData.data.concat(moreCommentData.data)
-						: '';
+						: "";
 					let sortedMoreData = newData
 						? newData.sort((a, b) => {
 								return b.created_utc - a.created_utc;
 						  })
-						: '';
+						: "";
 					setItemCount((counter) => counter + sortedMoreData.length);
 
 					apiDatas.push(sortedMoreData);
@@ -362,14 +365,14 @@ function App() {
 			const queue = [];
 			const apiDatas = [];
 			let formula = data.size / 100;
-			let getbeforeDec = formula.toString().split('.')[0];
+			let getbeforeDec = formula.toString().split(".")[0];
 			let beforeDec = parseInt(getbeforeDec, 10);
 			let fetchAmt = 0;
-			let afterDec = formula.toString().split('.')[1]
-				? formula.toString().split('.')[1]
-				: '';
+			let afterDec = formula.toString().split(".")[1]
+				? formula.toString().split(".")[1]
+				: "";
 			let numAfterDec = parseFloat(
-				afterDec.length > 1 ? afterDec : afterDec + '0',
+				afterDec.length > 1 ? afterDec : afterDec + "0",
 				10
 			);
 			let afterDecValue = numAfterDec;
@@ -381,7 +384,7 @@ function App() {
 						before = queue.slice(-1)[0];
 					}
 
-					console.info('fetching pushshift > 100');
+					console.info("fetching pushshift > 100");
 					setRequests((counter) => counter + 1);
 
 					let response = await fetch(miserURL(value[0], before));
@@ -392,9 +395,9 @@ function App() {
 
 					if (responseData.data.length === 0) {
 						if (apiDatas.length === 0) {
-							console.info('break');
-							setError('No Results');
-							error.current.style.display = 'block';
+							console.info("break");
+							setError("No Results");
+							error.current.style.display = "block";
 							break;
 						} else {
 							break;
@@ -408,18 +411,18 @@ function App() {
 					apiDatas.push(responseData.data);
 
 					fetchAmt += 1;
-					console.info('cooldown between request');
+					console.info("cooldown between request");
 					await timer(1500);
 				}
 				if (afterDecValue && value.length == 1) {
-					console.info('fetching rest of data');
+					console.info("fetching rest of data");
 					setRequests((counter) => counter + 1);
 					before = queue.slice(-1)[0];
 
 					let moreResponse = await fetch(
 						`https://archivesort.org/discuss/reddit/miser?type=${
 							value[0]
-						}&${query}${before ? `&before=${before}` : ''}`
+						}&${query}${before ? `&before=${before}` : ""}`
 					);
 
 					console.info(moreResponse.url);
@@ -435,13 +438,13 @@ function App() {
 					if (queue.length > 0) {
 						before = queue.slice(-1)[0];
 					}
-					console.info('fetching miser > 1000');
+					console.info("fetching miser > 1000");
 					setRequests((counter) => counter + 1);
 					let submission = await fetch(
-						miserURL('submissions', paramsObj.before ? '' : before)
+						miserURL("submissions", paramsObj.before ? "" : before)
 					);
 					let comment = await fetch(
-						miserURL('comments', paramsObj.before ? '' : before)
+						miserURL("comments", paramsObj.before ? "" : before)
 					);
 					if (comment.status === 404) {
 						throw new pRetry.AbortError(comment.statusText);
@@ -453,20 +456,20 @@ function App() {
 					let submissionData = await submission.json();
 					let requestData = submissionData
 						? submissionData.data.concat(commentData.data)
-						: '';
+						: "";
 					let sortedRequest = requestData
 						? requestData.sort((a, b) => {
 								return b.created_utc - a.created_utc;
 						  })
-						: '';
+						: "";
 					if (
 						commentData.data.length === 0 &&
 						submissionData.data.length === 0
 					) {
 						if (apiDatas.length === 0) {
-							console.info('break');
-							setError('No Results');
-							error.current.style.display = 'block';
+							console.info("break");
+							setError("No Results");
+							error.current.style.display = "block";
 							break;
 						} else {
 							break;
@@ -479,12 +482,12 @@ function App() {
 					}
 
 					fetchAmt += 1;
-					console.info('cooldown between request');
+					console.info("cooldown between request");
 					await timer(1500);
 				}
 
 				if (afterDecValue && value.length > 1) {
-					console.info('fetching rest of data');
+					console.info("fetching rest of data");
 					setRequests((counter) => counter + 1);
 					before = queue.slice(-1)[0];
 
@@ -492,13 +495,13 @@ function App() {
 						`https://archivesort.org/discuss/reddit/miser?type=submissions/?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
-						)}${before ? `&before=${before}` : ''}`
+						)}${before ? `&before=${before}` : ""}`
 					);
 					let moreCom = await fetch(
 						`https://archivesort.org/discuss/reddit/miser?type=comments/?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
-						)}${before ? `&before=${before}` : ''}`
+						)}${before ? `&before=${before}` : ""}`
 					);
 					console.info(moreSub.url);
 					console.info(moreCom.url);
@@ -508,12 +511,12 @@ function App() {
 
 					let newData = moreSubmissionData
 						? moreSubmissionData.data.concat(moreCommentData.data)
-						: '';
+						: "";
 					let sortedMoreData = newData
 						? newData.sort((a, b) => {
 								return b.created_utc - a.created_utc;
 						  })
-						: '';
+						: "";
 					setItemCount((counter) => counter + sortedMoreData.length);
 
 					apiDatas.push(sortedMoreData);
@@ -539,7 +542,7 @@ function App() {
 						value.map((id) =>
 							fetch(pushshiftURL(id, before)).then(function (response) {
 								console.info(response.url);
-								console.info('fetching <= 100');
+								console.info("fetching <= 100");
 								setRequests(requests + 1);
 
 								return response.json();
@@ -549,10 +552,10 @@ function App() {
 						if (value.length == 1) {
 							setQueue(data[0].data);
 							if (data[0].data.length === 0) {
-								setError('No Results');
-								error.current.style.display = 'block';
+								setError("No Results");
+								error.current.style.display = "block";
 							} else {
-								error.current.style.display = 'none';
+								error.current.style.display = "none";
 							}
 							setItemCount((counter) => counter + data[0].data.length);
 						} else {
@@ -562,10 +565,10 @@ function App() {
 										return new Date(b.created_utc) - new Date(a.created_utc);
 									});
 									if (requestData.length === 0) {
-										setError('No Results');
-										error.current.style.display = 'block';
+										setError("No Results");
+										error.current.style.display = "block";
 									} else {
-										error.current.style.display = 'none';
+										error.current.style.display = "none";
 									}
 									setItemCount((counter) => counter + requestData.length);
 
@@ -589,7 +592,7 @@ function App() {
 				let newValue;
 				let newArrValue = [];
 				for (var i = 0; i < value.length; i++) {
-					newValue = value[i] += 's';
+					newValue = value[i] += "s";
 					newArrValue.push(newValue);
 				}
 				if (data.size <= 1000) {
@@ -597,7 +600,7 @@ function App() {
 						newArrValue.map((id) =>
 							fetch(miserURL(id, before)).then(function (response) {
 								console.info(response.url);
-								console.info('fetching <= 1000');
+								console.info("fetching <= 1000");
 								setRequests(requests + 1);
 
 								return response.json();
@@ -607,10 +610,10 @@ function App() {
 						if (value.length == 1) {
 							setQueue(data[0].data);
 							if (data[0].data.length === 0) {
-								setError('No Results');
-								error.current.style.display = 'block';
+								setError("No Results");
+								error.current.style.display = "block";
 							} else {
-								error.current.style.display = 'none';
+								error.current.style.display = "none";
 							}
 							setItemCount((counter) => counter + data[0].data.length);
 						} else {
@@ -620,10 +623,10 @@ function App() {
 										return new Date(b.created_utc) - new Date(a.created_utc);
 									});
 									if (requestData.length === 0) {
-										setError('No Results');
-										error.current.style.display = 'block';
+										setError("No Results");
+										error.current.style.display = "block";
 									} else {
-										error.current.style.display = 'none';
+										error.current.style.display = "none";
 									}
 									setItemCount((counter) => counter + requestData.length);
 
@@ -648,18 +651,18 @@ function App() {
 
 				if (data.size <= 100) {
 					if (
-						JSON.parse(window.sessionStorage.getItem('reddit_access_token'))
+						JSON.parse(window.sessionStorage.getItem("reddit_access_token"))
 					) {
 						let token = JSON.parse(
-							window.sessionStorage.getItem('reddit_access_token')
+							window.sessionStorage.getItem("reddit_access_token")
 						).access_token;
-						console.info('fetching <= 100 reddit');
+						console.info("fetching <= 100 reddit");
 
 						let redditRes = await fetch(
 							`https://oauth.reddit.com/search?${query}`,
 							{
 								headers: {
-									Authorization: 'Bearer ' + token,
+									Authorization: "Bearer " + token,
 								},
 							}
 						);
@@ -685,10 +688,10 @@ function App() {
 
 	const redditObj = {
 		tokenAuth: async function fetchToken() {
-			let CLIENT_ID = 'hiXFGUDKexlKL2LKEoyK6g';
-			let SECRET_KEY = 'PiXF-PgFhhX1dRk57ha_-dvDdQwYwg';
-			let currentToken = window.sessionStorage.getItem('reddit_access_token')
-				? JSON.parse(window.sessionStorage.getItem('reddit_access_token'))
+			let CLIENT_ID = "hiXFGUDKexlKL2LKEoyK6g";
+			let SECRET_KEY = "PiXF-PgFhhX1dRk57ha_-dvDdQwYwg";
+			let currentToken = window.sessionStorage.getItem("reddit_access_token")
+				? JSON.parse(window.sessionStorage.getItem("reddit_access_token"))
 				: false;
 
 			let currentTime = new Date();
@@ -700,16 +703,16 @@ function App() {
 					new Date(currentTime)
 				) >= 1
 			) {
-				console.info('fetching a reddit access token > valid for 3600');
+				console.info("fetching a reddit access token > valid for 3600");
 				const tokenResponse = await fetch(
-					'https://www.reddit.com/api/v1/access_token',
+					"https://www.reddit.com/api/v1/access_token",
 					{
-						method: 'post',
+						method: "post",
 						headers: {
-							Authorization: 'Basic ' + btoa(`${CLIENT_ID}:${SECRET_KEY}`),
-							'Content-Type': 'application/x-www-form-urlencoded',
+							Authorization: "Basic " + btoa(`${CLIENT_ID}:${SECRET_KEY}`),
+							"Content-Type": "application/x-www-form-urlencoded",
 						},
-						body: 'grant_type=https://oauth.reddit.com/grants/installed_client&device_id=DO_NOT_TRACK_THIS_DEVICE',
+						body: "grant_type=https://oauth.reddit.com/grants/installed_client&device_id=DO_NOT_TRACK_THIS_DEVICE",
 					}
 				);
 				console.info(tokenResponse.url);
@@ -721,15 +724,15 @@ function App() {
 					var retrievedTokenTime = new Date();
 					token_data.retrieved_at = retrievedTokenTime;
 					window.sessionStorage.setItem(
-						'reddit_access_token',
+						"reddit_access_token",
 						JSON.stringify(token_data)
 					);
-					console.log(token_data.access_token, 'TOKEN');
+					console.log(token_data.access_token, "TOKEN");
 				} else {
-					console.error('4xx error access token not recieved');
+					console.error("4xx error access token not recieved");
 				}
 			} else {
-				console.info('Using access token from sessionStorage');
+				console.info("Using access token from sessionStorage");
 			}
 		},
 		syncData: function syncPushshiftData() {
@@ -741,7 +744,7 @@ function App() {
 					ids.push(`t1_${queueState[key].id}`);
 				}
 			}
-			let idTags = ids.join(',');
+			let idTags = ids.join(",");
 			const postIdChunks = [];
 			for (let i = 0; i < ids.length; i += 100) {
 				const chunk = ids.slice(i, i + 100);
@@ -750,17 +753,17 @@ function App() {
 
 			try {
 				if (
-					JSON.parse(window.sessionStorage.getItem('reddit_access_token')) &&
+					JSON.parse(window.sessionStorage.getItem("reddit_access_token")) &&
 					queueState
 				) {
 					let token = JSON.parse(
-						window.sessionStorage.getItem('reddit_access_token')
+						window.sessionStorage.getItem("reddit_access_token")
 					).access_token;
 					Promise.all(
 						postIdChunks.map((id) =>
-							fetch(`https://oauth.reddit.com/api/info?id=${id.join(',')}`, {
+							fetch(`https://oauth.reddit.com/api/info?id=${id.join(",")}`, {
 								headers: {
-									Authorization: 'Bearer ' + token,
+									Authorization: "Bearer " + token,
 								},
 							}).then(function (response) {
 								return response.json();
@@ -784,34 +787,34 @@ function App() {
 												dataRed[redditKeys].data.num_comments;
 
 											if (
-												(dataRed[redditKeys].data.author === '[deleted]' &&
-													dataRed[redditKeys].data.body === '[deleted]') ||
-												(dataRed[redditKeys].data.author === '[deleted]' &&
-													dataRed[redditKeys].data.selftext === '[deleted]')
+												(dataRed[redditKeys].data.author === "[deleted]" &&
+													dataRed[redditKeys].data.body === "[deleted]") ||
+												(dataRed[redditKeys].data.author === "[deleted]" &&
+													dataRed[redditKeys].data.selftext === "[deleted]")
 											) {
-												queueState[apiKeys].is_deleted = 'deleted';
+												queueState[apiKeys].is_deleted = "deleted";
 											} else if (
-												dataRed[redditKeys].data.body === '[removed]' ||
-												dataRed[redditKeys].data.selftext === '[removed]'
+												dataRed[redditKeys].data.body === "[removed]" ||
+												dataRed[redditKeys].data.selftext === "[removed]"
 											) {
-												queueState[apiKeys].is_deleted = 'removed';
+												queueState[apiKeys].is_deleted = "removed";
 											}
 										}
 									}
 								}
-								console.info('synced with reddit');
+								console.info("synced with reddit");
 								ids.length = 0;
 							}
-							if (!more && deletionStatus !== 'Deleted Submissions/Comments') {
+							if (!more && deletionStatus !== "Deleted Submissions/Comments") {
 								apiData(queueState);
 								setSyncingData(true);
 							} else if (
 								!more &&
-								deletionStatus === 'Deleted Submissions/Comments'
+								deletionStatus === "Deleted Submissions/Comments"
 							) {
 								for (var i = queueState.length - 1; i >= 0; --i) {
-									if (queueState[i].is_deleted !== 'deleted') {
-										if (queueState[i].is_deleted !== 'removed') {
+									if (queueState[i].is_deleted !== "deleted") {
+										if (queueState[i].is_deleted !== "removed") {
 											queueState.splice(i, 1);
 
 											apiData(queueState);
@@ -834,12 +837,12 @@ function App() {
 		},
 	};
 
-	if (!search && apis !== 'Miser' && apis !== 'Reddit') {
+	if (!search && apis !== "Miser" && apis !== "Reddit") {
 		apiObj.pushshift();
 		redditObj.tokenAuth();
 
 		setSearch(true);
-		error.current.style.display = 'none';
+		error.current.style.display = "none";
 	}
 	useEffect(() => {
 		let once = false;
@@ -850,24 +853,24 @@ function App() {
 		}
 	}, [queueState, apis]);
 
-	if (!search && apis === 'Miser') {
+	if (!search && apis === "Miser") {
 		apiObj.miser();
 		redditObj.tokenAuth();
 
 		setSearch(true);
 
-		error.current.style.display = 'none';
+		error.current.style.display = "none";
 	}
-	if (!search && apis === 'Reddit') {
+	if (!search && apis === "Reddit") {
 		apiObj.reddit();
 		redditObj.tokenAuth();
 
 		setSearch(true);
 
-		error.current.style.display = 'none';
+		error.current.style.display = "none";
 	}
 	useEffect(() => {
-		if (more && apis !== 'Miser') {
+		if (more && apis !== "Miser") {
 			if (data.size < api.length) {
 				data.size += 25;
 				setMore(false);
@@ -885,7 +888,7 @@ function App() {
 				setLoadingMessage(true);
 			}
 		}
-		if (more && apis === 'Miser') {
+		if (more && apis === "Miser") {
 			if (data.size < api.length) {
 				data.size += 25;
 				setMore(false);
@@ -932,18 +935,18 @@ function App() {
 		}
 	}
 	function toggleMode(e) {
-		let theme = '';
+		let theme = "";
 		if (e.target.checked) {
-			theme = 'light';
+			theme = "light";
 			setToggleInput(true);
 		} else {
-			theme = 'dark';
+			theme = "dark";
 			setToggleInput(false);
 		}
-		localStorage.setItem('theme', theme);
+		localStorage.setItem("theme", theme);
 	}
 	useEffect(() => {
-		if (localStorage.getItem('theme') === 'light') {
+		if (localStorage.getItem("theme") === "light") {
 			slider.current.checked = true;
 			setToggleInput(true);
 		} else {
@@ -954,9 +957,9 @@ function App() {
 
 	useEffect(() => {
 		if (toggleInput) {
-			document.body.classList.add('light-mode');
+			document.body.classList.add("light-mode");
 		} else {
-			document.body.classList.remove('light-mode');
+			document.body.classList.remove("light-mode");
 		}
 	}, [toggleInput]);
 	return (
@@ -970,28 +973,28 @@ function App() {
 									className="fa fa-reddit-alien"
 									id="icon"
 									aria-hidden="true"
-								></i>{' '}
-								Reddit Search Tool <br />{' '}
-							</h1>{' '}
+								></i>{" "}
+								Reddit Search Tool <br />{" "}
+							</h1>{" "}
 						</NavLink>
 						<h2 id="pushift-descript">
 							<a
-								className={toggleInput ? 'light-pushift' : ''}
+								className={toggleInput ? "light-pushift" : ""}
 								href="https://pushshift.io/"
 								target="_blank"
 							>
 								Utilizing Pushshift.io
-							</a>{' '}
-						</h2>{' '}
-					</div>{' '}
-				</div>{' '}
+							</a>{" "}
+						</h2>{" "}
+					</div>{" "}
+				</div>{" "}
 				<header>
-					{' '}
+					{" "}
 					<nav>
-						{' '}
+						{" "}
 						<div className="container">
 							<ul>
-								{' '}
+								{" "}
 								<li>
 									<NavLink
 										to="/"
@@ -1020,7 +1023,7 @@ function App() {
 										Settings
 									</NavLink>
 								</li>
-							</ul>{' '}
+							</ul>{" "}
 							<div id="container-parent">
 								<label id="switch" className="switch">
 									<input
@@ -1036,7 +1039,7 @@ function App() {
 					</nav>
 				</header>
 				<Switch>
-					{' '}
+					{" "}
 					<Route path="/" exact render>
 						<div id="search-form">
 							<div id="form-wrapper">
@@ -1058,9 +1061,9 @@ function App() {
 								/>
 							</div>
 						</div>
-						{'  '}
+						{"  "}
 						<div className="analytics-parent">
-							{' '}
+							{" "}
 							{data.author && queueState ? (
 								<Analytics
 									username={data.author}
@@ -1077,7 +1080,7 @@ function App() {
 									analyticalComments={analyticalComments}
 								/>
 							) : (
-								''
+								""
 							)}
 						</div>
 						<div id="items-parent" ref={showFava}>
@@ -1106,24 +1109,20 @@ function App() {
 								/>
 							</div>
 						</div>
-					</Route>{' '}
+					</Route>{" "}
 					<Route path="/about">
 						<div id="about-section">
-<<<<<<< HEAD
 							<About toggleInput={toggleInput} />
-=======
-							<About />
->>>>>>> df773ea (finished analytics)
 						</div>
 					</Route>
 					<Route path="/settings">
-						{' '}
+						{" "}
 						<div>
 							<Settings toggleInput={toggleInput} />
 						</div>
 					</Route>
 				</Switch>
-			</div>{' '}
+			</div>{" "}
 		</Router>
 	);
 }
