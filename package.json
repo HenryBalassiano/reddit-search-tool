@@ -10,7 +10,7 @@
     "apexcharts": "^3.27.3",
     "html-react-parser": "^1.2.7",
     "mark-js": "^0.11.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "p-retry": "^4.6.1",
     "promise-fn-retry": "^1.0.10",
     "react": "^17.0.1",
