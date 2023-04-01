@@ -199,7 +199,7 @@ function Analytics({
 					console.info("fetching comment analytics");
 
 					let response = await fetch(
-						`https://api.pushshift.io/reddit/search/comment/?size=100&author=${username.toLowerCase()}${
+						`https://api.pushshift.io/reddit/comment/search?size=100&author=${username.toLowerCase()}${
 							before ? `&before=${before}` : ""
 						}&html_decode=true`
 					);
