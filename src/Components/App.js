@@ -181,7 +181,7 @@ function App() {
 	function pushshiftURL(id, before) {
 		query.replace(/^[^?]+\?/, "");
 
-		return `https://api.pushshift.io/reddit/search/${id}/?${query}${
+		return `https://api.pushshift.io/reddit/${id}/search?${query}${
 			before ? `&before=${before}` : ""
 		}&html_decode=true`;
 	}
@@ -246,9 +246,9 @@ function App() {
 					before = queue.slice(-1)[0];
 
 					let moreResponse = await fetch(
-						`https://api.pushshift.io/reddit/search/${
+						`https://api.pushshift.io/reddit/${
 							value[0]
-						}/?${query.replace(/size=\d+/, `size=${afterDecValue}`)}${
+						}/search?${query.replace(/size=\d+/, `size=${afterDecValue}`)}${
 							before ? `&before=${before}` : ""
 						}&html_decode=true`
 					);
@@ -320,13 +320,13 @@ function App() {
 					before = queue.slice(-1)[0];
 
 					let moreSub = await fetch(
-						`https://api.pushshift.io/reddit/search/submission/?${query.replace(
+						`https://api.pushshift.io/reddit/submission/search?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
 						)}${!paramsObj.before ? `&before=${before}` : ""}&html_decode=true`
 					);
 					let moreCom = await fetch(
-						`https://api.pushshift.io/reddit/search/comment/?${query.replace(
+						`https://api.pushshift.io/reddit/comment/search?${query.replace(
 							/size=\d+/,
 							`size=${afterDecValue}`
 						)}${before ? `&before=${before}` : ""}&html_decode=true`
