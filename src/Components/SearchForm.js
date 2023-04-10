@@ -2,7 +2,6 @@ import { useEffect, useState, useRef, useReducer } from "react";
 import "../styles/searchForm.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
 
 function SearchForm({
 	updateData,
