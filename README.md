@@ -1,4 +1,6 @@
-<div><u> <h1> <a href='https://redditsearchtool.com/'> Reddit Search Tool </a> </u></div>
+<div>
+<ul>Now deprecated due to new Reddit API policy, original Reddit post <a>https://www.reddit.com/r/reactjs/comments/ov79m5/i_made_a_reddit_search_tool_that_displays/</a> which details functionality</ul>
+<u> <h1> <a href='https://redditsearchtool.com/'> Reddit Search Tool </a> </u></div>
 
 <div style='display:flex;flex-direction:row'>
 <img src='https://img.shields.io/github/v/release/henrybalassiano/reddit-search-tool'>
