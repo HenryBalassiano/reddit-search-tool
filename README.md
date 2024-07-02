@@ -1,5 +1,5 @@
 <div>
-	<u> <h1> Now deprecated due to Reddit's update to API policy, you can find more info <a href='https://www.reddit.com/r/reactjs/comments/ov79m5/i_made_a_reddit_search_tool_that_displays/'> within this Reddit post </a>  which details the functionality of the application during the time it was active  </u></div>
+	<u> <h1> Now deprecated due to Reddit's update to API policy</u></div>
 
 <u> <h1> <a href='https://redditsearchtool.com/'> Reddit Search Tool </a> </u></div>
 
